@@ -18,7 +18,7 @@
 
     body {
       background-color: var(--bg-black);
-      color: #fff;
+      color: #ffffff !important;
       overflow-x: hidden;
       background-image: 
         linear-gradient(180deg, rgba(255, 0, 85, 0.15) 0%, rgba(5, 5, 8, 0.95) 40%, rgba(0, 0, 0, 1) 100%),
@@ -26,6 +26,7 @@
         linear-gradient(90deg, rgba(255, 0, 85, 0.1) 1px, transparent 1px);
       background-size: 100% 100%, 40px 40px, 40px 40px;
       background-attachment: fixed;
+      position: relative;
     }
 
     .laser-line {
@@ -36,48 +37,58 @@
       margin: 2rem 0;
     }
 
-    /* Scroll Animations */
-    .pop-element { opacity: 0; transition: all 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
-    .pop-left { transform: translateX(-120px) scale(0.8); }
-    .pop-right { transform: translateX(120px) scale(0.8); }
-    .pop-up { transform: translateY(100px) scale(0.8); }
-    .pop-element.show { opacity: 1; transform: translate(0) scale(1); }
+    /* Fixed Scroll Animation Visibility */
+    .pop-element { 
+      opacity: 0; 
+      transition: all 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275); 
+    }
+    .pop-left { transform: translateX(-80px); }
+    .pop-right { transform: translateX(80px); }
+    .pop-up { transform: translateY(60px); }
+    
+    .pop-element.show { 
+      opacity: 1 !important; 
+      transform: translate(0) scale(1) !important; 
+    }
 
-    /* Main Section */
+    /* Main Section Fix */
     .mega-hero {
-      min-height: 85vh;
+      min-height: 80vh;
       display: flex;
       flex-direction: column;
       justify-content: center;
       align-items: center;
       text-align: center;
       padding: 2rem;
+      position: relative;
+      z-index: 2;
     }
 
     .mega-title {
       font-family: 'Teko', sans-serif;
-      font-size: 6.5rem;
+      font-size: 5.5rem;
       text-transform: uppercase;
-      color: #fff;
+      color: #ffffff !important;
       text-shadow: 0 0 10px var(--neon-red), 0 0 30px var(--neon-red);
       letter-spacing: 4px;
       line-height: 0.9;
     }
 
     .mega-subtitle {
-      font-size: 1.8rem;
-      color: var(--neon-cyan);
+      font-size: 1.6rem;
+      color: var(--neon-cyan) !important;
       text-shadow: 0 0 10px var(--neon-cyan);
       letter-spacing: 2px;
       margin-top: 15px;
       font-weight: 700;
     }
 
-    .content-section { padding: 4rem 5%; }
+    .content-section { padding: 3rem 5%; position: relative; z-index: 2; }
+    
     .section-title {
       font-family: 'Teko', sans-serif;
-      font-size: 4rem;
-      color: #fff;
+      font-size: 3.8rem;
+      color: #ffffff !important;
       text-align: center;
       margin-bottom: 2rem;
       text-shadow: 0 0 10px var(--neon-red);
@@ -85,19 +96,19 @@
 
     .grid-container {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-      gap: 2.5rem;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 2rem;
     }
 
     .cyber-card {
-      background: rgba(15, 15, 20, 0.85);
+      background: rgba(15, 15, 20, 0.95) !important;
       border: 2px solid var(--neon-red);
       border-radius: 12px;
       padding: 1.5rem;
-      box-shadow: inset 0 0 15px rgba(255, 0, 85, 0.2);
+      box-shadow: 0 0 15px rgba(255, 0, 85, 0.3);
       transition: 0.3s;
       position: relative;
-      overflow: hidden;
+      z-index: 3;
       display: flex;
       flex-direction: column;
       justify-content: space-between;
@@ -106,13 +117,13 @@
     .cyber-card:hover {
       border-color: var(--neon-cyan);
       box-shadow: 0 0 25px var(--neon-cyan);
-      transform: translateY(-8px);
+      transform: translateY(-5px);
     }
 
-    /* --- DYNAMIC BANNERS --- */
+    /* BANNERS FIX */
     .banner-box {
       width: 100%;
-      min-height: 220px;
+      min-height: 200px;
       border-radius: 8px;
       padding: 1rem;
       position: relative;
@@ -120,7 +131,7 @@
       display: flex;
       flex-direction: column;
       justify-content: space-between;
-      border: 1px solid rgba(255, 255, 255, 0.2);
+      border: 1px solid rgba(255, 255, 255, 0.3);
       margin-bottom: 1rem;
     }
 
@@ -136,25 +147,23 @@
 
     .banner-title-gta {
       font-family: 'Teko', sans-serif;
-      font-size: 3.2rem;
+      font-size: 3rem;
       line-height: 0.9;
-      background: linear-gradient(180deg, #fff, var(--neon-orange), var(--neon-red));
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      filter: drop-shadow(0 0 10px var(--neon-red));
+      color: #ffffff;
+      text-shadow: 0 0 15px var(--neon-orange), 0 0 25px var(--neon-red);
     }
 
     .banner-title-voltage {
       font-family: 'Teko', sans-serif;
-      font-size: 3.2rem;
+      font-size: 3rem;
       line-height: 0.9;
-      color: #fff;
+      color: #ffffff;
       text-shadow: 0 0 15px var(--neon-cyan);
     }
 
     .creator-tag {
       font-size: 1.1rem;
-      color: var(--neon-cyan);
+      color: var(--neon-cyan) !important;
       font-weight: bold;
       text-shadow: 0 0 8px var(--neon-cyan);
     }
@@ -162,36 +171,35 @@
     .logo-row {
       display: flex;
       align-items: center;
-      gap: 12px;
+      gap: 8px;
       margin-top: 8px;
       flex-wrap: wrap;
     }
 
     .ai-badge {
-      background: rgba(0, 0, 0, 0.7);
+      background: #000;
       border: 1px solid var(--neon-cyan);
-      padding: 3px 8px;
-      border-radius: 4px;
-      font-size: 0.85rem;
-      display: flex;
-      align-items: center;
-      gap: 5px;
-    }
-
-    .yt-badge {
-      background: rgba(255, 0, 0, 0.2);
-      border: 1px solid #ff0000;
-      color: #ff4d4d;
+      color: #fff !important;
       padding: 3px 8px;
       border-radius: 4px;
       font-size: 0.85rem;
       font-weight: bold;
     }
 
-    /* Buttons Row */
+    .yt-badge {
+      background: #330000;
+      border: 1px solid #ff0000;
+      color: #ff4d4d !important;
+      padding: 3px 8px;
+      border-radius: 4px;
+      font-size: 0.85rem;
+      font-weight: bold;
+    }
+
+    /* BUTTONS FIX */
     .card-btn-row {
       display: flex;
-      gap: 12px;
+      gap: 10px;
       margin-top: 1rem;
     }
 
@@ -212,17 +220,17 @@
     .btn-know-more {
       background: transparent;
       border: 1px solid var(--neon-cyan);
-      color: var(--neon-cyan);
+      color: var(--neon-cyan) !important;
     }
     .btn-know-more:hover {
       background: var(--neon-cyan);
-      color: #000;
+      color: #000 !important;
       box-shadow: 0 0 15px var(--neon-cyan);
     }
 
     .btn-action {
       background: var(--neon-red);
-      color: #fff;
+      color: #ffffff !important;
       box-shadow: 0 0 12px var(--neon-red);
     }
     .btn-action:hover {
@@ -230,22 +238,24 @@
       box-shadow: 0 0 20px var(--neon-red);
     }
 
-    /* Support QR */
+    /* Support QR Fix */
     .support-section {
       text-align: center;
-      padding: 4rem 2rem;
-      background: rgba(255, 0, 85, 0.05);
+      padding: 3rem 2rem;
+      background: rgba(255, 0, 85, 0.08);
       border: 1px solid var(--neon-red);
       border-radius: 15px;
-      margin: 4rem 5%;
+      margin: 3rem 5%;
+      position: relative;
+      z-index: 2;
     }
 
     .qr-box {
-      width: 230px;
-      height: 230px;
-      margin: 2rem auto;
-      background: #fff;
-      padding: 12px;
+      width: 210px;
+      height: 210px;
+      margin: 1.5rem auto;
+      background: #ffffff;
+      padding: 10px;
       border-radius: 12px;
       border: 4px solid var(--neon-cyan);
       box-shadow: 0 0 25px var(--neon-cyan);
@@ -255,11 +265,13 @@
     .qr-box:hover { transform: scale(1.05); }
     .qr-box img { width: 100%; height: 100%; }
 
-    /* Footer */
+    /* Footer Fix */
     .mega-footer {
       background: #020203;
-      padding: 4rem 5% 2rem;
+      padding: 3rem 5% 2rem;
       border-top: 2px solid var(--neon-red);
+      position: relative;
+      z-index: 2;
     }
     .footer-grid {
       display: grid;
@@ -267,7 +279,7 @@
       gap: 2rem;
     }
     .footer-col h4 {
-      color: var(--neon-cyan);
+      color: var(--neon-cyan) !important;
       font-size: 1.6rem;
       margin-bottom: 1rem;
       font-family: 'Teko', sans-serif;
@@ -275,15 +287,15 @@
     .footer-col ul { list-style: none; }
     .footer-col ul li { margin-bottom: 0.6rem; }
     .footer-col ul li a {
-      color: #bbb;
+      color: #dddddd !important;
       text-decoration: none;
       font-size: 1.1rem;
       cursor: pointer;
       transition: 0.3s;
     }
-    .footer-col ul li a:hover { color: var(--neon-red); padding-left: 5px; }
+    .footer-col ul li a:hover { color: var(--neon-red) !important; padding-left: 5px; }
 
-    /* FLOATING AI SUPPORT BUTTON */
+    /* FLOATING AI SUPPORT BUTTON FIX */
     .ai-float-btn {
       position: fixed;
       bottom: 25px;
@@ -293,25 +305,25 @@
       background: #0d0d14;
       border: 2px solid var(--neon-cyan);
       border-radius: 50%;
-      box-shadow: 0 0 20px var(--neon-cyan);
+      box-shadow: 0 0 25px var(--neon-cyan);
       display: flex;
       flex-direction: column;
       justify-content: center;
       align-items: center;
       cursor: pointer;
-      z-index: 998;
+      z-index: 9999;
       transition: transform 0.3s;
     }
     .ai-float-btn:hover { transform: scale(1.1); box-shadow: 0 0 30px var(--neon-red); border-color: var(--neon-red); }
     .ai-icon { font-size: 1.6rem; }
     .ai-btn-text { font-size: 0.65rem; color: var(--neon-cyan); font-family: 'Teko'; font-weight: bold; }
 
-    /* AI CHATBOT FULL MODAL WINDOW */
+    /* AI CHATBOT FULL MODAL WINDOW FIX */
     .ai-modal-overlay {
       position: fixed;
       top: 0; left: 0; width: 100vw; height: 100vh;
-      background: rgba(0,0,0,0.92);
-      z-index: 1000;
+      background: rgba(0,0,0,0.95);
+      z-index: 10000;
       display: flex;
       justify-content: center;
       align-items: center;
@@ -333,7 +345,7 @@
       overflow: hidden;
     }
     .ai-chat-header {
-      background: rgba(0, 240, 255, 0.1);
+      background: rgba(0, 240, 255, 0.15);
       padding: 15px;
       border-bottom: 1px solid var(--neon-cyan);
       display: flex;
@@ -356,7 +368,7 @@
       line-height: 1.4;
     }
     .msg-ai { background: rgba(0, 240, 255, 0.15); border: 1px solid var(--neon-cyan); color: #fff; align-self: flex-start; }
-    .msg-user { background: rgba(255, 0, 85, 0.2); border: 1px solid var(--neon-red); color: #fff; align-self: flex-end; }
+    .msg-user { background: rgba(255, 0, 85, 0.25); border: 1px solid var(--neon-red); color: #fff; align-self: flex-end; }
     
     .ai-chat-footer {
       padding: 12px;
@@ -384,15 +396,15 @@
       cursor: pointer;
     }
 
-    /* Modal System */
+    /* Universal Modal System Fix */
     .modal-overlay {
       position: fixed;
       top: 0; left: 0; width: 100vw; height: 100vh;
-      background: rgba(0, 0, 0, 0.9);
+      background: rgba(0, 0, 0, 0.95);
       display: flex;
       justify-content: center;
       align-items: center;
-      z-index: 999;
+      z-index: 10001;
       opacity: 0;
       pointer-events: none;
       transition: opacity 0.4s ease;
@@ -408,15 +420,15 @@
       max-height: 85vh;
       padding: 2rem;
       overflow-y: auto;
-      transform: scale(0.7);
+      transform: scale(0.8);
       transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
     }
     .modal-overlay.active .modal-box { transform: scale(1); }
     .modal-title { font-family: 'Teko', sans-serif; font-size: 2.5rem; color: var(--neon-red); margin-bottom: 1rem; }
-    .modal-body { font-size: 1.1rem; color: #eee; line-height: 1.6; margin-bottom: 1.5rem; white-space: pre-line; }
+    .modal-body { font-size: 1.1rem; color: #eeeeee; line-height: 1.6; margin-bottom: 1.5rem; white-space: pre-line; }
     .modal-btn {
       background: var(--neon-red);
-      color: #fff;
+      color: #ffffff;
       border: none;
       padding: 10px 25px;
       font-size: 1.2rem;
@@ -431,27 +443,27 @@
 
   <!-- Hero Main Section -->
   <section class="mega-hero">
-    <h1 class="mega-title pop-element pop-up">HERO-VERSE STUDIOS</h1>
-    <p class="mega-subtitle pop-element pop-up">OFFICIAL INTERACTIVE HUB • DESI GTA & VOLTAGE HERO</p>
+    <h1 class="mega-title pop-element show">HERO-VERSE STUDIOS</h1>
+    <p class="mega-subtitle pop-element show">OFFICIAL INTERACTIVE HUB • DESI GTA & VOLTAGE HERO</p>
     <div class="laser-line"></div>
   </section>
 
   <!-- Live Projects -->
   <section class="content-section">
-    <h2 class="section-title pop-element pop-up">FEATURED MEGA PROJECTS</h2>
+    <h2 class="section-title pop-element show">FEATURED MEGA PROJECTS</h2>
     <div class="grid-container">
       
       <!-- INDIAN GTA 1 CARD -->
-      <div class="cyber-card pop-element pop-left">
+      <div class="cyber-card pop-element show">
         <div class="banner-box bg-gta">
           <h3 class="banner-title-gta">INDIAN GTA 1</h3>
           <p style="color: var(--neon-cyan); font-weight: bold;">300MB OPEN WORLD ENGINE</p>
           <div class="logo-row">
-            <span class="ai-badge">🤖 ChatGPT In-Game AI</span>
+            <span class="ai-badge">🤖 ChatGPT AI Phone</span>
             <span class="ai-badge">🗺️ Indian + Los Santos</span>
           </div>
         </div>
-        <p style="color: #ccc; margin-bottom: 10px;">The ultimate Indian open-world action adventure featuring 100+ dynamic NPCs and in-game AI phone assistant.</p>
+        <p style="color: #dddddd; margin-bottom: 10px;">The ultimate Indian open-world action adventure featuring 100+ dynamic NPCs and in-game AI phone assistant.</p>
         <div class="card-btn-row">
           <button class="btn-cyber btn-know-more" onclick="openGtaDetails()">KNOW MORE</button>
           <button class="btn-cyber btn-action" onclick="triggerComingSoon('INDIAN GTA 1 GAME LAUNCH')">PLAY</button>
@@ -459,7 +471,7 @@
       </div>
 
       <!-- VOLTAGE HERO CARD -->
-      <div class="cyber-card pop-element pop-right">
+      <div class="cyber-card pop-element show">
         <div class="banner-box bg-voltage">
           <div>
             <h3 class="banner-title-voltage">VOLTAGE HERO</h3>
@@ -474,7 +486,7 @@
             </div>
           </div>
         </div>
-        <p style="color: #ccc; margin-bottom: 10px;">Original high-voltage superhero universe featuring second-by-second action episode breakdowns.</p>
+        <p style="color: #dddddd; margin-bottom: 10px;">Original high-voltage superhero universe featuring second-by-second action episode breakdowns.</p>
         <div class="card-btn-row">
           <button class="btn-cyber btn-know-more" onclick="openVoltageDetails()">KNOW MORE</button>
           <button class="btn-cyber btn-action" onclick="triggerComingSoon('VOLTAGE HERO EPISODE 1')">WATCH</button>
@@ -486,16 +498,16 @@
 
   <!-- Expandable Modules Grid -->
   <section class="content-section">
-    <h2 class="section-title pop-element pop-up">FUTURE ENGINE MODULES</h2>
+    <h2 class="section-title pop-element show">FUTURE ENGINE MODULES</h2>
     <div class="grid-container">
       
-      <div class="cyber-card pop-element pop-left">
+      <div class="cyber-card pop-element show">
         <h3 style="font-family:'Teko'; font-size: 2.2rem; color: var(--neon-cyan);">MULTIPLAYER CO-OP</h3>
         <p style="color: #bbb; margin-bottom: 1rem;">Cross-platform mobile multiplayer servers allowing up to 64 players per city room.</p>
         <button class="btn-cyber btn-know-more" onclick="openModal('MULTIPLAYER ENGINE DETAILS', 'Full Server Architecture:\n- Dedicated Indian Regional Cloud Nodes\n- Voice Chat & Proximity Chat Integration\n- Real-time High-Speed Vehicle Synchronization\n- Custom Gang War Events & Street Races')">KNOW MORE</button>
       </div>
 
-      <div class="cyber-card pop-element pop-right">
+      <div class="cyber-card pop-element show">
         <h3 style="font-family:'Teko'; font-size: 2.2rem; color: var(--neon-red);">AI VOICE ASSISTANT</h3>
         <p style="color: #bbb; margin-bottom: 1rem;">In-game ChatGPT mobile phone integration for calling cars and triggering missions.</p>
         <button class="btn-cyber btn-know-more" onclick="openModal('IN-GAME AI PHONE DETAILS', 'AI Phone Capabilities:\n- Voice Command Vehicle Spawner (e.g., Speak into mic to spawn sports bike)\n- Real-time Mission Guidance and Hack Assistance\n- Interactive NPC Dialogue Generator powered by AI Core')">KNOW MORE</button>
@@ -505,9 +517,9 @@
   </section>
 
   <!-- Support Section -->
-  <section class="support-section pop-element pop-up">
+  <section class="support-section pop-element show">
     <h2 style="font-family:'Teko'; font-size: 3.5rem; color: var(--neon-cyan);">SUPPORT THE HERO</h2>
-    <p style="font-size: 1.3rem;">Scan with Google Lens OR tap the QR box to test the appreciation scanner!</p>
+    <p style="font-size: 1.3rem; color:#fff;">Scan with Google Lens OR tap the QR box to test the appreciation scanner!</p>
     
     <div class="qr-box" onclick="triggerThankYou()">
       <img src="https://api.qrserver.com/v1/create-qr-code/?size=250x250&data=Aapka%20dhanyawaad!%20Hum%20ye%20dekhna%20chahte%20the%20ki%20aap%20kitne%20dildaar%20aur%20madad%20karne%20waale%20hain!%20-Hero-Verse%20Studios" alt="Support QR Code">
@@ -518,21 +530,21 @@
   <!-- Complete Corporate Legal & Help Footer -->
   <footer class="mega-footer">
     <div class="footer-grid">
-      <div class="footer-col pop-element pop-left">
+      <div class="footer-col pop-element show">
         <h4>STUDIO OVERVIEW</h4>
         <ul>
           <li><a onclick="openVisionPage()">Our Vision & Roadmap</a></li>
           <li><a onclick="openDeveloperPage()">Lead Developer Profile</a></li>
         </ul>
       </div>
-      <div class="footer-col pop-element pop-up">
+      <div class="footer-col pop-element show">
         <h4>SUPPORT & HELP</h4>
         <ul>
           <li><a onclick="openHelpCenter()">Help & Support Center</a></li>
           <li><a onclick="openBugReport()">Report a Bug System</a></li>
         </ul>
       </div>
-      <div class="footer-col pop-element pop-right">
+      <div class="footer-col pop-element show">
         <h4>LEGAL & POLICIES</h4>
         <ul>
           <li><a onclick="openTermsPage()">Terms of Service (Full)</a></li>
@@ -540,7 +552,7 @@
         </ul>
       </div>
     </div>
-    <div style="text-align: center; margin-top: 3rem; color: #777;" class="pop-element pop-up">
+    <div style="text-align: center; margin-top: 3rem; color: #aaa;" class="pop-element show">
       <p>&copy; 2026 HERO-VERSE STUDIOS. All Rights Reserved. Created by Naitik Pandey.</p>
     </div>
   </footer>
@@ -589,15 +601,9 @@
   </div>
 
   <script>
-    // Scroll Animation Observer
+    // Scroll Observer Fix
     const observer = new IntersectionObserver((entries) => {
       entries.forEach((entry) => {
         if (entry.isIntersecting) entry.target.classList.add('show');
-        else entry.target.classList.remove('show');
       });
-    }, { threshold: 0.15 });
-    document.querySelectorAll('.pop-element').forEach((el) => observer.observe(el));
-
-    // Modal Control Functions
-    function openModal(title, text) {
-      document.getElem
+    }, { threshold: 0.05 
