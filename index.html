@@ -1,0 +1,373 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>HERO-VERSE STUDIOS | Next-Gen Gaming & Cinematic Universe</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Teko:wght@400;600;700&family=Rajdhani:wght@500;700&display=swap');
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Rajdhani', sans-serif;
+    }
+
+    body {
+      background-color: #000;
+      color: #fff;
+      overflow-x: hidden;
+    }
+
+    /* Video Background */
+    .video-bg {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      object-fit: cover;
+      z-index: -2;
+      opacity: 0.3; /* Thoda dark kiya hai taki text dikhe */
+    }
+    
+    .overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(to bottom, rgba(0,0,0,0.8) 0%, rgba(0,0,0,0.4) 50%, rgba(0,0,0,0.9) 100%);
+      z-index: -1;
+    }
+
+    /* Scroll Animations classes */
+    .hidden { opacity: 0; transform: translateY(100px); transition: all 1s ease-out; }
+    .hidden-left { opacity: 0; transform: translateX(-150px); transition: all 1s ease-out; }
+    .hidden-right { opacity: 0; transform: translateX(150px); transition: all 1s ease-out; }
+    .show { opacity: 1; transform: translate(0); }
+
+    /* Header & Hero Section */
+    .mega-hero {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      padding: 2rem;
+    }
+
+    .mega-title {
+      font-family: 'Teko', sans-serif;
+      font-size: 8rem;
+      text-transform: uppercase;
+      color: #0ff;
+      text-shadow: 0 0 20px #0ff, 0 0 40px #00aaff;
+      letter-spacing: 5px;
+      line-height: 1;
+      margin-bottom: 20px;
+    }
+
+    .mega-subtitle {
+      font-size: 2rem;
+      color: #ff00ff;
+      text-shadow: 0 0 10px #ff00ff;
+      letter-spacing: 3px;
+    }
+
+    /* Feature Grid (Endless Scroll Vibe) */
+    .content-section {
+      padding: 8rem 5%;
+      position: relative;
+    }
+
+    .section-title {
+      font-family: 'Teko', sans-serif;
+      font-size: 5rem;
+      color: #fff;
+      text-align: center;
+      margin-bottom: 4rem;
+      text-shadow: 0 0 10px rgba(255,255,255,0.5);
+    }
+
+    .grid-container {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 3rem;
+    }
+
+    .cyber-card {
+      background: rgba(10, 10, 10, 0.8);
+      border: 2px solid #0ff;
+      border-radius: 10px;
+      padding: 2rem;
+      text-align: center;
+      box-shadow: inset 0 0 20px rgba(0, 255, 255, 0.1);
+      transition: 0.4s;
+      cursor: pointer;
+    }
+
+    .cyber-card:hover {
+      background: #0ff;
+      color: #000;
+      transform: scale(1.05);
+      box-shadow: 0 0 30px #0ff;
+    }
+
+    .cyber-card h3 {
+      font-size: 2.5rem;
+      font-family: 'Teko', sans-serif;
+      margin-bottom: 1rem;
+    }
+
+    /* Images */
+    .img-box {
+      width: 100%;
+      height: 200px;
+      background-color: #222;
+      border-bottom: 2px solid #0ff;
+      margin-bottom: 1rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #777;
+    }
+    
+    .img-box img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    /* Support / QR Section */
+    .support-section {
+      text-align: center;
+      padding: 5rem 2rem;
+      background: rgba(255, 0, 255, 0.05);
+      border-top: 1px solid #ff00ff;
+      border-bottom: 1px solid #ff00ff;
+      margin: 5rem 0;
+    }
+
+    .qr-container {
+      display: inline-block;
+      padding: 1rem;
+      background: #fff;
+      border: 5px solid #ff00ff;
+      border-radius: 10px;
+      margin-top: 2rem;
+      box-shadow: 0 0 40px rgba(255, 0, 255, 0.5);
+    }
+
+    .qr-container img {
+      width: 250px;
+      height: 250px;
+    }
+
+    /* Mega Corporate Footer */
+    .mega-footer {
+      background: #050505;
+      padding: 5rem 5%;
+      border-top: 3px solid #0ff;
+    }
+
+    .footer-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 2rem;
+    }
+
+    .footer-col h4 {
+      color: #0ff;
+      font-size: 1.5rem;
+      margin-bottom: 1.5rem;
+      font-family: 'Teko', sans-serif;
+    }
+
+    .footer-col ul {
+      list-style: none;
+    }
+
+    .footer-col ul li {
+      margin-bottom: 0.8rem;
+    }
+
+    .footer-col ul li a {
+      color: #aaa;
+      text-decoration: none;
+      transition: color 0.3s;
+      cursor: pointer;
+    }
+
+    .footer-col ul li a:hover {
+      color: #ff00ff;
+      text-shadow: 0 0 10px #ff00ff;
+    }
+
+    .footer-bottom {
+      text-align: center;
+      margin-top: 4rem;
+      padding-top: 2rem;
+      border-top: 1px solid #333;
+      color: #666;
+    }
+
+  </style>
+</head>
+<body>
+
+  <!-- Background Video -->
+  <video autoplay muted loop class="video-bg">
+    <source src="[YAHAN_BACKGROUND_VIDEO_KA_LINK_DAALO.mp4]" type="video/mp4">
+  </video>
+  <div class="overlay"></div>
+
+  <!-- Hero Section -->
+  <section class="mega-hero hidden">
+    <h1 class="mega-title">HERO-VERSE STUDIOS</h1>
+    <p class="mega-subtitle">Building The Future Of Open-World & Cinematic Legends</p>
+    <p style="margin-top: 20px; color: #ccc;">Scroll Down To Enter The Matrix ↓</p>
+  </section>
+
+  <!-- Projects Section -->
+  <section class="content-section">
+    <h2 class="section-title hidden">LIVE MEGA PROJECTS</h2>
+    <div class="grid-container">
+      
+      <!-- Desi GTA -->
+      <div class="cyber-card hidden-left" onclick="comingSoon('Desi GTA Alpha Build')">
+        <div class="img-box"><img src="[YAHAN_DESI_GTA_PHOTO_LINK]" alt="Desi GTA"></div>
+        <h3>DESI GTA</h3>
+        <p>100+ NPCs. Indian + Los Santos Hybrid Map. 300MB Highly Compressed Engine.</p>
+        <p style="color: #ff00ff; margin-top: 10px;">[ TAP TO PLAY ]</p>
+      </div>
+
+      <!-- Voltage Hero -->
+      <div class="cyber-card hidden-right" onclick="comingSoon('Voltage Hero Episode 1')">
+        <div class="img-box"><img src="[YAHAN_VOLTAGE_HERO_PHOTO_LINK]" alt="Voltage Hero"></div>
+        <h3>VOLTAGE HERO</h3>
+        <p>10-Min Episode Formats. Second-by-Second Cinematic Breakdowns.</p>
+        <p style="color: #ff00ff; margin-top: 10px;">[ TAP TO WATCH ]</p>
+      </div>
+
+      <!-- Secret Project -->
+      <div class="cyber-card hidden-left" onclick="comingSoon('AI ChatGPT In-Game Phone')">
+        <div class="img-box">AI Core Image</div>
+        <h3>AI IN-GAME PHONE</h3>
+        <p>Direct Mic & Text interaction inside the game. Powered by neural networks.</p>
+        <p style="color: #ff00ff; margin-top: 10px;">[ TAP TO ACTIVATE ]</p>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- Unlimited Features Grid (Exploration) -->
+  <section class="content-section">
+    <h2 class="section-title hidden">LOCKED FEATURES</h2>
+    <div class="grid-container">
+      <!-- In cards ko tu hazaro baar copy-paste karke web lamba kar sakta hai -->
+      <div class="cyber-card hidden" onclick="comingSoon('Multiplayer Servers')">
+        <h3>MULTIPLAYER CO-OP</h3>
+        <p>Connect with friends worldwide.</p>
+      </div>
+      <div class="cyber-card hidden" onclick="comingSoon('Mod Menu Access')">
+        <h3>HERO MOD MENU</h3>
+        <p>Unlimited vehicles and weapons.</p>
+      </div>
+      <div class="cyber-card hidden" onclick="comingSoon('VR Mode Integration')">
+        <h3>VR MODE</h3>
+        <p>Virtual Reality experience coming in V2.0.</p>
+      </div>
+      <div class="cyber-card hidden" onclick="comingSoon('Merchandise Store')">
+        <h3>OFFICIAL MERCH</h3>
+        <p>Buy Hero-Verse T-shirts and gear.</p>
+      </div>
+      <div class="cyber-card hidden" onclick="comingSoon('Crypto integration')">
+        <h3>IN-GAME CRYPTO</h3>
+        <p>Web3 integration for true ownership.</p>
+      </div>
+      <div class="cyber-card hidden" onclick="comingSoon('Esports Tournaments')">
+        <h3>ESPORTS ARENA</h3>
+        <p>Compete for the ultimate prize.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Support / Donation Section -->
+  <section class="support-section hidden">
+    <h2 class="section-title" style="margin-bottom: 1rem; color: #ff00ff;">SUPPORT THE HERO</h2>
+    <p style="font-size: 1.5rem;">Help fund the 1GB Desi GTA expansion and Voltage Hero animation!</p>
+    <div class="qr-container">
+      <!-- Apne QR code ki image yahan lagao -->
+      <img src="[YAHAN_APNE_QR_CODE_KI_IMAGE_LINK_DAALO.png]" alt="Support QR Code">
+    </div>
+    <p style="margin-top: 1rem; color: #0ff; font-weight: bold;">Scan to Fuel the Dream ⚡</p>
+  </section>
+
+  <!-- Mega Corporate Footer -->
+  <footer class="mega-footer hidden">
+    <div class="footer-grid">
+      <div class="footer-col">
+        <h4>ABOUT STUDIOS</h4>
+        <ul>
+          <li><a onclick="comingSoon('Our Vision')">Our Vision</a></li>
+          <li><a onclick="comingSoon('Careers')">Careers</a></li>
+          <li><a onclick="comingSoon('Press Kit')">Press Kit</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>GAMES & LORE</h4>
+        <ul>
+          <li><a onclick="comingSoon('Desi GTA Lore')">Desi GTA Lore</a></li>
+          <li><a onclick="comingSoon('Voltage Hero Comics')">Voltage Hero Comics</a></li>
+          <li><a onclick="comingSoon('Upcoming Titles')">Upcoming Titles</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>HELP & SUPPORT</h4>
+        <ul>
+          <li><a onclick="comingSoon('Help Center')">Help Center</a></li>
+          <li><a onclick="comingSoon('Report a Bug')">Report a Bug</a></li>
+          <li><a onclick="comingSoon('Server Status')">Server Status</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>LEGAL</h4>
+        <ul>
+          <li><a onclick="comingSoon('Terms of Service')">Terms of Service</a></li>
+          <li><a onclick="comingSoon('Privacy Policy')">Privacy Policy</a></li>
+          <li><a onclick="comingSoon('Cookie Policy')">Cookie Policy</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>&copy; 2026 HERO-VERSE STUDIOS. Developed by Naitik Pandey. All Rights Reserved.</p>
+    </div>
+  </footer>
+
+  <!-- Javascript for Scroll Animations & Coming Soon Popups -->
+  <script>
+    // Coming Soon Alert Function
+    function comingSoon(featureName) {
+      alert("⚡ THE HERO IS WORKING ON THIS! \n\n[" + featureName + "] is currently in development. STAY TUNED!");
+    }
+
+    // Scroll Animation Observer (Side se pop-up effect ke liye)
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('show');
+        }
+      });
+    });
+
+    // Select all hidden elements and observe them
+    const hiddenElements = document.querySelectorAll('.hidden, .hidden-left, .hidden-right');
+    hiddenElements.forEach((el) => observer.observe(el));
+  </script>
+
+</body>
+  </html>
+  
