@@ -3,9 +3,15 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>HERO-VERSE STUDIOS | Next-Gen Gaming & Cinematic Universe</title>
+  <title>HERO-VERSE STUDIOS | Next-Gen Gaming Universe</title>
   <style>
-    @import url('https://fonts.googleapis.com/css2?family=Teko:wght@400;600;700&family=Rajdhani:wght@500;700&display=swap');
+    @import url('https://fonts.googleapis.com/css2?family=Teko:wght@400;600;700&family=Rajdhani:wght@500;700;900&display=swap');
+
+    :root {
+      --neon-red: #ff0055;
+      --neon-cyan: #00f0ff;
+      --bg-black: #050508;
+    }
 
     * {
       margin: 0;
@@ -15,42 +21,45 @@
     }
 
     body {
-      background-color: #000;
+      background-color: var(--bg-black);
       color: #fff;
       overflow-x: hidden;
+      /* Red to Black Gradient & Cyber Grid Lines Background */
+      background-image: 
+        linear-gradient(180deg, rgba(255, 0, 85, 0.15) 0%, rgba(5, 5, 8, 0.95) 40%, rgba(0, 0, 0, 1) 100%),
+        linear-gradient(rgba(255, 0, 85, 0.1) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255, 0, 85, 0.1) 1px, transparent 1px);
+      background-size: 100% 100%, 40px 40px, 40px 40px;
+      background-attachment: fixed;
     }
 
-    /* Video Background */
-    .video-bg {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100vw;
-      height: 100vh;
-      object-fit: cover;
-      z-index: -2;
-      opacity: 0.3; /* Thoda dark kiya hai taki text dikhe */
-    }
-    
-    .overlay {
-      position: fixed;
-      top: 0;
-      left: 0;
+    /* Red Laser Divider Line Effect */
+    .laser-line {
       width: 100%;
-      height: 100%;
-      background: linear-gradient(to bottom, rgba(0,0,0,0.8) 0%, rgba(0,0,0,0.4) 50%, rgba(0,0,0,0.9) 100%);
-      z-index: -1;
+      height: 3px;
+      background: linear-gradient(90deg, transparent, var(--neon-red), var(--neon-cyan), transparent);
+      box-shadow: 0 0 15px var(--neon-red);
+      margin: 2rem 0;
     }
 
-    /* Scroll Animations classes */
-    .hidden { opacity: 0; transform: translateY(100px); transition: all 1s ease-out; }
-    .hidden-left { opacity: 0; transform: translateX(-150px); transition: all 1s ease-out; }
-    .hidden-right { opacity: 0; transform: translateX(150px); transition: all 1s ease-out; }
-    .show { opacity: 1; transform: translate(0); }
+    /* Infinite Scroll Animation Classes (In & Out) */
+    .pop-element {
+      opacity: 0;
+      transition: all 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    }
+    .pop-left { transform: translateX(-120px) scale(0.8); }
+    .pop-right { transform: translateX(120px) scale(0.8); }
+    .pop-up { transform: translateY(100px) scale(0.8); }
+
+    /* Active Animation State */
+    .pop-element.show {
+      opacity: 1;
+      transform: translate(0) scale(1);
+    }
 
     /* Header & Hero Section */
     .mega-hero {
-      min-height: 100vh;
+      min-height: 90vh;
       display: flex;
       flex-direction: column;
       justify-content: center;
@@ -61,313 +70,377 @@
 
     .mega-title {
       font-family: 'Teko', sans-serif;
-      font-size: 8rem;
+      font-size: 6.5rem;
       text-transform: uppercase;
-      color: #0ff;
-      text-shadow: 0 0 20px #0ff, 0 0 40px #00aaff;
-      letter-spacing: 5px;
-      line-height: 1;
-      margin-bottom: 20px;
+      color: #fff;
+      text-shadow: 0 0 10px var(--neon-red), 0 0 30px var(--neon-red);
+      letter-spacing: 4px;
+      line-height: 0.9;
     }
 
     .mega-subtitle {
-      font-size: 2rem;
-      color: #ff00ff;
-      text-shadow: 0 0 10px #ff00ff;
-      letter-spacing: 3px;
+      font-size: 1.8rem;
+      color: var(--neon-cyan);
+      text-shadow: 0 0 10px var(--neon-cyan);
+      letter-spacing: 2px;
+      margin-top: 15px;
+      font-weight: 700;
     }
 
-    /* Feature Grid (Endless Scroll Vibe) */
+    /* Content Cards */
     .content-section {
-      padding: 8rem 5%;
-      position: relative;
+      padding: 4rem 5%;
     }
 
     .section-title {
       font-family: 'Teko', sans-serif;
-      font-size: 5rem;
+      font-size: 4rem;
       color: #fff;
       text-align: center;
-      margin-bottom: 4rem;
-      text-shadow: 0 0 10px rgba(255,255,255,0.5);
+      margin-bottom: 2rem;
+      text-shadow: 0 0 10px var(--neon-red);
     }
 
     .grid-container {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-      gap: 3rem;
+      grid-template-columns: repeat(auto-fit, minmax(290px, 1fr));
+      gap: 2.5rem;
     }
 
     .cyber-card {
-      background: rgba(10, 10, 10, 0.8);
-      border: 2px solid #0ff;
-      border-radius: 10px;
-      padding: 2rem;
+      background: rgba(15, 15, 20, 0.85);
+      border: 2px solid var(--neon-red);
+      border-radius: 12px;
+      padding: 1.5rem;
       text-align: center;
-      box-shadow: inset 0 0 20px rgba(0, 255, 255, 0.1);
-      transition: 0.4s;
+      box-shadow: inset 0 0 15px rgba(255, 0, 85, 0.2);
+      transition: 0.3s;
       cursor: pointer;
+      position: relative;
+      overflow: hidden;
     }
 
     .cyber-card:hover {
-      background: #0ff;
-      color: #000;
-      transform: scale(1.05);
-      box-shadow: 0 0 30px #0ff;
+      border-color: var(--neon-cyan);
+      box-shadow: 0 0 25px var(--neon-cyan);
+      transform: translateY(-8px);
     }
 
-    .cyber-card h3 {
-      font-size: 2.5rem;
-      font-family: 'Teko', sans-serif;
-      margin-bottom: 1rem;
-    }
-
-    /* Images */
-    .img-box {
+    /* Desi GTA and Voltage Hero Stylized Visual Banners */
+    .banner-desi-gta {
       width: 100%;
-      height: 200px;
-      background-color: #222;
-      border-bottom: 2px solid #0ff;
+      height: 180px;
+      background: linear-gradient(135deg, #11001c, #4a001f), url('https://images.unsplash.com/photo-1542751371-adc38448a05e?auto=format&fit=crop&w=600&q=80');
+      background-size: cover;
+      background-position: center;
+      border-radius: 8px;
       margin-bottom: 1rem;
       display: flex;
-      align-items: center;
-      justify-content: center;
-      color: #777;
-    }
-    
-    .img-box img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
+      align-items: flex-end;
+      padding: 10px;
+      box-shadow: inset 0 0 30px #000;
     }
 
-    /* Support / QR Section */
+    .banner-voltage-hero {
+      width: 100%;
+      height: 180px;
+      background: linear-gradient(135deg, #001219, #005f73), url('https://images.unsplash.com/photo-1534447677768-be436bb09401?auto=format&fit=crop&w=600&q=80');
+      background-size: cover;
+      background-position: center;
+      border-radius: 8px;
+      margin-bottom: 1rem;
+      display: flex;
+      align-items: flex-end;
+      padding: 10px;
+      box-shadow: inset 0 0 30px #000;
+    }
+
+    .banner-tag {
+      background: var(--neon-red);
+      color: #fff;
+      font-weight: bold;
+      padding: 4px 10px;
+      font-size: 0.9rem;
+      border-radius: 4px;
+      font-family: 'Teko', sans-serif;
+    }
+
+    /* Support / Donation Section */
     .support-section {
       text-align: center;
-      padding: 5rem 2rem;
-      background: rgba(255, 0, 255, 0.05);
-      border-top: 1px solid #ff00ff;
-      border-bottom: 1px solid #ff00ff;
-      margin: 5rem 0;
+      padding: 4rem 2rem;
+      background: rgba(255, 0, 85, 0.05);
+      border: 1px solid var(--neon-red);
+      border-radius: 15px;
+      margin: 4rem 5%;
     }
 
-    .qr-container {
-      display: inline-block;
-      padding: 1rem;
+    .qr-box {
+      width: 230px;
+      height: 230px;
+      margin: 2rem auto;
       background: #fff;
-      border: 5px solid #ff00ff;
-      border-radius: 10px;
-      margin-top: 2rem;
-      box-shadow: 0 0 40px rgba(255, 0, 255, 0.5);
+      padding: 12px;
+      border-radius: 12px;
+      border: 4px solid var(--neon-cyan);
+      box-shadow: 0 0 25px var(--neon-cyan);
+      cursor: pointer;
+      transition: transform 0.3s;
     }
 
-    .qr-container img {
-      width: 250px;
-      height: 250px;
+    .qr-box:hover {
+      transform: scale(1.05);
     }
 
-    /* Mega Corporate Footer */
+    .qr-box img {
+      width: 100%;
+      height: 100%;
+    }
+
+    /* Footer Styles */
     .mega-footer {
-      background: #050505;
-      padding: 5rem 5%;
-      border-top: 3px solid #0ff;
+      background: #020203;
+      padding: 4rem 5% 2rem;
+      border-top: 2px solid var(--neon-red);
     }
 
     .footer-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
       gap: 2rem;
     }
 
     .footer-col h4 {
-      color: #0ff;
-      font-size: 1.5rem;
-      margin-bottom: 1.5rem;
+      color: var(--neon-cyan);
+      font-size: 1.6rem;
+      margin-bottom: 1rem;
       font-family: 'Teko', sans-serif;
     }
 
-    .footer-col ul {
-      list-style: none;
-    }
-
-    .footer-col ul li {
-      margin-bottom: 0.8rem;
-    }
-
+    .footer-col ul { list-style: none; }
+    .footer-col ul li { margin-bottom: 0.6rem; }
     .footer-col ul li a {
-      color: #aaa;
+      color: #bbb;
       text-decoration: none;
-      transition: color 0.3s;
+      font-size: 1.1rem;
       cursor: pointer;
+      transition: 0.3s;
     }
 
     .footer-col ul li a:hover {
-      color: #ff00ff;
-      text-shadow: 0 0 10px #ff00ff;
+      color: var(--neon-red);
+      padding-left: 5px;
     }
 
-    .footer-bottom {
+    /* Animated Cyber Modal Popup Windows */
+    .modal-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      background: rgba(0, 0, 0, 0.88);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      z-index: 999;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.4s ease;
+    }
+
+    .modal-overlay.active {
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    .modal-box {
+      background: #0d0d14;
+      border: 2px solid var(--neon-cyan);
+      box-shadow: 0 0 35px var(--neon-cyan);
+      border-radius: 12px;
+      max-width: 500px;
+      width: 90%;
+      padding: 2rem;
       text-align: center;
-      margin-top: 4rem;
-      padding-top: 2rem;
-      border-top: 1px solid #333;
-      color: #666;
+      transform: scale(0.5) rotate(-5deg);
+      transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
     }
 
+    .modal-overlay.active .modal-box {
+      transform: scale(1) rotate(0deg);
+    }
+
+    .modal-title {
+      font-family: 'Teko', sans-serif;
+      font-size: 2.5rem;
+      color: var(--neon-red);
+      margin-bottom: 1rem;
+      text-shadow: 0 0 10px var(--neon-red);
+    }
+
+    .modal-body {
+      font-size: 1.2rem;
+      color: #eee;
+      line-height: 1.6;
+      margin-bottom: 1.5rem;
+    }
+
+    .modal-btn {
+      background: var(--neon-red);
+      color: #fff;
+      border: none;
+      padding: 10px 25px;
+      font-size: 1.2rem;
+      font-family: 'Teko', sans-serif;
+      border-radius: 5px;
+      cursor: pointer;
+      box-shadow: 0 0 15px var(--neon-red);
+      transition: 0.3s;
+    }
+
+    .modal-btn:hover {
+      background: var(--neon-cyan);
+      color: #000;
+      box-shadow: 0 0 15px var(--neon-cyan);
+    }
   </style>
 </head>
 <body>
 
-  <!-- Background Video -->
-  <video autoplay muted loop class="video-bg">
-    <source src="[YAHAN_BACKGROUND_VIDEO_KA_LINK_DAALO.mp4]" type="video/mp4">
-  </video>
-  <div class="overlay"></div>
-
-  <!-- Hero Section -->
-  <section class="mega-hero hidden">
-    <h1 class="mega-title">HERO-VERSE STUDIOS</h1>
-    <p class="mega-subtitle">Building The Future Of Open-World & Cinematic Legends</p>
-    <p style="margin-top: 20px; color: #ccc;">Scroll Down To Enter The Matrix ↓</p>
+  <!-- Hero Main Section -->
+  <section class="mega-hero">
+    <h1 class="mega-title pop-element pop-up">HERO-VERSE STUDIOS</h1>
+    <p class="mega-subtitle pop-element pop-up">OFFICIAL INTERACTIVE HUB • DESI GTA & VOLTAGE HERO</p>
+    <div class="laser-line"></div>
   </section>
 
-  <!-- Projects Section -->
+  <!-- Live Projects -->
   <section class="content-section">
-    <h2 class="section-title hidden">LIVE MEGA PROJECTS</h2>
+    <h2 class="section-title pop-element pop-up">MEGA PROJECTS IN DEVELOPMENT</h2>
     <div class="grid-container">
       
       <!-- Desi GTA -->
-      <div class="cyber-card hidden-left" onclick="comingSoon('Desi GTA Alpha Build')">
-        <div class="img-box"><img src="[YAHAN_DESI_GTA_PHOTO_LINK]" alt="Desi GTA"></div>
-        <h3>DESI GTA</h3>
-        <p>100+ NPCs. Indian + Los Santos Hybrid Map. 300MB Highly Compressed Engine.</p>
-        <p style="color: #ff00ff; margin-top: 10px;">[ TAP TO PLAY ]</p>
+      <div class="cyber-card pop-element pop-left" onclick="openModal('DESI GTA ALPHA BUILD', 'Game Features: 100+ Unique NPCs, Indian + Los Santos Hybrid Map, In-Game ChatGPT Voice Assistant, Hindi/English UI. Target Build: 300MB Highly Compressed Engine scaling to 1GB!')">
+        <div class="banner-desi-gta">
+          <span class="banner-tag">DESI GTA POSTER</span>
+        </div>
+        <h3 style="font-family:'Teko'; font-size: 2rem; color: var(--neon-cyan);">DESI GTA (ANDROID)</h3>
+        <p>Open-world Indian chaos & missions. Click to view game architecture details.</p>
       </div>
 
       <!-- Voltage Hero -->
-      <div class="cyber-card hidden-right" onclick="comingSoon('Voltage Hero Episode 1')">
-        <div class="img-box"><img src="[YAHAN_VOLTAGE_HERO_PHOTO_LINK]" alt="Voltage Hero"></div>
-        <h3>VOLTAGE HERO</h3>
-        <p>10-Min Episode Formats. Second-by-Second Cinematic Breakdowns.</p>
-        <p style="color: #ff00ff; margin-top: 10px;">[ TAP TO WATCH ]</p>
-      </div>
-
-      <!-- Secret Project -->
-      <div class="cyber-card hidden-left" onclick="comingSoon('AI ChatGPT In-Game Phone')">
-        <div class="img-box">AI Core Image</div>
-        <h3>AI IN-GAME PHONE</h3>
-        <p>Direct Mic & Text interaction inside the game. Powered by neural networks.</p>
-        <p style="color: #ff00ff; margin-top: 10px;">[ TAP TO ACTIVATE ]</p>
+      <div class="cyber-card pop-element pop-right" onclick="openModal('VOLTAGE HERO CINEMATIC UNIVERSE', 'Script Details: High-voltage action superhero story project. Scripted second-by-second for 10-minute episode breakdown. Full cinematic lore ready for animation!')">
+        <div class="banner-voltage-hero">
+          <span class="banner-tag">VOLTAGE HERO OFFICIAL</span>
+        </div>
+        <h3 style="font-family:'Teko'; font-size: 2rem; color: var(--neon-red);">VOLTAGE HERO</h3>
+        <p>Original Superhero Cinematic Universe. Click to view episode script overview.</p>
       </div>
 
     </div>
   </section>
 
-  <!-- Unlimited Features Grid (Exploration) -->
+  <!-- Future Features Grid -->
   <section class="content-section">
-    <h2 class="section-title hidden">LOCKED FEATURES</h2>
+    <h2 class="section-title pop-element pop-up">EXPANDABLE GAME ENGINE MODULES</h2>
     <div class="grid-container">
-      <!-- In cards ko tu hazaro baar copy-paste karke web lamba kar sakta hai -->
-      <div class="cyber-card hidden" onclick="comingSoon('Multiplayer Servers')">
-        <h3>MULTIPLAYER CO-OP</h3>
-        <p>Connect with friends worldwide.</p>
+      <div class="cyber-card pop-element pop-left" onclick="openModal('CO-OP MULTIPLAYER', 'Server architecture is under development. Real-time multiplayer co-op lobbies coming in Beta V2.0!')">
+        <h3 style="font-family:'Teko'; font-size: 2rem;">MULTIPLAYER SERVERS</h3>
+        <p>Click for Server Status</p>
       </div>
-      <div class="cyber-card hidden" onclick="comingSoon('Mod Menu Access')">
-        <h3>HERO MOD MENU</h3>
-        <p>Unlimited vehicles and weapons.</p>
-      </div>
-      <div class="cyber-card hidden" onclick="comingSoon('VR Mode Integration')">
-        <h3>VR MODE</h3>
-        <p>Virtual Reality experience coming in V2.0.</p>
-      </div>
-      <div class="cyber-card hidden" onclick="comingSoon('Merchandise Store')">
-        <h3>OFFICIAL MERCH</h3>
-        <p>Buy Hero-Verse T-shirts and gear.</p>
-      </div>
-      <div class="cyber-card hidden" onclick="comingSoon('Crypto integration')">
-        <h3>IN-GAME CRYPTO</h3>
-        <p>Web3 integration for true ownership.</p>
-      </div>
-      <div class="cyber-card hidden" onclick="comingSoon('Esports Tournaments')">
-        <h3>ESPORTS ARENA</h3>
-        <p>Compete for the ultimate prize.</p>
+      <div class="cyber-card pop-element pop-right" onclick="openModal('AI ASSISTANT INTEGRATION', 'The in-game ChatGPT voice & text assistant will help you navigate missions and spawn vehicles in real-time!')">
+        <h3 style="font-family:'Teko'; font-size: 2rem;">AI IN-GAME PHONE</h3>
+        <p>Click for AI Status</p>
       </div>
     </div>
   </section>
 
-  <!-- Support / Donation Section -->
-  <section class="support-section hidden">
-    <h2 class="section-title" style="margin-bottom: 1rem; color: #ff00ff;">SUPPORT THE HERO</h2>
-    <p style="font-size: 1.5rem;">Help fund the 1GB Desi GTA expansion and Voltage Hero animation!</p>
-    <div class="qr-container">
-      <!-- Apne QR code ki image yahan lagao -->
-      <img src="[YAHAN_APNE_QR_CODE_KI_IMAGE_LINK_DAALO.png]" alt="Support QR Code">
+  <!-- Interactive Support / Animated Thank You QR -->
+  <section class="support-section pop-element pop-up">
+    <h2 style="font-family:'Teko'; font-size: 3.5rem; color: var(--neon-cyan);">SUPPORT THE HERO</h2>
+    <p style="font-size: 1.3rem;">Scan with Google Lens OR tap the QR box to test the animation!</p>
+    
+    <!-- Dynamic QR Code: Direct Plain Text Data for Scanners + Click Popup Animation -->
+    <div class="qr-box" onclick="triggerThankYou()">
+      <img src="https://api.qrserver.com/v1/create-qr-code/?size=250x250&data=Aapka%20dhanyawaad!%20Hum%20ye%20dekhna%20chahte%20the%20ki%20aap%20kitne%20dildaar%20aur%20madad%20karne%20waale%20hain!%20-Hero-Verse%20Studios" alt="Support QR Code">
     </div>
-    <p style="margin-top: 1rem; color: #0ff; font-weight: bold;">Scan to Fuel the Dream ⚡</p>
+    
+    <p style="color: var(--neon-red); font-weight: bold; font-size: 1.2rem;">[ SCAN WITH PHONE CAMERA / TAP QR CODE ]</p>
   </section>
 
-  <!-- Mega Corporate Footer -->
-  <footer class="mega-footer hidden">
+  <!-- Complete Corporate Legal & Help Footer -->
+  <footer class="mega-footer">
     <div class="footer-grid">
-      <div class="footer-col">
-        <h4>ABOUT STUDIOS</h4>
+      <div class="footer-col pop-element pop-left">
+        <h4>STUDIO OVERVIEW</h4>
         <ul>
-          <li><a onclick="comingSoon('Our Vision')">Our Vision</a></li>
-          <li><a onclick="comingSoon('Careers')">Careers</a></li>
-          <li><a onclick="comingSoon('Press Kit')">Press Kit</a></li>
+          <li><a onclick="openModal('OUR VISION', 'Hero-Verse Studios is dedicated to creating high-graphics Indian open-world games and gripping superhero cinematic universe scripts.')">Our Vision</a></li>
+          <li><a onclick="openModal('DEVELOPER PROFILE', 'Created and architected by Naitik Pandey (The Hero). Game developer, creative writer, and tech visionary.')">Lead Developer</a></li>
         </ul>
       </div>
-      <div class="footer-col">
-        <h4>GAMES & LORE</h4>
+      <div class="footer-col pop-element pop-up">
+        <h4>SUPPORT & HELP</h4>
         <ul>
-          <li><a onclick="comingSoon('Desi GTA Lore')">Desi GTA Lore</a></li>
-          <li><a onclick="comingSoon('Voltage Hero Comics')">Voltage Hero Comics</a></li>
-          <li><a onclick="comingSoon('Upcoming Titles')">Upcoming Titles</a></li>
+          <li><a onclick="openModal('HELP CENTER', 'Need assistance with Desi GTA build compatibility or Voltage Hero script licensing? Contact our support division directly.')">Help Center</a></li>
+          <li><a onclick="openModal('REPORT A BUG', 'Found a bug in the 300MB compressed map? Send detailed log files to support@hero-verse.com')">Report a Bug</a></li>
         </ul>
       </div>
-      <div class="footer-col">
-        <h4>HELP & SUPPORT</h4>
+      <div class="footer-col pop-element pop-right">
+        <h4>LEGAL & POLICIES</h4>
         <ul>
-          <li><a onclick="comingSoon('Help Center')">Help Center</a></li>
-          <li><a onclick="comingSoon('Report a Bug')">Report a Bug</a></li>
-          <li><a onclick="comingSoon('Server Status')">Server Status</a></li>
-        </ul>
-      </div>
-      <div class="footer-col">
-        <h4>LEGAL</h4>
-        <ul>
-          <li><a onclick="comingSoon('Terms of Service')">Terms of Service</a></li>
-          <li><a onclick="comingSoon('Privacy Policy')">Privacy Policy</a></li>
-          <li><a onclick="comingSoon('Cookie Policy')">Cookie Policy</a></li>
+          <li><a onclick="openModal('TERMS OF SERVICE', 'TERMS OF SERVICE: 1. All game code and storyline assets belong exclusively to Hero-Verse Studios. 2. Modding and distribution without authorization is prohibited. 3. Enjoy the game!')">Terms of Service</a></li>
+          <li><a onclick="openModal('PRIVACY POLICY', 'PRIVACY POLICY: We value your privacy. No personal background data is harvested. All in-game AI interactions remain encrypted locally.')">Privacy Policy</a></li>
         </ul>
       </div>
     </div>
-    <div class="footer-bottom">
-      <p>&copy; 2026 HERO-VERSE STUDIOS. Developed by Naitik Pandey. All Rights Reserved.</p>
+    <div style="text-align: center; margin-top: 3rem; color: #777;" class="pop-element pop-up">
+      <p>&copy; 2026 HERO-VERSE STUDIOS. All Rights Reserved. Created by Naitik Pandey.</p>
     </div>
   </footer>
 
-  <!-- Javascript for Scroll Animations & Coming Soon Popups -->
-  <script>
-    // Coming Soon Alert Function
-    function comingSoon(featureName) {
-      alert("⚡ THE HERO IS WORKING ON THIS! \n\n[" + featureName + "] is currently in development. STAY TUNED!");
-    }
+  <!-- Universal Cyber Popup Modal -->
+  <div class="modal-overlay" id="modalOverlay">
+    <div class="modal-box">
+      <h3 class="modal-title" id="mTitle">TITLE</h3>
+      <p class="modal-body" id="mBody">Body content here...</p>
+      <button class="modal-btn" onclick="closeModal()">CLOSE SYSTEM WINDOW</button>
+    </div>
+  </div>
 
-    // Scroll Animation Observer (Side se pop-up effect ke liye)
+  <script>
+    // Repeatable Scroll Animation Logic (Scroll Up & Down Sync)
     const observer = new IntersectionObserver((entries) => {
       entries.forEach((entry) => {
         if (entry.isIntersecting) {
           entry.target.classList.add('show');
+        } else {
+          entry.target.classList.remove('show');
         }
       });
-    });
+    }, { threshold: 0.15 });
 
-    // Select all hidden elements and observe them
-    const hiddenElements = document.querySelectorAll('.hidden, .hidden-left, .hidden-right');
-    hiddenElements.forEach((el) => observer.observe(el));
+    document.querySelectorAll('.pop-element').forEach((el) => observer.observe(el));
+
+    // Animated Modal Control Functions
+    function openModal(title, text) {
+      document.getElementById('mTitle').innerText = title;
+      document.getElementById('mBody').innerText = text;
+      document.getElementById('modalOverlay').classList.add('active');
+    }
+
+    function closeModal() {
+      document.getElementById('modalOverlay').classList.remove('active');
+    }
+
+    // Special QR Code Thank You Popup Trigger
+    function triggerThankYou() {
+      openModal(
+        "⚡ SPECIAL DILDAR MESSAGE ⚡", 
+        "Aapka dhanyawaad! ❤️\n\nHum ye dekhna chahte the ki aap kitne dildaar aur madad karne waale hain! Aapka support hamare Desi GTA aur Voltage Hero ke sapne ko aage badhane me fuel ka kaam karta hai!"
+      );
+    }
   </script>
-
 </body>
   </html>
   
