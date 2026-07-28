@@ -18,7 +18,7 @@
 
     body {
       background-color: var(--bg-black);
-      color: #ffffff !important;
+      color: #ffffff;
       overflow-x: hidden;
       background-image: 
         linear-gradient(180deg, rgba(255, 0, 85, 0.15) 0%, rgba(5, 5, 8, 0.95) 40%, rgba(0, 0, 0, 1) 100%),
@@ -26,7 +26,6 @@
         linear-gradient(90deg, rgba(255, 0, 85, 0.1) 1px, transparent 1px);
       background-size: 100% 100%, 40px 40px, 40px 40px;
       background-attachment: fixed;
-      position: relative;
     }
 
     .laser-line {
@@ -37,21 +36,22 @@
       margin: 2rem 0;
     }
 
-    /* Fixed Scroll Animation Visibility */
+    /* Fixed Smooth Side Pop-up Animations */
     .pop-element { 
       opacity: 0; 
-      transition: all 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275); 
+      transition: opacity 0.6s ease, transform 0.6s ease;
+      will-change: transform, opacity;
     }
-    .pop-left { transform: translateX(-80px); }
-    .pop-right { transform: translateX(80px); }
-    .pop-up { transform: translateY(60px); }
+    .pop-left { transform: translateX(-100px); }
+    .pop-right { transform: translateX(100px); }
+    .pop-up { transform: translateY(80px); }
     
     .pop-element.show { 
-      opacity: 1 !important; 
-      transform: translate(0) scale(1) !important; 
+      opacity: 1; 
+      transform: translate(0, 0); 
     }
 
-    /* Main Section Fix */
+    /* Main Section */
     .mega-hero {
       min-height: 80vh;
       display: flex;
@@ -60,15 +60,13 @@
       align-items: center;
       text-align: center;
       padding: 2rem;
-      position: relative;
-      z-index: 2;
     }
 
     .mega-title {
       font-family: 'Teko', sans-serif;
       font-size: 5.5rem;
       text-transform: uppercase;
-      color: #ffffff !important;
+      color: #ffffff;
       text-shadow: 0 0 10px var(--neon-red), 0 0 30px var(--neon-red);
       letter-spacing: 4px;
       line-height: 0.9;
@@ -76,19 +74,19 @@
 
     .mega-subtitle {
       font-size: 1.6rem;
-      color: var(--neon-cyan) !important;
+      color: var(--neon-cyan);
       text-shadow: 0 0 10px var(--neon-cyan);
       letter-spacing: 2px;
       margin-top: 15px;
       font-weight: 700;
     }
 
-    .content-section { padding: 3rem 5%; position: relative; z-index: 2; }
+    .content-section { padding: 3rem 5%; }
     
     .section-title {
       font-family: 'Teko', sans-serif;
       font-size: 3.8rem;
-      color: #ffffff !important;
+      color: #ffffff;
       text-align: center;
       margin-bottom: 2rem;
       text-shadow: 0 0 10px var(--neon-red);
@@ -101,17 +99,16 @@
     }
 
     .cyber-card {
-      background: rgba(15, 15, 20, 0.95) !important;
+      background: rgba(15, 15, 20, 0.9);
       border: 2px solid var(--neon-red);
       border-radius: 12px;
       padding: 1.5rem;
       box-shadow: 0 0 15px rgba(255, 0, 85, 0.3);
-      transition: 0.3s;
-      position: relative;
-      z-index: 3;
+      transition: transform 0.3s, border-color 0.3s, box-shadow 0.3s;
       display: flex;
       flex-direction: column;
       justify-content: space-between;
+      position: relative;
     }
 
     .cyber-card:hover {
@@ -120,7 +117,7 @@
       transform: translateY(-5px);
     }
 
-    /* BANNERS FIX */
+    /* BANNERS */
     .banner-box {
       width: 100%;
       min-height: 200px;
@@ -163,7 +160,7 @@
 
     .creator-tag {
       font-size: 1.1rem;
-      color: var(--neon-cyan) !important;
+      color: var(--neon-cyan);
       font-weight: bold;
       text-shadow: 0 0 8px var(--neon-cyan);
     }
@@ -179,7 +176,7 @@
     .ai-badge {
       background: #000;
       border: 1px solid var(--neon-cyan);
-      color: #fff !important;
+      color: #fff;
       padding: 3px 8px;
       border-radius: 4px;
       font-size: 0.85rem;
@@ -189,56 +186,60 @@
     .yt-badge {
       background: #330000;
       border: 1px solid #ff0000;
-      color: #ff4d4d !important;
+      color: #ff4d4d;
       padding: 3px 8px;
       border-radius: 4px;
       font-size: 0.85rem;
       font-weight: bold;
     }
 
-    /* BUTTONS FIX */
+    /* WORKING BUTTONS */
     .card-btn-row {
       display: flex;
       gap: 10px;
       margin-top: 1rem;
+      position: relative;
+      z-index: 10;
     }
 
     .btn-cyber {
       flex: 1;
-      padding: 10px;
+      padding: 12px;
       font-family: 'Teko', sans-serif;
-      font-size: 1.3rem;
+      font-size: 1.4rem;
       border: none;
       border-radius: 6px;
       cursor: pointer;
-      transition: 0.3s;
+      transition: all 0.2s ease;
       text-align: center;
       text-transform: uppercase;
       font-weight: bold;
+      position: relative;
+      z-index: 20;
     }
 
     .btn-know-more {
-      background: transparent;
+      background: rgba(0, 0, 0, 0.6);
       border: 1px solid var(--neon-cyan);
-      color: var(--neon-cyan) !important;
+      color: var(--neon-cyan);
     }
-    .btn-know-more:hover {
+    .btn-know-more:active, .btn-know-more:hover {
       background: var(--neon-cyan);
-      color: #000 !important;
+      color: #000;
       box-shadow: 0 0 15px var(--neon-cyan);
     }
 
     .btn-action {
       background: var(--neon-red);
-      color: #ffffff !important;
+      color: #ffffff;
       box-shadow: 0 0 12px var(--neon-red);
     }
-    .btn-action:hover {
+    .btn-action:active, .btn-action:hover {
       background: #ff3377;
       box-shadow: 0 0 20px var(--neon-red);
     }
 
-    /* Support QR Fix */
+    /* Support QR */
     .support-section {
       text-align: center;
       padding: 3rem 2rem;
@@ -246,8 +247,6 @@
       border: 1px solid var(--neon-red);
       border-radius: 15px;
       margin: 3rem 5%;
-      position: relative;
-      z-index: 2;
     }
 
     .qr-box {
@@ -265,13 +264,11 @@
     .qr-box:hover { transform: scale(1.05); }
     .qr-box img { width: 100%; height: 100%; }
 
-    /* Footer Fix */
+    /* Footer */
     .mega-footer {
       background: #020203;
       padding: 3rem 5% 2rem;
       border-top: 2px solid var(--neon-red);
-      position: relative;
-      z-index: 2;
     }
     .footer-grid {
       display: grid;
@@ -279,7 +276,7 @@
       gap: 2rem;
     }
     .footer-col h4 {
-      color: var(--neon-cyan) !important;
+      color: var(--neon-cyan);
       font-size: 1.6rem;
       margin-bottom: 1rem;
       font-family: 'Teko', sans-serif;
@@ -287,15 +284,15 @@
     .footer-col ul { list-style: none; }
     .footer-col ul li { margin-bottom: 0.6rem; }
     .footer-col ul li a {
-      color: #dddddd !important;
+      color: #dddddd;
       text-decoration: none;
       font-size: 1.1rem;
       cursor: pointer;
       transition: 0.3s;
     }
-    .footer-col ul li a:hover { color: var(--neon-red) !important; padding-left: 5px; }
+    .footer-col ul li a:hover { color: var(--neon-red); padding-left: 5px; }
 
-    /* FLOATING AI SUPPORT BUTTON FIX */
+    /* FLOATING AI SUPPORT BUTTON */
     .ai-float-btn {
       position: fixed;
       bottom: 25px;
@@ -318,7 +315,7 @@
     .ai-icon { font-size: 1.6rem; }
     .ai-btn-text { font-size: 0.65rem; color: var(--neon-cyan); font-family: 'Teko'; font-weight: bold; }
 
-    /* AI CHATBOT FULL MODAL WINDOW FIX */
+    /* AI CHATBOT FULL MODAL WINDOW */
     .ai-modal-overlay {
       position: fixed;
       top: 0; left: 0; width: 100vw; height: 100vh;
@@ -329,7 +326,7 @@
       align-items: center;
       opacity: 0;
       pointer-events: none;
-      transition: 0.4s ease;
+      transition: opacity 0.3s ease;
     }
     .ai-modal-overlay.active { opacity: 1; pointer-events: auto; }
     .ai-chat-card {
@@ -396,7 +393,7 @@
       cursor: pointer;
     }
 
-    /* Universal Modal System Fix */
+    /* Universal Modal System */
     .modal-overlay {
       position: fixed;
       top: 0; left: 0; width: 100vw; height: 100vh;
@@ -407,7 +404,7 @@
       z-index: 10001;
       opacity: 0;
       pointer-events: none;
-      transition: opacity 0.4s ease;
+      transition: opacity 0.3s ease;
     }
     .modal-overlay.active { opacity: 1; pointer-events: auto; }
     .modal-box {
@@ -421,7 +418,7 @@
       padding: 2rem;
       overflow-y: auto;
       transform: scale(0.8);
-      transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+      transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
     }
     .modal-overlay.active .modal-box { transform: scale(1); }
     .modal-title { font-family: 'Teko', sans-serif; font-size: 2.5rem; color: var(--neon-red); margin-bottom: 1rem; }
@@ -443,18 +440,18 @@
 
   <!-- Hero Main Section -->
   <section class="mega-hero">
-    <h1 class="mega-title pop-element show">HERO-VERSE STUDIOS</h1>
-    <p class="mega-subtitle pop-element show">OFFICIAL INTERACTIVE HUB • DESI GTA & VOLTAGE HERO</p>
+    <h1 class="mega-title pop-element pop-up">HERO-VERSE STUDIOS</h1>
+    <p class="mega-subtitle pop-element pop-up">OFFICIAL INTERACTIVE HUB • DESI GTA & VOLTAGE HERO</p>
     <div class="laser-line"></div>
   </section>
 
   <!-- Live Projects -->
   <section class="content-section">
-    <h2 class="section-title pop-element show">FEATURED MEGA PROJECTS</h2>
+    <h2 class="section-title pop-element pop-up">FEATURED MEGA PROJECTS</h2>
     <div class="grid-container">
       
       <!-- INDIAN GTA 1 CARD -->
-      <div class="cyber-card pop-element show">
+      <div class="cyber-card pop-element pop-left">
         <div class="banner-box bg-gta">
           <h3 class="banner-title-gta">INDIAN GTA 1</h3>
           <p style="color: var(--neon-cyan); font-weight: bold;">300MB OPEN WORLD ENGINE</p>
@@ -465,13 +462,13 @@
         </div>
         <p style="color: #dddddd; margin-bottom: 10px;">The ultimate Indian open-world action adventure featuring 100+ dynamic NPCs and in-game AI phone assistant.</p>
         <div class="card-btn-row">
-          <button class="btn-cyber btn-know-more" onclick="openGtaDetails()">KNOW MORE</button>
-          <button class="btn-cyber btn-action" onclick="triggerComingSoon('INDIAN GTA 1 GAME LAUNCH')">PLAY</button>
+          <button type="button" class="btn-cyber btn-know-more" onclick="openGtaDetails()">KNOW MORE</button>
+          <button type="button" class="btn-cyber btn-action" onclick="triggerComingSoon('INDIAN GTA 1 GAME LAUNCH')">PLAY</button>
         </div>
       </div>
 
       <!-- VOLTAGE HERO CARD -->
-      <div class="cyber-card pop-element show">
+      <div class="cyber-card pop-element pop-right">
         <div class="banner-box bg-voltage">
           <div>
             <h3 class="banner-title-voltage">VOLTAGE HERO</h3>
@@ -488,8 +485,8 @@
         </div>
         <p style="color: #dddddd; margin-bottom: 10px;">Original high-voltage superhero universe featuring second-by-second action episode breakdowns.</p>
         <div class="card-btn-row">
-          <button class="btn-cyber btn-know-more" onclick="openVoltageDetails()">KNOW MORE</button>
-          <button class="btn-cyber btn-action" onclick="triggerComingSoon('VOLTAGE HERO EPISODE 1')">WATCH</button>
+          <button type="button" class="btn-cyber btn-know-more" onclick="openVoltageDetails()">KNOW MORE</button>
+          <button type="button" class="btn-cyber btn-action" onclick="triggerComingSoon('VOLTAGE HERO EPISODE 1')">WATCH</button>
         </div>
       </div>
 
@@ -498,26 +495,26 @@
 
   <!-- Expandable Modules Grid -->
   <section class="content-section">
-    <h2 class="section-title pop-element show">FUTURE ENGINE MODULES</h2>
+    <h2 class="section-title pop-element pop-up">FUTURE ENGINE MODULES</h2>
     <div class="grid-container">
       
-      <div class="cyber-card pop-element show">
+      <div class="cyber-card pop-element pop-left">
         <h3 style="font-family:'Teko'; font-size: 2.2rem; color: var(--neon-cyan);">MULTIPLAYER CO-OP</h3>
         <p style="color: #bbb; margin-bottom: 1rem;">Cross-platform mobile multiplayer servers allowing up to 64 players per city room.</p>
-        <button class="btn-cyber btn-know-more" onclick="openModal('MULTIPLAYER ENGINE DETAILS', 'Full Server Architecture:\n- Dedicated Indian Regional Cloud Nodes\n- Voice Chat & Proximity Chat Integration\n- Real-time High-Speed Vehicle Synchronization\n- Custom Gang War Events & Street Races')">KNOW MORE</button>
+        <button type="button" class="btn-cyber btn-know-more" onclick="openModal('MULTIPLAYER ENGINE DETAILS', 'Full Server Architecture:\n- Dedicated Indian Regional Cloud Nodes\n- Voice Chat & Proximity Chat Integration\n- Real-time High-Speed Vehicle Synchronization\n- Custom Gang War Events & Street Races')">KNOW MORE</button>
       </div>
 
-      <div class="cyber-card pop-element show">
+      <div class="cyber-card pop-element pop-right">
         <h3 style="font-family:'Teko'; font-size: 2.2rem; color: var(--neon-red);">AI VOICE ASSISTANT</h3>
         <p style="color: #bbb; margin-bottom: 1rem;">In-game ChatGPT mobile phone integration for calling cars and triggering missions.</p>
-        <button class="btn-cyber btn-know-more" onclick="openModal('IN-GAME AI PHONE DETAILS', 'AI Phone Capabilities:\n- Voice Command Vehicle Spawner (e.g., Speak into mic to spawn sports bike)\n- Real-time Mission Guidance and Hack Assistance\n- Interactive NPC Dialogue Generator powered by AI Core')">KNOW MORE</button>
+        <button type="button" class="btn-cyber btn-know-more" onclick="openModal('IN-GAME AI PHONE DETAILS', 'AI Phone Capabilities:\n- Voice Command Vehicle Spawner (e.g., Speak into mic to spawn sports bike)\n- Real-time Mission Guidance and Hack Assistance\n- Interactive NPC Dialogue Generator powered by AI Core')">KNOW MORE</button>
       </div>
 
     </div>
   </section>
 
   <!-- Support Section -->
-  <section class="support-section pop-element show">
+  <section class="support-section pop-element pop-up">
     <h2 style="font-family:'Teko'; font-size: 3.5rem; color: var(--neon-cyan);">SUPPORT THE HERO</h2>
     <p style="font-size: 1.3rem; color:#fff;">Scan with Google Lens OR tap the QR box to test the appreciation scanner!</p>
     
@@ -530,21 +527,21 @@
   <!-- Complete Corporate Legal & Help Footer -->
   <footer class="mega-footer">
     <div class="footer-grid">
-      <div class="footer-col pop-element show">
+      <div class="footer-col pop-element pop-left">
         <h4>STUDIO OVERVIEW</h4>
         <ul>
           <li><a onclick="openVisionPage()">Our Vision & Roadmap</a></li>
           <li><a onclick="openDeveloperPage()">Lead Developer Profile</a></li>
         </ul>
       </div>
-      <div class="footer-col pop-element show">
+      <div class="footer-col pop-element pop-up">
         <h4>SUPPORT & HELP</h4>
         <ul>
           <li><a onclick="openHelpCenter()">Help & Support Center</a></li>
           <li><a onclick="openBugReport()">Report a Bug System</a></li>
         </ul>
       </div>
-      <div class="footer-col pop-element show">
+      <div class="footer-col pop-element pop-right">
         <h4>LEGAL & POLICIES</h4>
         <ul>
           <li><a onclick="openTermsPage()">Terms of Service (Full)</a></li>
@@ -552,7 +549,7 @@
         </ul>
       </div>
     </div>
-    <div style="text-align: center; margin-top: 3rem; color: #aaa;" class="pop-element show">
+    <div style="text-align: center; margin-top: 3rem; color: #aaa;" class="pop-element pop-up">
       <p>&copy; 2026 HERO-VERSE STUDIOS. All Rights Reserved. Created by Naitik Pandey.</p>
     </div>
   </footer>
@@ -601,9 +598,9 @@
   </div>
 
   <script>
-    // Scroll Observer Fix
-    const observer = new IntersectionObserver((entries) => {
-      entries.forEach((entry) => {
-        if (entry.isIntersecting) entry.target.classList.add('show');
-      });
-    }, { threshold: 0.05 
+    // Fixed Scroll Observer with Dual-Direction Repeat Support
+    window.addEventListener('DOMContentLoaded', () => {
+      const observer = new IntersectionObserver((entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            entry.t
