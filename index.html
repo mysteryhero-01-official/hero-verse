@@ -36,24 +36,16 @@
       margin: 2rem 0;
     }
 
-    /* Fixed Smooth Side Pop-up Animations */
+    /* Guaranteed 100% Text Visibility */
     .pop-element { 
-      opacity: 0; 
-      transition: opacity 0.6s ease, transform 0.6s ease;
-      will-change: transform, opacity;
-    }
-    .pop-left { transform: translateX(-100px); }
-    .pop-right { transform: translateX(100px); }
-    .pop-up { transform: translateY(80px); }
-    
-    .pop-element.show { 
-      opacity: 1; 
-      transform: translate(0, 0); 
+      opacity: 1 !important; 
+      transform: none !important;
+      visibility: visible !important;
     }
 
-    /* Main Section */
+    /* Main Hero Section */
     .mega-hero {
-      min-height: 80vh;
+      min-height: 75vh;
       display: flex;
       flex-direction: column;
       justify-content: center;
@@ -99,7 +91,7 @@
     }
 
     .cyber-card {
-      background: rgba(15, 15, 20, 0.9);
+      background: rgba(15, 15, 20, 0.95);
       border: 2px solid var(--neon-red);
       border-radius: 12px;
       padding: 1.5rem;
@@ -193,13 +185,11 @@
       font-weight: bold;
     }
 
-    /* WORKING BUTTONS */
+    /* BUTTONS */
     .card-btn-row {
       display: flex;
       gap: 10px;
       margin-top: 1rem;
-      position: relative;
-      z-index: 10;
     }
 
     .btn-cyber {
@@ -214,8 +204,6 @@
       text-align: center;
       text-transform: uppercase;
       font-weight: bold;
-      position: relative;
-      z-index: 20;
     }
 
     .btn-know-more {
@@ -239,7 +227,7 @@
       box-shadow: 0 0 20px var(--neon-red);
     }
 
-    /* Support QR */
+    /* Support QR Section */
     .support-section {
       text-align: center;
       padding: 3rem 2rem;
@@ -315,7 +303,7 @@
     .ai-icon { font-size: 1.6rem; }
     .ai-btn-text { font-size: 0.65rem; color: var(--neon-cyan); font-family: 'Teko'; font-weight: bold; }
 
-    /* AI CHATBOT FULL MODAL WINDOW */
+    /* AI CHATBOT MODAL WINDOW */
     .ai-modal-overlay {
       position: fixed;
       top: 0; left: 0; width: 100vw; height: 100vh;
@@ -417,10 +405,7 @@
       max-height: 85vh;
       padding: 2rem;
       overflow-y: auto;
-      transform: scale(0.8);
-      transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
     }
-    .modal-overlay.active .modal-box { transform: scale(1); }
     .modal-title { font-family: 'Teko', sans-serif; font-size: 2.5rem; color: var(--neon-red); margin-bottom: 1rem; }
     .modal-body { font-size: 1.1rem; color: #eeeeee; line-height: 1.6; margin-bottom: 1.5rem; white-space: pre-line; }
     .modal-btn {
@@ -438,20 +423,20 @@
 </head>
 <body>
 
-  <!-- Hero Main Section -->
+  <!-- Main Hero Title -->
   <section class="mega-hero">
-    <h1 class="mega-title pop-element pop-up">HERO-VERSE STUDIOS</h1>
-    <p class="mega-subtitle pop-element pop-up">OFFICIAL INTERACTIVE HUB • DESI GTA & VOLTAGE HERO</p>
+    <h1 class="mega-title">HERO-VERSE STUDIOS</h1>
+    <p class="mega-subtitle">OFFICIAL INTERACTIVE HUB • DESI GTA & VOLTAGE HERO</p>
     <div class="laser-line"></div>
   </section>
 
   <!-- Live Projects -->
   <section class="content-section">
-    <h2 class="section-title pop-element pop-up">FEATURED MEGA PROJECTS</h2>
+    <h2 class="section-title">FEATURED MEGA PROJECTS</h2>
     <div class="grid-container">
       
       <!-- INDIAN GTA 1 CARD -->
-      <div class="cyber-card pop-element pop-left">
+      <div class="cyber-card">
         <div class="banner-box bg-gta">
           <h3 class="banner-title-gta">INDIAN GTA 1</h3>
           <p style="color: var(--neon-cyan); font-weight: bold;">300MB OPEN WORLD ENGINE</p>
@@ -468,7 +453,7 @@
       </div>
 
       <!-- VOLTAGE HERO CARD -->
-      <div class="cyber-card pop-element pop-right">
+      <div class="cyber-card">
         <div class="banner-box bg-voltage">
           <div>
             <h3 class="banner-title-voltage">VOLTAGE HERO</h3>
@@ -493,18 +478,18 @@
     </div>
   </section>
 
-  <!-- Expandable Modules Grid -->
+  <!-- Modules Grid -->
   <section class="content-section">
-    <h2 class="section-title pop-element pop-up">FUTURE ENGINE MODULES</h2>
+    <h2 class="section-title">FUTURE ENGINE MODULES</h2>
     <div class="grid-container">
       
-      <div class="cyber-card pop-element pop-left">
+      <div class="cyber-card">
         <h3 style="font-family:'Teko'; font-size: 2.2rem; color: var(--neon-cyan);">MULTIPLAYER CO-OP</h3>
         <p style="color: #bbb; margin-bottom: 1rem;">Cross-platform mobile multiplayer servers allowing up to 64 players per city room.</p>
         <button type="button" class="btn-cyber btn-know-more" onclick="openModal('MULTIPLAYER ENGINE DETAILS', 'Full Server Architecture:\n- Dedicated Indian Regional Cloud Nodes\n- Voice Chat & Proximity Chat Integration\n- Real-time High-Speed Vehicle Synchronization\n- Custom Gang War Events & Street Races')">KNOW MORE</button>
       </div>
 
-      <div class="cyber-card pop-element pop-right">
+      <div class="cyber-card">
         <h3 style="font-family:'Teko'; font-size: 2.2rem; color: var(--neon-red);">AI VOICE ASSISTANT</h3>
         <p style="color: #bbb; margin-bottom: 1rem;">In-game ChatGPT mobile phone integration for calling cars and triggering missions.</p>
         <button type="button" class="btn-cyber btn-know-more" onclick="openModal('IN-GAME AI PHONE DETAILS', 'AI Phone Capabilities:\n- Voice Command Vehicle Spawner (e.g., Speak into mic to spawn sports bike)\n- Real-time Mission Guidance and Hack Assistance\n- Interactive NPC Dialogue Generator powered by AI Core')">KNOW MORE</button>
@@ -514,7 +499,7 @@
   </section>
 
   <!-- Support Section -->
-  <section class="support-section pop-element pop-up">
+  <section class="support-section">
     <h2 style="font-family:'Teko'; font-size: 3.5rem; color: var(--neon-cyan);">SUPPORT THE HERO</h2>
     <p style="font-size: 1.3rem; color:#fff;">Scan with Google Lens OR tap the QR box to test the appreciation scanner!</p>
     
@@ -524,24 +509,24 @@
     <p style="color: var(--neon-red); font-weight: bold; font-size: 1.2rem;">[ SCAN WITH PHONE CAMERA / TAP QR CODE ]</p>
   </section>
 
-  <!-- Complete Corporate Legal & Help Footer -->
+  <!-- Footer -->
   <footer class="mega-footer">
     <div class="footer-grid">
-      <div class="footer-col pop-element pop-left">
+      <div class="footer-col">
         <h4>STUDIO OVERVIEW</h4>
         <ul>
           <li><a onclick="openVisionPage()">Our Vision & Roadmap</a></li>
           <li><a onclick="openDeveloperPage()">Lead Developer Profile</a></li>
         </ul>
       </div>
-      <div class="footer-col pop-element pop-up">
+      <div class="footer-col">
         <h4>SUPPORT & HELP</h4>
         <ul>
           <li><a onclick="openHelpCenter()">Help & Support Center</a></li>
           <li><a onclick="openBugReport()">Report a Bug System</a></li>
         </ul>
       </div>
-      <div class="footer-col pop-element pop-right">
+      <div class="footer-col">
         <h4>LEGAL & POLICIES</h4>
         <ul>
           <li><a onclick="openTermsPage()">Terms of Service (Full)</a></li>
@@ -549,7 +534,7 @@
         </ul>
       </div>
     </div>
-    <div style="text-align: center; margin-top: 3rem; color: #aaa;" class="pop-element pop-up">
+    <div style="text-align: center; margin-top: 3rem; color: #aaa;">
       <p>&copy; 2026 HERO-VERSE STUDIOS. All Rights Reserved. Created by Naitik Pandey.</p>
     </div>
   </footer>
@@ -598,9 +583,32 @@
   </div>
 
   <script>
-    // Fixed Scroll Observer with Dual-Direction Repeat Support
-    window.addEventListener('DOMContentLoaded', () => {
-      const observer = new IntersectionObserver((entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            entry.t
+    // Modal System Functions
+    function openModal(title, text) {
+      document.getElementById('mTitle').innerText = title;
+      document.getElementById('mBody').innerText = text;
+      document.getElementById('modalOverlay').classList.add('active');
+    }
+
+    function closeModal() {
+      document.getElementById('modalOverlay').classList.remove('active');
+    }
+
+    // Triggers
+    function triggerComingSoon(featureName) {
+      openModal(
+        "⚡ COMING SOON! ⚡",
+        "SYSTEM NOTICE: [" + featureName + "] is currently undergoing high-compression Optimization & Alpha Build Testing.\n\nThe Hero is actively developing this project. Stay tuned for the official launch date announcement!"
+      );
+    }
+
+    function triggerThankYou() {
+      openModal(
+        "⚡ SPECIAL DILDAR MESSAGE ⚡", 
+        "Aapka dhanyawaad! ❤️\n\nHum ye dekhna chahte the ki aap kitne dildaar aur madad karne waale hain! Aapka support hamare Desi GTA aur Voltage Hero ke sapne ko aage badhane me fuel ka kaam karta hai!"
+      );
+    }
+
+    // Knowledge Popups
+    function openGtaDetails() {
+      op
