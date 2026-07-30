@@ -354,4 +354,262 @@
   </footer>
 
   <!-- Floating AI Chat Button -->
-  <button class="ai-float-btn" id="ai-float-btn" aria-label="Open AI chat" t
+  <button class="ai-float-btn" id="ai-float-btn" aria-label="Open AI chat" type="button">
+    <span class="ai-icon">💬</span>
+  </button>
+
+  <!-- Modal container (created/controlled by JS) -->
+  <div id="site-modal" class="modal-overlay" aria-hidden="true" style="display:none;">
+    <!-- content inserted by JS -->
+  </div>
+
+  <!-- JS: IntersectionObserver, Modal system, AI chat (local), and handlers -->
+  <script>
+    (function () {
+      // Helper: create modal DOM and AI chat nodes
+      const createModalShell = () => {
+        let root = document.getElementById('site-modal');
+        if (!root) {
+          root = document.createElement('div');
+          root.id = 'site-modal';
+          root.className = 'modal-overlay';
+          root.setAttribute('aria-hidden', 'true');
+          document.body.appendChild(root);
+        }
+        // keep root empty; content inserted on open
+      };
+
+      // Show pop elements with IntersectionObserver
+      document.addEventListener('DOMContentLoaded', () => {
+        createModalShell();
+
+        // IntersectionObserver for .pop-element
+        const io = new IntersectionObserver((entries, obs) => {
+          entries.forEach(entry => {
+            if (entry.isIntersecting) {
+              entry.target.classList.add('show');
+              obs.unobserve(entry.target);
+            }
+          });
+        }, { threshold: 0.12 });
+
+        document.querySelectorAll('.pop-element').forEach(el => {
+          io.observe(el);
+        });
+
+        // Ensure buttons without type get explicit type=button
+        document.querySelectorAll('button:not([type])').forEach(b => b.setAttribute('type','button'));
+
+        // Attach click handlers for elements that use data-modal-*
+        document.querySelectorAll('[data-modal-title]').forEach(el => {
+          el.addEventListener('click', () => {
+            const title = el.getAttribute('data-modal-title') || '';
+            const body = el.getAttribute('data-modal-body') || '';
+            openModal(title, body);
+          });
+        });
+
+        // Footer link-modal elements
+        document.querySelectorAll('.link-modal').forEach(el => {
+          el.addEventListener('click', (ev) => {
+            ev.preventDefault();
+            const title = el.getAttribute('data-modal-title') || '';
+            const body = el.getAttribute('data-modal-body') || '';
+            openModal(title, body);
+          });
+        });
+
+        // QR box open
+        const qr = document.getElementById('qr-box');
+        if (qr) {
+          qr.addEventListener('click', () => openModal('⚡ SPECIAL DILDAR MESSAGE ⚡', 'Aapka dhanyawaad! ❤️\\n\\nHum ye dekhna chahte the ki aap kitne dildaar aur madad karne waale hain! Aapka support hamare Desi GTA aur Voltage Hero ke sapne ko aage badhane me fuel ka kaam karta hai!'));
+          qr.addEventListener('keydown', (e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); qr.click(); } });
+        }
+
+        // Floating AI button opens AI Chat
+        const aiBtn = document.getElementById('ai-float-btn');
+        if (aiBtn) {
+          aiBtn.addEventListener('click', () => openAIChat());
+        }
+      });
+
+      // Modal open/close functions
+      function openModal(title, body) {
+        const root = document.getElementById('site-modal');
+        if (!root) return;
+        root.innerHTML = `
+          <div class="modal-box" role="dialog" aria-modal="true" aria-labelledby="modal-title" tabindex="-1">
+            <div style="display:flex; justify-content:space-between; align-items:center; gap:12px;">
+              <h3 id="modal-title" class="modal-title">${escapeHtml(title)}</h3>
+              <div>
+                <button id="modal-close-top" class="modal-btn" type="button">Close</button>
+              </div>
+            </div>
+            <div class="modal-body" id="modal-body">${nl2br(escapeHtml(body))}</div>
+            <div style="text-align:right; margin-top:12px;">
+              <button id="modal-close-bottom" class="modal-btn" type="button">Close</button>
+            </div>
+          </div>`;
+        root.style.display = '';
+        setTimeout(()=> root.classList.add('active'), 20);
+        root.setAttribute('aria-hidden', 'false');
+        disableBodyScroll(true);
+
+        // focus management
+        const focusableClose = root.querySelector('#modal-close-top');
+        if (focusableClose) focusableClose.focus();
+
+        // Listeners
+        root.querySelectorAll('#modal-close-top, #modal-close-bottom').forEach(btn => {
+          btn.addEventListener('click', closeModal);
+        });
+        // click outside to close
+        root.addEventListener('click', onOverlayClick);
+        // esc to close
+        document.addEventListener('keydown', onKeyDown);
+      }
+
+      function closeModal() {
+        const root = document.getElementById('site-modal');
+        if (!root) return;
+        root.classList.remove('active');
+        root.setAttribute('aria-hidden', 'true');
+        disableBodyScroll(false);
+        // cleanup after animation
+        setTimeout(()=> {
+          root.innerHTML = '';
+          root.style.display = 'none';
+        }, 220);
+        root.removeEventListener('click', onOverlayClick);
+        document.removeEventListener('keydown', onKeyDown);
+      }
+
+      function onOverlayClick(e) {
+        if (e.target && e.currentTarget === e.target) closeModal();
+      }
+      function onKeyDown(e) {
+        if (e.key === 'Escape') closeModal();
+      }
+
+      function disableBodyScroll(disable) {
+        document.body.style.overflow = disable ? 'hidden' : '';
+      }
+
+      // AI Chat: simple local chat simulation (replace with API if you want)
+      let aiChatOpen = false;
+      function openAIChat() {
+        if (aiChatOpen) return;
+        aiChatOpen = true;
+        const root = document.getElementById('site-modal');
+        root.innerHTML = `
+          <div class="ai-chat-card" role="dialog" aria-modal="true" aria-labelledby="ai-chat-title" tabindex="-1">
+            <div class="ai-chat-header">
+              <strong id="ai-chat-title">Hero AI Chat</strong>
+              <div>
+                <button id="ai-close-top" class="modal-btn" type="button">Close</button>
+              </div>
+            </div>
+            <div class="ai-chat-body" id="ai-chat-body" aria-live="polite"></div>
+            <div class="ai-chat-footer">
+              <input id="ai-chat-input" class="chat-input" placeholder="Type your message..." aria-label="Chat message" />
+              <button id="ai-chat-send" class="chat-send" type="button">Send</button>
+            </div>
+          </div>`;
+        root.style.display = '';
+        setTimeout(()=> root.classList.add('active'), 10);
+        root.setAttribute('aria-hidden', 'false');
+        disableBodyScroll(true);
+
+        // wire up
+        const body = document.getElementById('ai-chat-body');
+        const input = document.getElementById('ai-chat-input');
+        const send = document.getElementById('ai-chat-send');
+        const close = document.getElementById('ai-close-top');
+
+        // welcome message
+        appendAIMessage('Welcome! Main Hero-Verse AI hoon. Kaise madad karu aaj?');
+
+        send.addEventListener('click', onSend);
+        input.addEventListener('keydown', (e) => { if (e.key === 'Enter') onSend(); });
+        close.addEventListener('click', closeAI);
+
+        // click outside to close
+        root.addEventListener('click', onOverlayClickAI);
+
+        function onSend() {
+          const text = input.value && input.value.trim();
+          if (!text) return;
+          appendUserMessage(text);
+          input.value = '';
+          // Simulate "thinking" and then respond with canned logic
+          appendAIMessage('Typing...', {loading:true});
+          setTimeout(()=> {
+            // remove last "Typing..."
+            const last = body.querySelector('.chat-msg.loading');
+            if (last) last.remove();
+            // Simple canned responses - you can expand or integrate real API
+            const reply = cannedReply(text);
+            appendAIMessage(reply);
+          }, 900 + Math.random()*900);
+        }
+
+        function closeAI() {
+          aiChatOpen = false;
+          root.classList.remove('active');
+          root.setAttribute('aria-hidden','true');
+          disableBodyScroll(false);
+          setTimeout(()=> {
+            root.innerHTML = '';
+            root.style.display = 'none';
+          },220);
+          root.removeEventListener('click', onOverlayClickAI);
+        }
+
+        function onOverlayClickAI(e) {
+          if (e.target && e.currentTarget === e.target) closeAI();
+        }
+
+        function appendUserMessage(text) {
+          const el = document.createElement('div');
+          el.className = 'chat-msg msg-user';
+          el.textContent = text;
+          body.appendChild(el);
+          body.scrollTop = body.scrollHeight;
+        }
+
+        function appendAIMessage(text, opts) {
+          const el = document.createElement('div');
+          el.className = 'chat-msg msg-ai' + (opts && opts.loading ? ' loading' : '');
+          el.textContent = text;
+          body.appendChild(el);
+          body.scrollTop = body.scrollHeight;
+        }
+
+        function cannedReply(input) {
+          const s = input.toLowerCase();
+          if (s.includes('hello') || s.includes('hi')) return 'Hi Hero! Kaise madad karun? Aapko project info, bug report tips, ya roadmap chahiye?';
+          if (s.includes('bug') || s.includes('crash')) return 'Bug report ke liye screenshot aur device info bhejo. Agar browser console error hai toh console output paste karo.';
+          if (s.includes('gta') || s.includes('indian gta')) return 'Indian GTA 1 is optimized for mobile. For performance, enable low-res textures in settings and report device model for tuning.';
+          if (s.includes('play') || s.includes('launch')) return 'Alpha builds are not public yet. Follow our channel for launch announcements.';
+          return "Ye simple demo reply hai. Agar tum real AI responses chahte ho toh API key provide kar ke integration kar sakte hain — batao main kar deta hoon.";
+        }
+      }
+
+      // Expose global functions for existing onclick attributes (if any)
+      window.openModal = function(title, body) {
+        openModal(title || '', body || '');
+      };
+      window.closeModal = function() { closeModal(); };
+
+      // small utilities
+      function escapeHtml(s) {
+        return String(s).replace(/[&<>\"']/g, function(m){ return ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'})[m]; });
+      }
+      function nl2br(s) { return String(s).replace(/\n/g, '<br>'); }
+
+    })();
+  </script>
+
+  <noscript><style>.pop-element{opacity:1; transform:none;}</style></noscript>
+</body>
+</html>
