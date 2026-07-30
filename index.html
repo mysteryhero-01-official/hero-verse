@@ -1,12 +1,16 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>HERO-VERSE STUDIOS | Next-Gen Gaming Universe</title>
-  <style>
-    @import url('https://fonts.googleapis.com/css2?family=Teko:wght@400;600;700&family=Rajdhani:wght@500;700;900&display=swap');
 
+  <!-- Fonts performance -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Teko:wght@400;600;700&family=Rajdhani:wght@500;700;900&display=swap" rel="stylesheet" />
+
+  <style>
     :root {
       --neon-red: #ff0055;
       --neon-cyan: #00f0ff;
@@ -14,399 +18,313 @@
       --bg-black: #050508;
     }
 
-    * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Rajdhani', sans-serif; }
-
+    /* Basic reset + base font */
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    html, body { height: 100%; }
     body {
       background-color: var(--bg-black);
       color: #ffffff;
       overflow-x: hidden;
-      background-image: 
+      font-family: 'Rajdhani', sans-serif;
+      -webkit-font-smoothing:antialiased;
+      -moz-osx-font-smoothing:grayscale;
+      background-image:
         linear-gradient(180deg, rgba(255, 0, 85, 0.15) 0%, rgba(5, 5, 8, 0.95) 40%, rgba(0, 0, 0, 1) 100%),
-        linear-gradient(rgba(255, 0, 85, 0.1) 1px, transparent 1px),
-        linear-gradient(90deg, rgba(255, 0, 85, 0.1) 1px, transparent 1px);
+        linear-gradient(rgba(255, 0, 85, 0.06) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255, 0, 85, 0.03) 1px, transparent 1px);
       background-size: 100% 100%, 40px 40px, 40px 40px;
       background-attachment: fixed;
     }
 
-    .laser-line {
-      width: 100%;
-      height: 3px;
-      background: linear-gradient(90deg, transparent, var(--neon-red), var(--neon-cyan), transparent);
-      box-shadow: 0 0 15px var(--neon-red);
-      margin: 2rem 0;
-    }
+    /* Ensure .pop-element visible when JS disabled */
+    noscript .pop-element, .pop-element.noscript { opacity: 1 !important; transform: none !important; }
 
-    /* SOLID ANIMATION FIX - No Important tags, clean transitions */
+    /* Pop / reveal animation */
     .pop-element {
       opacity: 0;
-      transform: translateY(40px) scale(0.95);
-      transition: all 0.7s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+      transform: translateY(40px) scale(0.98);
+      transition: opacity 0.65s ease, transform 0.65s cubic-bezier(.2,.9,.28,1.4);
     }
     .pop-element.show {
       opacity: 1;
       transform: translateY(0) scale(1);
     }
 
-    /* Main Hero Section */
+    /* Layout */
     .mega-hero {
       min-height: 80vh;
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      align-items: center;
-      text-align: center;
-      padding: 2rem;
+      display:flex;
+      flex-direction:column;
+      justify-content:center;
+      align-items:center;
+      text-align:center;
+      padding:2rem 5%;
     }
 
     .mega-title {
       font-family: 'Teko', sans-serif;
-      font-size: 5.5rem;
+      font-size: clamp(2.8rem, 8vw, 5.5rem);
       text-transform: uppercase;
       color: #ffffff;
       text-shadow: 0 0 10px var(--neon-red), 0 0 30px var(--neon-red);
       letter-spacing: 4px;
       line-height: 0.9;
     }
-
     .mega-subtitle {
-      font-size: 1.6rem;
+      font-size: clamp(1rem, 2.2vw, 1.6rem);
       color: var(--neon-cyan);
       text-shadow: 0 0 10px var(--neon-cyan);
       letter-spacing: 2px;
       margin-top: 15px;
-      font-weight: 700;
+      font-weight:700;
+    }
+    .laser-line {
+      width:100%;
+      height:3px;
+      background: linear-gradient(90deg, transparent, var(--neon-red), var(--neon-cyan), transparent);
+      box-shadow: 0 0 12px rgba(255,0,85,0.28);
+      margin: 2rem 0;
     }
 
     .content-section { padding: 3rem 5%; position: relative; z-index: 10; }
-    
     .section-title {
-      font-family: 'Teko', sans-serif;
-      font-size: 3.8rem;
-      color: #ffffff;
-      text-align: center;
-      margin-bottom: 2rem;
+      font-family:'Teko', sans-serif;
+      font-size: clamp(1.8rem, 5vw, 3.8rem);
+      color:#fff;
+      text-align:center;
+      margin-bottom:2rem;
       text-shadow: 0 0 10px var(--neon-red);
     }
 
     .grid-container {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-      gap: 2rem;
+      display:grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px,1fr));
+      gap:1.25rem;
     }
 
-    /* CARDS & BANNERS */
+    /* Cards */
     .cyber-card {
-      background: #0d0d14;
-      border: 2px solid var(--neon-red);
-      border-radius: 12px;
-      padding: 1.5rem;
-      box-shadow: 0 0 15px rgba(255, 0, 85, 0.3);
-      transition: transform 0.3s, border-color 0.3s, box-shadow 0.3s;
-      display: flex;
-      flex-direction: column;
-      justify-content: space-between;
+      background:#0d0d14;
+      border: 2px solid rgba(255,0,85,0.16);
+      border-radius:12px;
+      padding:1.25rem;
+      box-shadow: 0 0 12px rgba(255,0,85,0.08);
+      transition: transform .25s ease, box-shadow .25s ease, border-color .25s ease;
+      display:flex;
+      flex-direction:column;
+      justify-content:space-between;
     }
-
     .cyber-card:hover {
+      transform: translateY(-6px);
       border-color: var(--neon-cyan);
-      box-shadow: 0 0 25px var(--neon-cyan);
-      transform: translateY(-5px);
+      box-shadow: 0 0 20px rgba(0,240,255,0.12);
     }
+    .banner-box { width:100%; min-height:140px; border-radius:8px; padding:1rem; display:flex; justify-content:space-between; flex-direction:column; margin-bottom:1rem; border:1px solid rgba(255,255,255,0.04); }
+    .bg-gta { background: linear-gradient(135deg,#120006 0%, #4a001a 50%, #000 100%); box-shadow: inset 0 0 20px rgba(255,0,85,0.12); }
+    .bg-voltage { background: linear-gradient(135deg,#00101c 0%, #00364a 50%, #000 100%); box-shadow: inset 0 0 20px rgba(0,240,255,0.06); }
 
-    .banner-box {
-      width: 100%;
-      min-height: 200px;
-      border-radius: 8px;
-      padding: 1rem;
-      display: flex;
-      flex-direction: column;
-      justify-content: space-between;
-      border: 1px solid rgba(255, 255, 255, 0.3);
-      margin-bottom: 1rem;
-    }
+    .banner-title-gta, .banner-title-voltage { font-family:'Teko', sans-serif; font-size: clamp(1.6rem, 3.5vw, 3rem); line-height:0.95; color:#fff; }
+    .creator-tag { font-size: 1rem; color:var(--neon-cyan); font-weight:bold; text-shadow:0 0 8px rgba(0,240,255,0.06); }
 
-    .bg-gta { background: linear-gradient(135deg, #120006 0%, #4a001a 50%, #000 100%); box-shadow: inset 0 0 30px var(--neon-red); }
-    .bg-voltage { background: linear-gradient(135deg, #00101c 0%, #00364a 50%, #000 100%); box-shadow: inset 0 0 30px var(--neon-cyan); }
+    .logo-row { display:flex; gap:.5rem; margin-top:.5rem; flex-wrap:wrap; align-items:center; }
+    .ai-badge, .yt-badge { background:#000; padding:4px 8px; border-radius:5px; font-size:.85rem; font-weight:700; display:inline-block; }
+    .ai-badge { border:1px solid var(--neon-cyan); color:#fff; }
+    .yt-badge { border:1px solid #ff0000; color:#ff8080; background:#330000; }
 
-    .banner-title-gta {
-      font-family: 'Teko', sans-serif;
-      font-size: 3rem;
-      line-height: 0.9;
-      color: #ffffff;
-      text-shadow: 0 0 15px var(--neon-orange), 0 0 25px var(--neon-red);
-    }
-    .banner-title-voltage {
-      font-family: 'Teko', sans-serif;
-      font-size: 3rem;
-      line-height: 0.9;
-      color: #ffffff;
-      text-shadow: 0 0 15px var(--neon-cyan);
-    }
-
-    .creator-tag { font-size: 1.1rem; color: var(--neon-cyan); font-weight: bold; text-shadow: 0 0 8px var(--neon-cyan); }
-    .logo-row { display: flex; align-items: center; gap: 8px; margin-top: 8px; flex-wrap: wrap; }
-    .ai-badge { background: #000; border: 1px solid var(--neon-cyan); color: #fff; padding: 3px 8px; border-radius: 4px; font-size: 0.85rem; font-weight: bold; }
-    .yt-badge { background: #330000; border: 1px solid #ff0000; color: #ff4d4d; padding: 3px 8px; border-radius: 4px; font-size: 0.85rem; font-weight: bold; }
-
-    /* CLICKABLE BUTTONS FIX - Removed all absolute overlapping layers */
-    .card-btn-row {
-      display: flex;
-      gap: 10px;
-      margin-top: 1rem;
-    }
-
-    .btn-cyber {
-      flex: 1;
-      padding: 12px;
-      font-family: 'Teko', sans-serif;
-      font-size: 1.4rem;
-      border: none;
-      border-radius: 6px;
-      cursor: pointer;
-      transition: all 0.2s ease;
-      text-align: center;
-      text-transform: uppercase;
-      font-weight: bold;
-    }
-
-    .btn-know-more { background: transparent; border: 1px solid var(--neon-cyan); color: var(--neon-cyan); }
-    .btn-know-more:hover { background: var(--neon-cyan); color: #000; box-shadow: 0 0 15px var(--neon-cyan); }
-    .btn-action { background: var(--neon-red); color: #ffffff; box-shadow: 0 0 12px var(--neon-red); }
-    .btn-action:hover { background: #ff3377; box-shadow: 0 0 20px var(--neon-red); }
+    .card-btn-row { display:flex; gap:.6rem; margin-top:1rem; }
+    .btn-cyber { flex:1; padding:10px; font-family:'Teko',sans-serif; font-size:1rem; border-radius:6px; cursor:pointer; border:none; font-weight:700; text-transform:uppercase; }
+    .btn-know-more { background:transparent; border:1px solid var(--neon-cyan); color:var(--neon-cyan); }
+    .btn-know-more:hover { background:var(--neon-cyan); color:#000; box-shadow:0 0 12px rgba(0,240,255,0.12); }
+    .btn-action { background:var(--neon-red); color:#fff; box-shadow:0 0 10px rgba(255,0,85,0.12); }
+    .btn-action:hover { background:#ff3377; }
 
     /* Support QR */
-    .support-section {
-      text-align: center;
-      padding: 3rem 2rem;
-      background: rgba(255, 0, 85, 0.08);
-      border: 1px solid var(--neon-red);
-      border-radius: 15px;
-      margin: 3rem 5%;
-    }
-    .qr-box {
-      width: 210px;
-      height: 210px;
-      margin: 1.5rem auto;
-      background: #ffffff;
-      padding: 10px;
-      border-radius: 12px;
-      border: 4px solid var(--neon-cyan);
-      box-shadow: 0 0 25px var(--neon-cyan);
-      cursor: pointer;
-      transition: transform 0.3s;
-    }
-    .qr-box:hover { transform: scale(1.05); }
-    .qr-box img { width: 100%; height: 100%; }
+    .support-section { text-align:center; padding:2.5rem 2rem; background: rgba(255,0,85,0.04); border:1px solid rgba(255,0,85,0.06); border-radius:12px; margin:2rem 5%; }
+    .qr-box { width:210px; height:210px; margin:1.25rem auto; background:#fff; padding:8px; border-radius:10px; border:4px solid var(--neon-cyan); box-shadow:0 0 18px rgba(0,240,255,0.06); cursor:pointer; transition:transform .22s ease; }
+    .qr-box:hover { transform:scale(1.03); }
+    .qr-box img { width:100%; height:100%; object-fit:cover; display:block; border-radius:6px; }
 
     /* Footer */
-    .mega-footer {
-      background: #020203;
-      padding: 3rem 5% 2rem;
-      border-top: 2px solid var(--neon-red);
-      position: relative;
-      z-index: 10;
-    }
-    .footer-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 2rem; }
-    .footer-col h4 { color: var(--neon-cyan); font-size: 1.6rem; margin-bottom: 1rem; font-family: 'Teko', sans-serif; }
-    .footer-col ul { list-style: none; }
-    .footer-col ul li { margin-bottom: 0.6rem; }
-    .footer-col ul li a { color: #dddddd; text-decoration: none; font-size: 1.1rem; cursor: pointer; transition: 0.3s; display: inline-block;}
-    .footer-col ul li a:hover { color: var(--neon-red); transform: translateX(5px); }
+    .mega-footer { background:#020203; padding:2.5rem 5% 3rem; border-top:2px solid rgba(255,0,85,0.12); margin-top:2rem; }
+    .footer-grid { display:grid; grid-template-columns: repeat(auto-fit, minmax(200px,1fr)); gap:1rem; }
+    .footer-col h4 { color:var(--neon-cyan); font-size:1.2rem; margin-bottom:.75rem; font-family:'Teko',sans-serif; }
+    .footer-col ul { list-style:none; }
+    .footer-col ul li { margin-bottom:.5rem; }
+    .footer-col ul li a { color:#ddd; text-decoration:none; cursor:pointer; transition: all .18s ease; display:inline-block; }
+    .footer-col ul li a:hover { color:var(--neon-red); transform:translateX(6px); }
 
-    /* FLOATING AI SUPPORT BUTTON */
+    /* Floating AI button */
     .ai-float-btn {
       position: fixed;
-      bottom: 25px;
-      right: 25px;
-      width: 70px;
-      height: 70px;
-      background: #0d0d14;
-      border: 2px solid var(--neon-cyan);
-      border-radius: 50%;
-      box-shadow: 0 0 25px var(--neon-cyan);
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      align-items: center;
-      cursor: pointer;
-      z-index: 900;
-      transition: transform 0.3s;
+      bottom:20px;
+      right:20px;
+      width:68px;
+      height:68px;
+      background:#0d0d14;
+      border:2px solid var(--neon-cyan);
+      border-radius:50%;
+      box-shadow:0 0 24px rgba(0,240,255,0.1);
+      display:flex;
+      justify-content:center;
+      align-items:center;
+      cursor:pointer;
+      z-index:900;
+      transition: transform .18s ease, box-shadow .18s ease;
     }
-    .ai-float-btn:hover { transform: scale(1.1); box-shadow: 0 0 30px var(--neon-red); border-color: var(--neon-red); }
-    .ai-icon { font-size: 1.6rem; }
-    .ai-btn-text { font-size: 0.65rem; color: var(--neon-cyan); font-family: 'Teko'; font-weight: bold; }
+    .ai-float-btn:hover { transform:scale(1.06); box-shadow:0 0 30px rgba(255,0,85,0.08); border-color:var(--neon-red); }
+    .ai-icon { font-size:1.6rem; color:var(--neon-cyan); }
+    .ai-btn-text { font-size:0.62rem; color:var(--neon-cyan); font-family:'Teko'; font-weight:700; display:block; text-align:center; }
 
-    /* MODAL WINDOWS (AI Chat & Info) - Fixed overlay logic */
+    /* Modal overlay and box (accessible) */
     .modal-overlay {
       position: fixed;
-      top: 0; left: 0; width: 100vw; height: 100vh;
-      background: rgba(0, 0, 0, 0.95);
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      z-index: 1000;
-      opacity: 0;
-      visibility: hidden;
-      transition: all 0.3s ease;
+      inset: 0;
+      background: rgba(0,0,0,0.9);
+      display:flex;
+      justify-content:center;
+      align-items:center;
+      z-index:1000;
+      opacity:0;
+      visibility:hidden;
+      transition: opacity .2s ease, visibility .2s ease;
+      padding: 20px;
     }
-    .modal-overlay.active { opacity: 1; visibility: visible; }
-    
-    .modal-box {
-      background: #0d0d14;
-      border: 2px solid var(--neon-cyan);
-      box-shadow: 0 0 35px var(--neon-cyan);
-      border-radius: 12px;
-      max-width: 600px;
-      width: 90%;
-      max-height: 85vh;
-      padding: 2rem;
-      overflow-y: auto;
-      transform: scale(0.8);
-      transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-    }
-    .modal-overlay.active .modal-box { transform: scale(1); }
-    .modal-title { font-family: 'Teko', sans-serif; font-size: 2.5rem; color: var(--neon-red); margin-bottom: 1rem; }
-    .modal-body { font-size: 1.1rem; color: #eeeeee; line-height: 1.6; margin-bottom: 1.5rem; white-space: pre-line; }
-    .modal-btn {
-      background: var(--neon-red);
-      color: #ffffff;
-      border: none;
-      padding: 10px 25px;
-      font-size: 1.2rem;
-      font-family: 'Teko', sans-serif;
-      border-radius: 5px;
-      cursor: pointer;
-      box-shadow: 0 0 15px var(--neon-red);
-    }
+    .modal-overlay.active { opacity:1; visibility:visible; }
 
-    /* AI Chat specific modal */
+    .modal-box {
+      background:#0d0d14;
+      border:2px solid var(--neon-cyan);
+      box-shadow:0 0 30px rgba(0,240,255,0.06);
+      border-radius:12px;
+      max-width:720px;
+      width:100%;
+      max-height:86vh;
+      padding:1.25rem;
+      overflow:auto;
+      transform: translateY(10px);
+      transition: transform .28s cubic-bezier(.2,.9,.25,1.1);
+    }
+    .modal-overlay.active .modal-box { transform: translateY(0); }
+
+    .modal-title { font-family:'Teko',sans-serif; font-size:1.5rem; color:var(--neon-red); margin-bottom:.75rem; }
+    .modal-body { font-size:1rem; color:#eee; line-height:1.5; white-space:pre-line; }
+
+    .modal-btn { background:var(--neon-red); color:#fff; border:none; padding:8px 14px; border-radius:6px; cursor:pointer; font-family:'Teko'; font-weight:700; }
+
+    /* AI Chat card (inside modal overlay) */
     .ai-chat-card {
-      width: 90%;
-      max-width: 500px;
-      height: 80vh;
-      background: #09090e;
-      border: 2px solid var(--neon-cyan);
-      border-radius: 15px;
-      box-shadow: 0 0 40px var(--neon-cyan);
-      display: flex;
-      flex-direction: column;
-      overflow: hidden;
-      transform: scale(0.8);
-      transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+      width: 100%;
+      max-width:520px;
+      height: 70vh;
+      background:#09090e;
+      border:2px solid var(--neon-cyan);
+      border-radius:12px;
+      box-shadow:0 0 36px rgba(0,240,255,0.06);
+      display:flex;
+      flex-direction:column;
+      overflow:hidden;
     }
-    .modal-overlay.active .ai-chat-card { transform: scale(1); }
-    
-    .ai-chat-header {
-      background: rgba(0, 240, 255, 0.15);
-      padding: 15px;
-      border-bottom: 1px solid var(--neon-cyan);
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
+    .ai-chat-header { padding:12px; background: rgba(0,240,255,0.04); display:flex; justify-content:space-between; align-items:center; border-bottom:1px solid rgba(0,240,255,0.06); }
+    .ai-chat-body { flex:1; padding:12px; overflow:auto; display:flex; flex-direction:column; gap:8px; }
+    .chat-msg { padding:8px 12px; border-radius:10px; max-width:80%; line-height:1.35; font-size:.98rem; }
+    .msg-ai { background: rgba(0,240,255,0.08); border:1px solid rgba(0,240,255,0.12); color:#fff; align-self:flex-start; }
+    .msg-user { background: rgba(255,0,85,0.12); border:1px solid rgba(255,0,85,0.12); color:#fff; align-self:flex-end; }
+    .ai-chat-footer { display:flex; gap:8px; padding:10px; border-top:1px solid rgba(255,255,255,0.03); background:#050508; }
+    .chat-input { flex:1; padding:8px 10px; background:#111; border:1px solid rgba(0,240,255,0.08); border-radius:8px; color:#fff; }
+    .chat-send { background:var(--neon-cyan); color:#000; padding:6px 12px; border:none; border-radius:8px; cursor:pointer; font-weight:700; }
+
+    /* small screens tweaks */
+    @media (max-width:480px) {
+      .mega-hero { padding:2rem 3%; }
+      .card-btn-row { flex-direction:column; }
+      .btn-cyber { font-size:.95rem; padding:10px; }
     }
-    .ai-chat-body { flex: 1; padding: 15px; overflow-y: auto; display: flex; flex-direction: column; gap: 12px; }
-    .chat-msg { padding: 10px 14px; border-radius: 8px; max-width: 85%; font-size: 1rem; line-height: 1.4; }
-    .msg-ai { background: rgba(0, 240, 255, 0.15); border: 1px solid var(--neon-cyan); color: #fff; align-self: flex-start; }
-    .msg-user { background: rgba(255, 0, 85, 0.25); border: 1px solid var(--neon-red); color: #fff; align-self: flex-end; }
-    
-    .ai-chat-footer {
-      padding: 12px;
-      border-top: 1px solid rgba(255,255,255,0.1);
-      display: flex;
-      gap: 8px;
-      background: #050508;
-    }
-    .chat-input { flex: 1; background: #111; border: 1px solid var(--neon-cyan); border-radius: 6px; padding: 10px; color: #fff; font-size: 1rem; }
-    .chat-btn { background: var(--neon-cyan); color: #000; border: none; padding: 0 15px; border-radius: 6px; font-weight: bold; cursor: pointer; }
   </style>
 </head>
 <body>
+  <main>
+    <!-- Main Hero Title -->
+    <section class="mega-hero">
+      <h1 class="mega-title pop-element">HERO-VERSE STUDIOS</h1>
+      <p class="mega-subtitle pop-element">OFFICIAL INTERACTIVE HUB • DESI GTA & VOLTAGE HERO</p>
+      <div class="laser-line pop-element"></div>
+    </section>
 
-  <!-- Main Hero Title -->
-  <section class="mega-hero">
-    <h1 class="mega-title pop-element">HERO-VERSE STUDIOS</h1>
-    <p class="mega-subtitle pop-element">OFFICIAL INTERACTIVE HUB • DESI GTA & VOLTAGE HERO</p>
-    <div class="laser-line"></div>
-  </section>
-
-  <!-- Live Projects -->
-  <section class="content-section">
-    <h2 class="section-title pop-element">FEATURED MEGA PROJECTS</h2>
-    <div class="grid-container">
-      
-      <!-- INDIAN GTA 1 CARD -->
-      <div class="cyber-card pop-element">
-        <div class="banner-box bg-gta">
-          <h3 class="banner-title-gta">INDIAN GTA 1</h3>
-          <p style="color: var(--neon-cyan); font-weight: bold;">300MB OPEN WORLD ENGINE</p>
-          <div class="logo-row">
-            <span class="ai-badge">🤖 ChatGPT AI Phone</span>
-            <span class="ai-badge">🗺️ Indian + Los Santos</span>
-          </div>
-        </div>
-        <p style="color: #dddddd; margin-bottom: 10px;">The ultimate Indian open-world action adventure featuring 100+ dynamic NPCs and in-game AI phone assistant.</p>
-        <div class="card-btn-row">
-          <button class="btn-cyber btn-know-more" onclick="openModal('INDIAN GTA 1 — COMPLETE SPECIFICATIONS', '🎮 GAME OVERVIEW:\nIndian GTA 1 is a groundbreaking Android open-world action title engineered to combine the raw chaotic energy of Indian city streets with high-performance Los Santos layout dynamics.\n\n⚙️ TECHNICAL SPECIFICATIONS:\n• Base Download Size: 300MB High-Compression Build\n• Future Expansion Target: Up to 1GB High-Graphics World Expansion\n• Map Architecture: Dual-Zone (Desi Indian Markets + Los Santos Highways)\n• Active NPCs: 100+ Unique AI-Driven Civilians, Police Units, and Gang Members\n\n📱 IN-GAME CHATGPT AI PHONE:\nPlayers carry a virtual smartphone equipped with a ChatGPT Voice & Text Assistant capable of spawning vehicles, setting mission waypoints, and delivering real-time tactical advice.')">KNOW MORE</button>
-          <button class="btn-cyber btn-action" onclick="openModal('⚡ COMING SOON! ⚡', 'SYSTEM NOTICE: [INDIAN GTA 1 GAME LAUNCH] is currently undergoing high-compression Optimization & Alpha Build Testing.\n\nThe Hero is actively developing this project. Stay tuned for the official launch date announcement!')">PLAY</button>
-        </div>
-      </div>
-
-      <!-- VOLTAGE HERO CARD -->
-      <div class="cyber-card pop-element">
-        <div class="banner-box bg-voltage">
-          <div>
-            <h3 class="banner-title-voltage">VOLTAGE HERO</h3>
-            <p class="creator-tag">Created by Naitik Pandey</p>
-          </div>
-          <div>
-            <p style="font-size: 0.85rem; color: #aaa; margin-bottom: 4px;">Presented By:</p>
+    <!-- Live Projects -->
+    <section class="content-section">
+      <h2 class="section-title pop-element">FEATURED MEGA PROJECTS</h2>
+      <div class="grid-container">
+        <!-- INDIAN GTA 1 CARD -->
+        <div class="cyber-card pop-element">
+          <div class="banner-box bg-gta">
+            <h3 class="banner-title-gta">INDIAN GTA 1</h3>
+            <p style="color: var(--neon-cyan); font-weight: bold;">300MB OPEN WORLD ENGINE</p>
             <div class="logo-row">
-              <span class="ai-badge">🤖 ChatGPT</span>
-              <span class="ai-badge">✨ Google Gemini</span>
-              <span class="yt-badge">▶ YouTube Series</span>
+              <span class="ai-badge">🤖 ChatGPT AI Phone</span>
+              <span class="ai-badge">🗺️ Indian + Los Santos</span>
             </div>
           </div>
+          <p style="color: #dddddd; margin-bottom: 10px;">The ultimate Indian open-world action adventure featuring 100+ dynamic NPCs and in-game AI phone assistant.</p>
+          <div class="card-btn-row">
+            <button class="btn-cyber btn-know-more" type="button" data-modal-title="INDIAN GTA 1 — COMPLETE SPECIFICATIONS" data-modal-body="🎮 GAME OVERVIEW:\nIndian GTA 1 is a groundbreaking Android open-world action title engineered to combine the raw chaotic energy of Indian city streets with high-performance Los Santos layout dynamics.\n\n⚙️ TECHNICAL SPECIFICATIONS:\n• Base Download Size: 300MB High-Compression Build\n• Future Expansion Target: Up to 1GB High-Graphics World Expansion\n• Map Architecture: Dual-Zone (Desi Indian Markets + Los Santos Highways)\n• Active NPCs: 100+ Unique AI-Driven Civilians, Police Units, and Gang Members\n\n📱 IN-GAME CHATGPT AI PHONE:\nPlayers carry a virtual smartphone equipped with a ChatGPT Voice & Text Assistant capable of spawning vehicles, setting mission waypoints, and delivering real-time tactical advice.">KNOW MORE</button>
+            <button class="btn-cyber btn-action" type="button" data-modal-title="⚡ COMING SOON! ⚡" data-modal-body="SYSTEM NOTICE: [INDIAN GTA 1 GAME LAUNCH] is currently undergoing high-compression Optimization & Alpha Build Testing.\n\nThe Hero is actively developing this project. Stay tuned for the official launch date announcement!">PLAY</button>
+          </div>
         </div>
-        <p style="color: #dddddd; margin-bottom: 10px;">Original high-voltage superhero universe featuring second-by-second action episode breakdowns.</p>
-        <div class="card-btn-row">
-          <button class="btn-cyber btn-know-more" onclick="openModal('VOLTAGE HERO — CINEMATIC UNIVERSE', '🎬 PROJECT OVERVIEW:\nVoltage Hero is an original superhero story universe crafted by Naitik Pandey. Built specifically for high-impact cinematic adaptions and episode releases.\n\n⚡ SCRIPTWRITING BREAKDOWN:\n• Format: 10-Minute High-Voltage Episodes\n• Precision: Second-by-Second Action Scene Storyboarding\n• Dialogues: Power-packed, emotionally charged, high-stakes narrative\n\n🌟 PRESENTED BY:\nDeveloped in creative synergy with ChatGPT and Google Gemini AI systems for cinematic scripting excellence and story structure optimization.')">KNOW MORE</button>
-          <button class="btn-cyber btn-action" onclick="openModal('⚡ COMING SOON! ⚡', 'SYSTEM NOTICE: [VOLTAGE HERO EPISODE 1] is currently undergoing high-compression Optimization & Alpha Build Testing.\n\nThe Hero is actively developing this project. Stay tuned for the official launch date announcement!')">WATCH</button>
+
+        <!-- VOLTAGE HERO CARD -->
+        <div class="cyber-card pop-element">
+          <div class="banner-box bg-voltage">
+            <div>
+              <h3 class="banner-title-voltage">VOLTAGE HERO</h3>
+              <p class="creator-tag">Created by Naitik Pandey</p>
+            </div>
+            <div>
+              <p style="font-size: 0.85rem; color: #aaa; margin-bottom: 4px;">Presented By:</p>
+              <div class="logo-row">
+                <span class="ai-badge">🤖 ChatGPT</span>
+                <span class="ai-badge">✨ Google Gemini</span>
+                <span class="yt-badge">▶ YouTube Series</span>
+              </div>
+            </div>
+          </div>
+          <p style="color: #dddddd; margin-bottom: 10px;">Original high-voltage superhero universe featuring second-by-second action episode breakdowns.</p>
+          <div class="card-btn-row">
+            <button class="btn-cyber btn-know-more" type="button" data-modal-title="VOLTAGE HERO — CINEMATIC UNIVERSE" data-modal-body="🎬 PROJECT OVERVIEW:\nVoltage Hero is an original superhero story universe crafted by Naitik Pandey. Built specifically for high-impact cinematic adaptions and episode releases.\n\n⚡ SCRIPTWRITING BREAKDOWN:\n• Format: 10-Minute High-Voltage Episodes\n• Precision: Second-by-Second Action Scene Storyboarding\n• Dialogues: Power-packed, emotionally charged, high-stakes narrative\n\n🌟 PRESENTED BY:\nDeveloped in creative synergy with ChatGPT and Google Gemini AI systems for cinematic scripting excellence and story structure optimization.">KNOW MORE</button>
+            <button class="btn-cyber btn-action" type="button" data-modal-title="⚡ COMING SOON! ⚡" data-modal-body="SYSTEM NOTICE: [VOLTAGE HERO EPISODE 1] is currently undergoing high-compression Optimization & Alpha Build Testing.\n\nThe Hero is actively developing this project. Stay tuned for the official launch date announcement!">WATCH</button>
+          </div>
         </div>
       </div>
+    </section>
 
-    </div>
-  </section>
+    <!-- Modules Grid -->
+    <section class="content-section">
+      <h2 class="section-title pop-element">FUTURE ENGINE MODULES</h2>
+      <div class="grid-container">
+        <div class="cyber-card pop-element">
+          <h3 style="font-family:'Teko'; font-size: 2.2rem; color: var(--neon-cyan);">MULTIPLAYER CO-OP</h3>
+          <p style="color: #bbb; margin-bottom: 1rem;">Cross-platform mobile multiplayer servers allowing up to 64 players per city room.</p>
+          <button class="btn-cyber btn-know-more" type="button" data-modal-title="MULTIPLAYER ENGINE DETAILS" data-modal-body="Full Server Architecture:\n- Dedicated Indian Regional Cloud Nodes\n- Voice Chat & Proximity Chat Integration\n- Real-time High-Speed Vehicle Synchronization\n- Custom Gang War Events & Street Races">KNOW MORE</button>
+        </div>
 
-  <!-- Modules Grid -->
-  <section class="content-section">
-    <h2 class="section-title pop-element">FUTURE ENGINE MODULES</h2>
-    <div class="grid-container">
-      
-      <div class="cyber-card pop-element">
-        <h3 style="font-family:'Teko'; font-size: 2.2rem; color: var(--neon-cyan);">MULTIPLAYER CO-OP</h3>
-        <p style="color: #bbb; margin-bottom: 1rem;">Cross-platform mobile multiplayer servers allowing up to 64 players per city room.</p>
-        <button class="btn-cyber btn-know-more" onclick="openModal('MULTIPLAYER ENGINE DETAILS', 'Full Server Architecture:\n- Dedicated Indian Regional Cloud Nodes\n- Voice Chat & Proximity Chat Integration\n- Real-time High-Speed Vehicle Synchronization\n- Custom Gang War Events & Street Races')">KNOW MORE</button>
+        <div class="cyber-card pop-element">
+          <h3 style="font-family:'Teko'; font-size: 2.2rem; color: var(--neon-red);">AI VOICE ASSISTANT</h3>
+          <p style="color: #bbb; margin-bottom: 1rem;">In-game ChatGPT mobile phone integration for calling cars and triggering missions.</p>
+          <button class="btn-cyber btn-know-more" type="button" data-modal-title="IN-GAME AI PHONE DETAILS" data-modal-body="AI Phone Capabilities:\n- Voice Command Vehicle Spawner\n- Real-time Mission Guidance and Hack Assistance\n- Interactive NPC Dialogue Generator powered by AI Core">KNOW MORE</button>
+        </div>
       </div>
+    </section>
 
-      <div class="cyber-card pop-element">
-        <h3 style="font-family:'Teko'; font-size: 2.2rem; color: var(--neon-red);">AI VOICE ASSISTANT</h3>
-        <p style="color: #bbb; margin-bottom: 1rem;">In-game ChatGPT mobile phone integration for calling cars and triggering missions.</p>
-        <button class="btn-cyber btn-know-more" onclick="openModal('IN-GAME AI PHONE DETAILS', 'AI Phone Capabilities:\n- Voice Command Vehicle Spawner (e.g., Speak into mic to spawn sports bike)\n- Real-time Mission Guidance and Hack Assistance\n- Interactive NPC Dialogue Generator powered by AI Core')">KNOW MORE</button>
+    <!-- Support Section -->
+    <section class="support-section pop-element">
+      <h2 style="font-family:'Teko'; font-size: 3rem; color: var(--neon-cyan);">SUPPORT THE HERO</h2>
+      <p style="font-size: 1.05rem; color:#fff;">Scan with Google Lens OR tap the QR box to test the appreciation scanner!</p>
+
+      <div class="qr-box" id="qr-box" role="button" tabindex="0" aria-label="Open support message">
+        <img src="https://api.qrserver.com/v1/create-qr-code/?size=250x250&data=Aapka%20dhanyawaad!%20-Hero-Verse%20Studios" alt="Support QR Code" />
       </div>
-
-    </div>
-  </section>
-
-  <!-- Support Section -->
-  <section class="support-section pop-element">
-    <h2 style="font-family:'Teko'; font-size: 3.5rem; color: var(--neon-cyan);">SUPPORT THE HERO</h2>
-    <p style="font-size: 1.3rem; color:#fff;">Scan with Google Lens OR tap the QR box to test the appreciation scanner!</p>
-    
-    <div class="qr-box" onclick="openModal('⚡ SPECIAL DILDAR MESSAGE ⚡', 'Aapka dhanyawaad! ❤️\n\nHum ye dekhna chahte the ki aap kitne dildaar aur madad karne waale hain! Aapka support hamare Desi GTA aur Voltage Hero ke sapne ko aage badhane me fuel ka kaam karta hai!')">
-      <img src="https://api.qrserver.com/v1/create-qr-code/?size=250x250&data=Aapka%20dhanyawaad!%20Hum%20ye%20dekhna%20chahte%20the%20ki%20aap%20kitne%20dildaar%20aur%20madad%20karne%20waale%20hain!%20-Hero-Verse%20Studios" alt="Support QR Code">
-    </div>
-    <p style="color: var(--neon-red); font-weight: bold; font-size: 1.2rem;">[ SCAN WITH PHONE CAMERA / TAP QR CODE ]</p>
-  </section>
+      <p style="color: var(--neon-red); font-weight: bold; font-size: 1.1rem;">[ SCAN WITH PHONE CAMERA / TAP QR CODE ]</p>
+    </section>
+  </main>
 
   <!-- Footer -->
   <footer class="mega-footer">
@@ -414,19 +332,26 @@
       <div class="footer-col pop-element">
         <h4>STUDIO OVERVIEW</h4>
         <ul>
-          <li><a onclick="openModal('STUDIO VISION & ROADMAP 2026+', 'Hero-Verse Studios aims to establish India\'s premier AAA-grade mobile gaming studio and superhero story creation ecosystem.')">Our Vision & Roadmap</a></li>
-          <li><a onclick="openModal('LEAD DEVELOPER — NAITIK PANDEY', 'Architect & Storyteller behind Indian GTA 1 and Voltage Hero. Combining game logic, AI integration, and cinematic world-building to create next-gen digital experiences.')">Lead Developer Profile</a></li>
+          <li><a class="link-modal" data-modal-title="STUDIO VISION & ROADMAP 2026+" data-modal-body="Hero-Verse Studios aims to establish India's premier AAA-grade mobile gaming studio and superhero story creation ecosystem.">Our Vision & Roadmap</a></li>
+          <li><a class="link-modal" data-modal-title="LEAD DEVELOPER — NAITIK PANDEY" data-modal-body="Architect & Storyteller behind Indian GTA 1 and Voltage Hero. Combining game logic, AI integration, and cinematic world-building to create next-gen digital experiences.">Lead Developer Profile</a></li>
         </ul>
       </div>
       <div class="footer-col pop-element">
         <h4>SUPPORT & HELP</h4>
         <ul>
-          <li><a onclick="openModal('HERO-VERSE HELP & SUPPORT CENTER', 'WELCOME TO SUPPORT SERVICES\n\n• Device Compatibility: Android 8.0+ / 3GB RAM Minimum for 300MB Build\n• Script Licensing: For animation studios requesting Voltage Hero script access, contact developer dispatch.\n• Server Status: All global cloud nodes running at 100% capacity.')">Help & Support Center</a></li>
-          <li><a onclick="openModal('BUG REPORTING & SYSTEM DIAGNOSTICS', 'Found a map glitch or crash in Indian GTA 1?\n\n1. Take a screenshot or screen recording of the glitch.\n2. Note your phone model and RAM configuration.\n3. Send log files to support@hero-verse.com\n\nOur engineering squad fixes reported bugs in every weekly hotfix!')">Report a Bug System</a></li>
+          <li><a class="link-modal" data-modal-title="HERO-VERSE HELP & SUPPORT CENTER" data-modal-body="WELCOME TO SUPPORT SERVICES\n\n• Device Compatibility: Android 8.0+ / 3GB RAM Minimum for 300MB Build\n• Script Licensing: For animation studios requesting Voltage Hero script access, contact developer dispatch.\n• Server Status: All global cloud nodes running at 100% capacity.">Help & Support Center</a></li>
+          <li><a class="link-modal" data-modal-title="BUG REPORTING & SYSTEM DIAGNOSTICS" data-modal-body="Found a map glitch or crash in Indian GTA 1?\n\n1. Take a screenshot or screen recording of the glitch.\n2. Note your phone model and RAM configuration.\n3. Send log files to support@hero-verse.com\n\nOur engineering squad fixes reported bugs in every weekly hotfix!">Report a Bug System</a></li>
         </ul>
       </div>
       <div class="footer-col pop-element">
         <h4>LEGAL & POLICIES</h4>
         <ul>
-          <li><a onclick="openModal('TERMS OF SERVICE — HERO-VERSE STUDIOS', 'DOCUMENT REF: HV-TOS-2026-V4 (PAGE 1 OF 4)\n\n1. INTELLECTUAL PROPERTY RIGHTS:\nAll rights regarding \'Indian GTA 1\', \'Voltage Hero\', original script breakdowns, sound designs, and game code belong exclusively to Naitik Pandey (The Hero) and Hero-Verse Studios.\n\n2. REVERSE ENGINEERING & MODDING:\nUnauthorized decompilation, repackaging, or monetization of the 300MB compressed engine build without official developer licensing is strictly prohibited.\n\n3. USER CONDUCT:\nUsers engaging with multiplayer servers or community hubs agree to maintain sportsperson spirit.')">Terms of Service (Full)</a></li>
-          <li><a onclick="openModal('PRIVACY POLICY — HERO-VERSE STUDIOS', 'DOCUMENT REF: HV-PRIV-2026-V4 (PAGE 1 OF 4)\n\n1. DATA COLLECTION PROTOCOLS:\nH
+          <li><a class="link-modal" data-modal-title="TERMS OF SERVICE — HERO-VERSE STUDIOS" data-modal-body="DOCUMENT REF: HV-TOS-2026-V4\n\n1. INTELLECTUAL PROPERTY RIGHTS:\nAll rights regarding 'Indian GTA 1', 'Voltage Hero', original script breakdowns, sound designs, and game code belong exclusively to Naitik Pandey (The Hero) and Hero-Verse Studios.\n\n2. REVERSE ENGINEERING & MODDING:\nUnauthorized decompilation, repackaging, or monetization of the 300MB compressed engine build without official developer licensing is strictly prohibited.\n\n3. USER CONDUCT:\nUsers engaging with multiplayer servers or community hubs agree to maintain sportsperson spirit.">Terms of Service (Full)</a></li>
+          <li><a class="link-modal" data-modal-title="PRIVACY POLICY — HERO-VERSE STUDIOS" data-modal-body="DOCUMENT REF: HV-PRIV-2026-V4\n\n1. DATA COLLECTION PROTOCOLS:\nHero-Verse collects minimal telemetry required for debugging and gameplay balancing. Personal data handling is described in full in the privacy doc.">Privacy Policy</a></li>
+        </ul>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Floating AI Chat Button -->
+  <button class="ai-float-btn" id="ai-float-btn" aria-label="Open AI chat" t
