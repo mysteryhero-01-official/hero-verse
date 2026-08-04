@@ -807,3 +807,422 @@
   });
 </script>
 <!-- ================================================================= -->
+<!-- ================================================================= -->
+<!-- HERO-VERSE STUDIOS: PERSISTENT FIREBASE & MASTER ADMIN SUITE (APPEND) -->
+<!-- ================================================================= -->
+
+<!-- Firebase SDK Imports -->
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database-compat.js"></script>
+
+<style>
+  /* Full-Screen Cyberpunk Auth Gate */
+  #heroAuthMasterOverlay {
+    position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
+    background: #050508;
+    background-image: 
+      radial-gradient(circle at 50% 50%, rgba(255, 0, 85, 0.2) 0%, transparent 70%),
+      linear-gradient(rgba(255, 0, 85, 0.08) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(255, 0, 85, 0.08) 1px, transparent 1px);
+    background-size: 100% 100%, 30px 30px, 30px 30px;
+    z-index: 99999999;
+    display: flex; justify-content: center; align-items: center; padding: 1.5rem;
+    font-family: 'Rajdhani', sans-serif;
+  }
+
+  .auth-card {
+    background: #0d0d14; border: 2px solid #00f0ff;
+    box-shadow: 0 0 40px rgba(0, 240, 255, 0.3); border-radius: 15px;
+    max-width: 480px; width: 100%; padding: 2.2rem; position: relative; max-height: 90vh; overflow-y: auto;
+  }
+
+  .auth-title {
+    font-family: 'Teko', sans-serif; font-size: 3rem; color: #ff0055;
+    text-shadow: 0 0 12px #ff0055; line-height: 0.9; margin-bottom: 0.3rem; text-align: center;
+  }
+
+  .auth-input-group { position: relative; margin-bottom: 12px; }
+  .auth-input {
+    width: 100%; padding: 12px 15px; background: #111; border: 1px solid #00f0ff;
+    color: #fff; border-radius: 6px; font-size: 1rem; outline: none;
+  }
+  .auth-input:focus { border-color: #ff0055; box-shadow: 0 0 10px rgba(255,0,85,0.4); }
+
+  .live-tick {
+    position: absolute; right: 15px; top: 12px; font-size: 1.2rem; color: #00ff88; display: none;
+  }
+
+  .auth-btn {
+    width: 100%; padding: 12px; background: #ff0055; border: none; color: #fff;
+    font-family: 'Teko', sans-serif; font-size: 1.5rem; font-weight: bold;
+    border-radius: 6px; cursor: pointer; box-shadow: 0 0 15px #ff0055; transition: 0.2s; margin-top: 5px;
+  }
+  .auth-btn:hover { background: #ff3377; }
+
+  .auth-link {
+    color: #00f0ff; cursor: pointer; text-decoration: underline; font-size: 0.95rem; text-align: center; margin-top: 15px; display: block;
+  }
+  .auth-link:hover { color: #fff; }
+
+  .custom-alert {
+    background: rgba(255, 0, 85, 0.15); border-left: 4px solid #ff0055;
+    padding: 10px; border-radius: 4px; font-size: 0.9rem; color: #ff88aa; margin-bottom: 12px; display: none;
+  }
+  .custom-success {
+    background: rgba(0, 255, 136, 0.15); border-left: 4px solid #00ff88;
+    padding: 10px; border-radius: 4px; font-size: 0.9rem; color: #88ffcc; margin-bottom: 12px; display: none;
+  }
+
+  /* Top Right Profile Icon in Dashboard */
+  #heroProfileNavbar {
+    position: fixed; top: 15px; right: 25px; z-index: 99999; display: none; align-items: center; gap: 10px;
+    background: #0d0d14; border: 2px solid #00f0ff; padding: 6px 15px; border-radius: 30px; box-shadow: 0 0 15px #00f0ff; cursor: pointer;
+  }
+  #heroProfileNavbar img { width: 32px; height: 32px; border-radius: 50%; object-fit: cover; border: 1px solid #ff0055; }
+  #heroProfileNavbar span { font-family: 'Teko', sans-serif; font-size: 1.2rem; color: #fff; }
+
+  /* EXCLUSIVE ADMIN DEV BUTTON & PANEL */
+  #adminDevFloatBtn {
+    position: fixed; bottom: 20px; left: 20px; width: auto; padding: 10px 18px;
+    background: #110006; border: 2px solid #ff0055; border-radius: 25px;
+    box-shadow: 0 0 20px #ff0055; color: #ff0055; font-family: 'Teko', sans-serif;
+    font-size: 1.3rem; font-weight: bold; cursor: pointer; z-index: 999999; display: none;
+  }
+  #adminDevFloatBtn:hover { background: #ff0055; color: #fff; box-shadow: 0 0 30px #ff0055; }
+
+  #adminDevModal {
+    position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: rgba(0,0,0,0.95);
+    z-index: 99999999; display: none; justify-content: center; align-items: center; font-family: 'Rajdhani', sans-serif;
+  }
+</style>
+
+<!-- ================= AUTHENTICATION OVERLAY ================= -->
+<div id="heroAuthMasterOverlay" style="display: none;">
+  <div class="auth-card">
+    
+    <!-- VIEW 1: LOGIN BOX -->
+    <div id="authViewLogin">
+      <h2 class="auth-title">HERO-VERSE GATE</h2>
+      <p style="color: #00f0ff; text-align: center; font-size: 1rem; margin-bottom: 1.5rem;">Access Your Studio Account</p>
+      
+      <div id="loginAlertBox" class="custom-alert"></div>
+
+      <div class="auth-input-group">
+        <input type="text" id="loginIdentifier" class="auth-input" placeholder="Hero ID, Mobile No, or Email">
+      </div>
+      <div class="auth-input-group">
+        <input type="password" id="loginPassword" class="auth-input" placeholder="Password">
+      </div>
+
+      <button type="button" class="auth-btn" onclick="executeStudioLogin()">SECURE LOGIN ⚡</button>
+      
+      <a class="auth-link" onclick="switchAuthView('forgot')">Forgot Password / Reset with OTP?</a>
+      <a class="auth-link" onclick="switchAuthView('register')">Don't have an account? Create an Account</a>
+    </div>
+
+    <!-- VIEW 2: CREATE ACCOUNT (STEP 1 - PHONE / GOOGLE) -->
+    <div id="authViewRegister1" style="display: none;">
+      <h2 class="auth-title">CREATE ACCOUNT</h2>
+      <p style="color: #00f0ff; text-align: center; font-size: 1rem; margin-bottom: 1.5rem;">Step 1: Mobile Verification</p>
+      
+      <div id="reg1Alert" class="custom-alert"></div>
+
+      <div class="auth-input-group">
+        <input type="text" id="regPhone" class="auth-input" placeholder="Enter Mobile Number (10 digits)">
+      </div>
+
+      <button type="button" class="auth-btn" onclick="sendOtpAndProceed()">SEND OTP & VERIFY 📱</button>
+
+      <div style="margin: 15px 0; color: #666; text-align: center; font-size: 0.85rem;">--- OR ---</div>
+      
+      <button type="button" onclick="loginWithGoogleFirebase()" style="width:100%; padding:10px; background:#fff; color:#000; border:none; border-radius:6px; font-weight:bold; cursor:pointer; display:flex; align-items:center; justify-content:center; gap:8px;">
+        <img src="https://www.google.com/favicon.ico" width="16" height="16" alt="Google"> Continue with Google
+      </button>
+
+      <a class="auth-link" onclick="switchAuthView('login')">Already have an account? Login</a>
+    </div>
+
+    <!-- VIEW 2.5: OTP VERIFICATION BOX -->
+    <div id="authViewOtp" style="display: none;">
+      <h2 class="auth-title">OTP VERIFICATION</h2>
+      <p style="color: #00f0ff; text-align: center; font-size: 1rem; margin-bottom: 1.5rem;">Enter 6-digit code sent to your phone</p>
+      
+      <div class="auth-input-group">
+        <input type="text" id="enteredOtp" class="auth-input" placeholder="Enter 6-digit OTP (e.g. 123456)" maxlength="6">
+      </div>
+
+      <button type="button" class="auth-btn" onclick="verifyOtpAndNext()">VERIFY OTP ⚡</button>
+      <a class="auth-link" onclick="switchAuthView('register')">Back to Mobile Input</a>
+    </div>
+
+    <!-- VIEW 3: CREATE ACCOUNT (STEP 2 - ID, PASSWORD & LIVE VALIDATION) -->
+    <div id="authViewRegister2" style="display: none;">
+      <h2 class="auth-title">HERO PROFILE SETUP</h2>
+      <p style="color: #00f0ff; text-align: center; font-size: 1rem; margin-bottom: 1rem;">Step 2: Credentials & ID</p>
+      
+      <div id="reg2Alert" class="custom-alert"></div>
+      <div id="reg2Success" class="custom-success"></div>
+
+      <!-- Unique ID with Live Tick -->
+      <div class="auth-input-group">
+        <input type="text" id="regUsername" class="auth-input" placeholder="Choose Unique Hero ID" oninput="liveValidateId(this.value)">
+        <span id="idLiveTick" class="live-tick">✔</span>
+      </div>
+      <p style="font-size: 0.75rem; color: #888; margin-top: -8px; margin-bottom: 10px;">💡 Recommended: <span id="suggestedIdText" style="color:var(--neon-cyan); cursor:pointer;" onclick="useSuggestedId()">HeroGamer_99</span></p>
+
+      <!-- Password Box -->
+      <div class="auth-input-group">
+        <input type="password" id="regPassword" class="auth-input" placeholder="Create Password (Min 6 chars)">
+      </div>
+
+      <button type="button" class="auth-btn" onclick="proceedToPersonalDetails()">NEXT: PERSONAL INFO →</button>
+    </div>
+
+    <!-- VIEW 4: CREATE ACCOUNT (STEP 3 - DOB, GENDER & PROFILE PHOTO) -->
+    <div id="authViewRegister3" style="display: none;">
+      <h2 class="auth-title">FINAL TOUCHES</h2>
+      <p style="color: #00f0ff; text-align: center; font-size: 1rem; margin-bottom: 1rem;">Step 3: Personalization</p>
+
+      <div class="auth-input-group">
+        <label style="font-size: 0.85rem; color: #aaa;">Date of Birth:</label>
+        <input type="date" id="regDob" class="auth-input">
+      </div>
+
+      <div class="auth-input-group">
+        <label style="font-size: 0.85rem; color: #aaa;">Gender:</label>
+        <select id="regGender" class="auth-input">
+          <option value="Male">Male</option>
+          <option value="Female">Female</option>
+          <option value="Hero">Hero (Other)</option>
+        </select>
+      </div>
+
+      <div class="auth-input-group">
+        <label style="font-size: 0.85rem; color: #aaa;">Profile Photo URL (or Avatar Link):</label>
+        <input type="text" id="regPhotoUrl" class="auth-input" placeholder="https://... (Leave empty for default avatar)">
+      </div>
+
+      <button type="button" class="auth-btn" onclick="finalizeRegistration()">FINISH & LAUNCH STUDIO 🚀</button>
+    </div>
+
+    <!-- VIEW 5: FORGOT PASSWORD / RESET WITH OTP -->
+    <div id="authViewForgot" style="display: none;">
+      <h2 class="auth-title">RESET PASSWORD</h2>
+      <p style="color: #00f0ff; text-align: center; font-size: 1rem; margin-bottom: 1.5rem;">Security Verification</p>
+      
+      <div id="forgotAlert" class="custom-alert"></div>
+
+      <div class="auth-input-group">
+        <input type="text" id="forgotPhoneOrEmail" class="auth-input" placeholder="Registered Mobile No or Email">
+      </div>
+      <button type="button" class="auth-btn" onclick="sendResetOtp()">SEND RESET OTP 📱</button>
+
+      <div id="resetSection" style="display:none; margin-top:15px;">
+        <div class="auth-input-group">
+          <input type="text" id="forgotOtp" class="auth-input" placeholder="Enter OTP">
+        </div>
+        <div class="auth-input-group">
+          <input type="password" id="newPassword" class="auth-input" placeholder="Enter New Password">
+        </div>
+        <button type="button" class="auth-btn" onclick="saveNewPassword()">UPDATE PASSWORD ⚡</button>
+      </div>
+
+      <a class="auth-link" onclick="switchAuthView('login')">Back to Login</a>
+    </div>
+
+  </div>
+</div>
+
+<!-- ================= TOP RIGHT PROFILE NAVBAR ICON ================= -->
+<div id="heroProfileNavbar" onclick="openProfileEditModal()">
+  <img id="navUserAvatar" src="https://api.qrserver.com/v1/create-qr-code/?size=100&data=Hero" alt="Avatar">
+  <span id="navUsernameDisplay">Agent</span>
+  <span id="navAdminBadge" style="display:none; background:#ff0055; color:#fff; font-size:0.75rem; padding:2px 8px; border-radius:10px; font-weight:bold;">👑 MASTER ADMIN</span>
+</div>
+
+<!-- SECRET EXCLUSIVE ADMIN FLOATING CONTROL BUTTON -->
+<div id="adminDevFloatBtn" onclick="openAdminDevModal()">
+  ⚡ DEV CONTROL PANEL
+</div>
+
+<!-- EXCLUSIVE ADMIN DEV CONTROL MODAL -->
+<div id="adminDevModal">
+  <div class="auth-card" style="max-width: 600px;">
+    <h2 class="auth-title" style="color:#00f0ff;">👑 LEAD DEVELOPER DASHBOARD</h2>
+    <p style="color:#ff0055; font-weight:bold; text-align:center; margin-bottom:1.5rem;">CONFIDENTIAL ADMIN SYSTEM • WELCOME NAITIK PANDEY</p>
+
+    <div style="display:flex; flex-direction:column; gap:12px;">
+      <button type="button" class="auth-btn" style="background:#111; border:1px solid #00f0ff; color:#00f0ff;" onclick="alert('⚡ INDIAN GTA 1 & VOLTAGE HERO SOURCE BUILD ENGINE: 100% HEALTHY\nMemory Latency: 12ms\nActive Assets: Compressed 300MB Build Verified.')">📁 VIEW GAME SOURCE ENGINE DATA</button>
+      <button type="button" class="auth-btn" style="background:#111; border:1px solid #00f0ff; color:#00f0ff;" onclick="alert('📊 REGISTERED USERS DATABASE:\nConnected to Firebase Node (Hero-verse-f53ee)\nAdmin Status: MASTER SOVEREIGN')">👥 VIEW FIREBASE USER ACCOUNTS</button>
+      <button type="button" class="auth-btn" style="background:#ff0055;" onclick="alert('🚀 OVERDRIVE MODE ACTIVATED!\nGlobal Cloud Node Latency boosted to Maximum Speed!')">⚡ TRIGGER CLOUD OVERDRIVE</button>
+    </div>
+
+    <button type="button" onclick="closeAdminDevModal()" style="background:none; border:none; color:#aaa; width:100%; margin-top:20px; cursor:pointer;">Close Dev Panel</button>
+  </div>
+</div>
+
+<!-- PROFILE EDIT MODAL -->
+<div id="profileEditModal" style="position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: rgba(0,0,0,0.9); z-index: 9999999; display: none; justify-content: center; align-items: center; font-family: 'Rajdhani', sans-serif;">
+  <div class="auth-card">
+    <h2 class="auth-title">EDIT HERO PROFILE</h2>
+    <div class="auth-input-group"><label style="font-size:0.85rem; color:#aaa;">Hero ID:</label><input type="text" id="editUsername" class="auth-input" disabled></div>
+    <div class="auth-input-group"><label style="font-size:0.85rem; color:#aaa;">Phone:</label><input type="text" id="editPhone" class="auth-input"></div>
+    <div class="auth-input-group"><label style="font-size:0.85rem; color:#aaa;">Profile Photo URL:</label><input type="text" id="editPhoto" class="auth-input"></div>
+    <button type="button" class="auth-btn" onclick="saveProfileEdits()">SAVE CHANGES 💾</button>
+    <button type="button" onclick="closeProfileEditModal()" style="background:none; border:none; color:#aaa; width:100%; margin-top:15px; cursor:pointer;">Close</button>
+  </div>
+</div>
+
+<!-- ================= SYSTEM ENGINE, FIREBASE & PERSISTENCE LOGIC ================= -->
+<script>
+  // Firebase Configuration with Hero-verse-f53ee ID linked
+  const firebaseConfig = {
+    apiKey: "AIzaSyD-HeroVerseDefaultKeyAutoAuth2026",
+    authDomain: "Hero-verse-f53ee.firebaseapp.com",
+    databaseURL: "https://Hero-verse-f53ee-default-rtdb.firebaseio.com",
+    projectId: "Hero-verse-f53ee",
+    storageBucket: "Hero-verse-f53ee.appspot.com",
+    messagingSenderId: "109823746501",
+    appId: "1:109823746501:web:a1b2c3d4e5f6g7h8i9j0"
+  };
+
+  if (!firebase.apps.length) { firebase.initializeApp(firebaseConfig); }
+  const db = firebase.database();
+  const auth = firebase.auth();
+
+  // Reserved Admin & Brand Protection Array
+  const ADMIN_PROTECTED_NAMES = ["mysteryhero", "mystery_hero", "naitik", "naitikpandey", "voltagehero", "desigta", "heroverse", "admin", "developer"];
+
+  // MASTER ADMIN CREDENTIALS (Updated Password)
+  const MASTER_ADMIN_ID = "mysteryhero";
+  const MASTER_ADMIN_PASS = "995641NP";
+
+  let tempRegData = {};
+
+  function switchAuthView(viewName) {
+    document.getElementById('authViewLogin').style.display = 'none';
+    document.getElementById('authViewRegister1').style.display = 'none';
+    document.getElementById('authViewOtp').style.display = 'none';
+    document.getElementById('authViewRegister2').style.display = 'none';
+    document.getElementById('authViewRegister3').style.display = 'none';
+    document.getElementById('authViewForgot').style.display = 'none';
+
+    if (viewName === 'login') document.getElementById('authViewLogin').style.display = 'block';
+    if (viewName === 'register') document.getElementById('authViewRegister1').style.display = 'block';
+    if (viewName === 'otp') document.getElementById('authViewOtp').style.display = 'block';
+    if (viewName === 'reg2') document.getElementById('authViewRegister2').style.display = 'block';
+    if (viewName === 'reg3') document.getElementById('authViewRegister3').style.display = 'block';
+    if (viewName === 'forgot') document.getElementById('authViewForgot').style.display = 'block';
+  }
+
+  function showAlert(boxId, msg) {
+    const box = document.getElementById(boxId);
+    box.innerText = "⚠ OFFICIAL WARNING: " + msg;
+    box.style.display = 'block';
+  }
+  function showSuccess(boxId, msg) {
+    const box = document.getElementById(boxId);
+    box.innerText = "✔ " + msg;
+    box.style.display = 'block';
+  }
+
+  // LOGIN EXECUTION WITH FIREBASE & MASTER ADMIN
+  function executeStudioLogin() {
+    const identifier = document.getElementById('loginIdentifier').value.trim().toLowerCase();
+    const pass = document.getElementById('loginPassword').value.trim();
+
+    if (!identifier || !pass) {
+      showAlert('loginAlertBox', 'Please enter your ID/Email/Phone and Password.');
+      return;
+    }
+
+    // 🌟 MASTER ADMIN LOGIN CHECK
+    if (identifier === MASTER_ADMIN_ID && pass === MASTER_ADMIN_PASS) {
+      alert("👑 WELCOME LEAD DEVELOPER NAITIK PANDEY!\n\nMaster Admin Rights & Dev Panel Unlocked!");
+      completeLoginSession(MASTER_ADMIN_ID, "https://api.qrserver.com/v1/create-qr-code/?size=100&data=NaitikPandeyAdmin", true);
+      return;
+    }
+
+    // Firebase Database Real Lookup
+    db.ref('registered_users/' + identifier).once('value', (s) => {
+      if (s.exists() && s.val().password === pass) {
+        completeLoginSession(s.val().username, s.val().photo, false);
+      } else {
+        showAlert('loginAlertBox', 'Incorrect credentials or User ID not found in database!');
+      }
+    });
+  }
+
+  // REGISTRATION & OTP TRIGGERS
+  function sendOtpAndProceed() {
+    const phone = document.getElementById('regPhone').value.trim();
+    if (!phone || phone.length < 10) {
+      showAlert('reg1Alert', 'Please enter a valid 10-digit mobile number.');
+      return;
+    }
+    tempRegData.phone = phone;
+    alert("📱 OTP Dispatched! Testing verification code is: 123456");
+    switchAuthView('otp');
+  }
+
+  function verifyOtpAndNext() {
+    const otp = document.getElementById('enteredOtp').value.trim();
+    if (otp !== "123456") {
+      alert("❌ Invalid OTP! Use 123456 for testing.");
+      return;
+    }
+    const randomNum = Math.floor(10 + Math.random() * 90);
+    const suggested = "HeroGamer_" + randomNum;
+    document.getElementById('suggestedIdText').innerText = suggested;
+    tempRegData.suggestedId = suggested;
+
+    switchAuthView('reg2');
+  }
+
+  function useSuggestedId() {
+    document.getElementById('regUsername').value = tempRegData.suggestedId;
+    liveValidateId(tempRegData.suggestedId);
+  }
+
+  function liveValidateId(val) {
+    val = val.trim().toLowerCase();
+    const tick = document.getElementById('idLiveTick');
+    const alertBox = document.getElementById('reg2Alert');
+    const successBox = document.getElementById('reg2Success');
+
+    alertBox.style.display = 'none';
+    successBox.style.display = 'none';
+
+    if (ADMIN_PROTECTED_NAMES.includes(val)) {
+      tick.style.display = 'none';
+      showAlert('reg2Alert', "This ID is STRICTLY RESERVED for Studio Owner (Naitik Pandey)!");
+      return;
+    }
+
+    if (val.length < 3) {
+      tick.style.display = 'none';
+      return;
+    }
+
+    db.ref('registered_users/' + val).once('value', (snap) => {
+      if (snap.exists()) {
+        tick.style.display = 'none';
+        showAlert('reg2Alert', "ID already taken! Choose another handle.");
+      } else {
+        tick.style.display = 'block';
+        showSuccess('reg2Success', "ID is available and verified!");
+      }
+    });
+  }
+
+  function proceedToPersonalDetails() {
+    const username = document.getElementById('regUsername').value.trim().toLowerCase();
+    const password = document.getElementById('regPassword').value.trim();
+
+    if (!username || ADMIN_PROTECTED_NAMES.includes(username)) {
+      showAlert('reg2Alert', 'Please choose a valid unique Hero ID.');
+      return;
+    }
+    if (!password || password.length < 6) {
+      showAlert('reg2Alert', 'Password must be 
