@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Hero-Verse Studio | Official Hub</title>
+    <title>Hero-Verse Studio</title>
     <style>
         * { box-sizing: border-box; margin: 0; padding: 0; }
         body {
@@ -13,7 +13,6 @@
             min-height: 100vh;
         }
 
-        /* CARD CONTAINER STYLES */
         .card-container {
             display: flex;
             justify-content: center;
@@ -28,9 +27,8 @@
             box-shadow: 0 4px 25px rgba(0, 240, 255, 0.25);
             width: 360px;
             text-align: center;
-            position: relative;
         }
-        .auth-card h2 { color: #66fcf1; margin-bottom: 15px; letter-spacing: 1px; }
+        .auth-card h2 { color: #66fcf1; margin-bottom: 15px; }
         input {
             width: 100%;
             padding: 12px;
@@ -42,7 +40,6 @@
             outline: none;
             font-size: 14px;
         }
-        input:focus { border-color: #66fcf1; box-shadow: 0 0 8px rgba(102, 252, 241, 0.4); }
         button {
             width: 100%;
             padding: 12px;
@@ -51,28 +48,23 @@
             border-radius: 6px;
             font-weight: bold;
             cursor: pointer;
-            transition: 0.3s;
             font-size: 14px;
         }
         .btn-primary { background: #66fcf1; color: #000; }
         .btn-secondary { background: #45a29e; color: #000; }
         .btn-google { background: #db4437; color: #fff; }
         .btn-apple { background: #000; color: #fff; border: 1px solid #fff; }
-        button:hover { opacity: 0.9; transform: translateY(-1px); }
         .divider { margin: 15px 0; border-bottom: 1px solid #45a29e; }
         .toggle-link { color: #66fcf1; cursor: pointer; font-size: 13px; text-decoration: underline; margin-top: 10px; display: block; }
         
-        /* LIVE ERROR TEXT (NO ALERTS) */
         .live-error {
             color: #ff4d4d;
             font-size: 12px;
-            margin: 5px 0 10px 0;
+            margin: 5px 0;
             text-align: left;
             min-height: 16px;
-            font-weight: 500;
         }
 
-        /* ORIGINAL HOME PAGE / DASHBOARD STYLES */
         #home-screen { display: none; }
         navbar {
             background: #1f2833;
@@ -81,13 +73,12 @@
             justify-content: space-between;
             align-items: center;
             border-bottom: 2px solid #66fcf1;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.5);
         }
-        .logo { font-size: 22px; font-weight: bold; color: #66fcf1; letter-spacing: 1px; }
+        .logo { font-size: 20px; font-weight: bold; color: #66fcf1; }
         .profile-container { position: relative; }
         .profile-avatar {
-            width: 44px;
-            height: 44px;
+            width: 42px;
+            height: 42px;
             border-radius: 50%;
             background: #66fcf1;
             color: #000;
@@ -95,128 +86,95 @@
             justify-content: center;
             align-items: center;
             font-weight: bold;
-            font-size: 20px;
+            font-size: 18px;
             cursor: pointer;
             border: 2px solid #fff;
-            box-shadow: 0 0 10px rgba(102, 252, 241, 0.5);
         }
         .profile-menu {
             display: none;
             position: absolute;
             right: 0;
-            top: 55px;
+            top: 50px;
             background: #1f2833;
             border: 1px solid #45a29e;
             border-radius: 8px;
-            width: 240px;
-            padding: 15px;
-            box-shadow: 0 4px 20px rgba(0,0,0,0.7);
+            width: 230px;
+            padding: 12px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.5);
             text-align: left;
-            z-index: 100;
         }
-        .profile-menu p { font-size: 13px; margin-bottom: 6px; color: #c5c6c7; word-break: break-all; }
+        .profile-menu p { font-size: 13px; margin-bottom: 5px; color: #c5c6c7; }
         .owner-badge {
             background: gold;
             color: black;
-            padding: 3px 8px;
+            padding: 2px 6px;
             border-radius: 4px;
             font-size: 11px;
             font-weight: bold;
             display: inline-block;
-            margin-bottom: 10px;
+            margin-bottom: 8px;
         }
-        .btn-logout { background: #db4437; color: white; padding: 8px; margin-top: 8px; width: 100%; }
-
+        .btn-logout { background: #db4437; color: white; padding: 8px; margin-top: 5px; width: 100%; }
         .main-dashboard { padding: 40px 20px; text-align: center; }
-        .project-card {
-            background: #1f2833;
-            border: 1px solid #45a29e;
-            padding: 20px;
-            border-radius: 10px;
-            margin: 20px auto;
-            max-width: 500px;
-        }
     </style>
 </head>
 <body>
 
-    <!-- 1. LOGIN SCREEN (FIRST DISPLAYED) -->
+    <!-- 1. LOGIN SCREEN -->
     <div id="login-screen" class="card-container">
         <div class="auth-card">
             <h2>HERO-VERSE LOGIN</h2>
-            
             <input type="text" id="login-identifier" placeholder="Email / Mobile / Handle (@username)">
             <input type="password" id="login-pass" placeholder="Password">
-            
-            <!-- Live Error Msg Box -->
             <div id="login-error" class="live-error"></div>
-            
             <button class="btn-primary" id="btn-login">Login</button>
-            
             <div class="divider"></div>
             <span class="toggle-link" id="go-to-signup">New User? Create Account (Sign Up)</span>
         </div>
     </div>
 
-    <!-- 2. SIGN UP VERIFICATION SCREEN -->
+    <!-- 2. SIGN UP SCREEN -->
     <div id="signup-screen" class="card-container" style="display:none;">
         <div class="auth-card">
             <h2>SIGN UP VERIFICATION</h2>
-            
             <input type="email" id="signup-email" placeholder="Email Address">
             <button class="btn-primary" id="btn-email-signup">Verify Email</button>
-
             <div class="divider"></div>
-
             <input type="tel" id="signup-phone" placeholder="+91XXXXXXXXXX">
             <button class="btn-secondary" id="btn-send-otp">Send Phone OTP</button>
-            
             <input type="text" id="otp-input" placeholder="Enter OTP" style="display:none;">
             <button class="btn-secondary" id="btn-verify-otp" style="display:none;">Verify OTP</button>
             <div id="recaptcha-container"></div>
-
             <div class="divider"></div>
-            
             <button class="btn-google" id="btn-google-signup">Sign Up with Google</button>
             <button class="btn-apple" id="btn-apple-signup">Sign Up with Apple</button>
-
-            <!-- Live Error Msg Box -->
             <div id="signup-error" class="live-error"></div>
-
             <span class="toggle-link" id="go-to-login">Already Have Account? Login</span>
         </div>
     </div>
 
-    <!-- 3. PROFILE SETUP FORM (AFTER VERIFICATION) -->
+    <!-- 3. PROFILE SETUP FORM -->
     <div id="setup-screen" class="card-container" style="display:none;">
         <div class="auth-card">
             <h2>CREATE PROFILE</h2>
-            <p style="font-size: 12px; color: #45a29e; margin-bottom: 12px;">Verification Complete! Set Your Profile Credentials:</p>
-            
             <input type="text" id="setup-name" placeholder="Full ID Name (e.g. Naitik Pandey)">
             <input type="text" id="setup-handle" placeholder="Unique Handle (e.g. mysteryhero_01_official)">
             <input type="password" id="setup-password" placeholder="Set Password (Min 6 Chars)">
-            
-            <!-- Live Error Msg Box -->
             <div id="setup-error" class="live-error"></div>
-            
             <button class="btn-primary" id="btn-save-profile">Complete & Save Account</button>
         </div>
     </div>
 
-    <!-- 4. ORIGINAL HOME DASHBOARD (AFTER LOGIN SUCCESS) -->
+    <!-- 4. HOME DASHBOARD -->
     <div id="home-screen">
         <navbar>
             <div class="logo">⚡ HERO-VERSE STUDIO</div>
-            
-            <!-- Top Right Profile Dropdown Menu -->
             <div class="profile-container">
                 <div class="profile-avatar" id="avatar-icon">N</div>
                 <div class="profile-menu" id="profile-dropdown">
-                    <p id="profile-name" style="color:#fff; font-weight:bold; font-size:16px;"></p>
+                    <p id="profile-name" style="color:#fff; font-weight:bold;"></p>
                     <p id="profile-handle" style="color:#66fcf1;"></p>
                     <p id="profile-email"></p>
-                    <p id="profile-phone" style="font-size:12px; color:#aaa;"></p>
                     <div id="owner-tag" style="display:none;" class="owner-badge">👑 PROJECT OWNER</div>
                     <button class="btn-logout" id="btn-logout">Logout</button>
                 </div>
@@ -225,21 +183,11 @@
 
         <div class="main-dashboard">
             <h1 id="welcome-msg">Welcome to Hero-Verse!</h1>
-            <p style="margin-top: 10px; color: #c5c6c7;">Main Control Center for Voltage Hero & Desi GTA Engine.</p>
-
-            <div class="project-card">
-                <h3 style="color:#66fcf1; margin-bottom: 10px;">⚡ Voltage Hero Script Engine</h3>
-                <p style="font-size:13px; color:#aaa;">10-Minute Episode Breakdown & Cinematic Story Script Generator Active.</p>
-            </div>
-
-            <div class="project-card">
-                <h3 style="color:#66fcf1; margin-bottom: 10px;">🎮 Desi GTA Android Dev Log</h3>
-                <p style="font-size:13px; color:#aaa;">Map Design, 100+ Characters, UI Systems & In-Game Assistant Ready.</p>
-            </div>
+            <p style="margin-top:10px; color:#c5c6c7;">Voltage Hero & Desi GTA Engine Control Dashboard Active.</p>
         </div>
     </div>
 
-    <!-- FIREBASE MODULE CODE -->
+    <!-- FIREBASE MODULES (FIXED IMPORTS) -->
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
         import { 
@@ -261,126 +209,65 @@
         const auth = getAuth(app);
         const db = getDatabase(app);
 
-        // OWNER MASTER DETAILS
         const OWNER_EMAIL = "rd8556532@gmail.com";
         const OWNER_HANDLE = "mysteryhero_01_official";
-
         let verifiedUser = null;
 
-        // HELPER: DISPLAY LIVE ERROR TEXT (NO POPUP ALERTS)
-        function showError(elementId, message) {
-            const el = document.getElementById(elementId);
-            if (el) el.innerText = message;
+        function showError(id, msg) {
+            const el = document.getElementById(id);
+            if(el) el.innerText = msg;
         }
 
-        function clearErrors() {
-            showError('login-error', '');
-            showError('signup-error', '');
-            showError('setup-error', '');
-        }
-
-        // SCREEN SWITCHING LOGIC
-        document.getElementById('go-to-signup').addEventListener('click', () => {
-            clearErrors();
+        // Toggle Screens
+        document.getElementById('go-to-signup').onclick = () => {
             document.getElementById('login-screen').style.display = 'none';
             document.getElementById('signup-screen').style.display = 'flex';
-        });
-
-        document.getElementById('go-to-login').addEventListener('click', () => {
-            clearErrors();
+        };
+        document.getElementById('go-to-login').onclick = () => {
             document.getElementById('signup-screen').style.display = 'none';
             document.getElementById('login-screen').style.display = 'flex';
-        });
+        };
 
-        // 1. SIGN UP VERIFICATION METHODS
-        // Google Sign-In
-        document.getElementById('btn-google-signup').addEventListener('click', async () => {
-            clearErrors();
+        // Google Sign In
+        document.getElementById('btn-google-signup').onclick = async () => {
             try {
                 const res = await signInWithPopup(auth, new GoogleAuthProvider());
                 verifiedUser = res.user;
                 openSetupScreen();
-            } catch (err) { showError('signup-error', "Google Error: " + err.message); }
-        });
-
-        // Apple Sign-In
-        document.getElementById('btn-apple-signup').addEventListener('click', async () => {
-            clearErrors();
-            try {
-                const provider = new OAuthProvider('apple.com');
-                const res = await signInWithPopup(auth, provider);
-                verifiedUser = res.user;
-                openSetupScreen();
-            } catch (err) { showError('signup-error', "Apple Error: " + err.message); }
-        });
-
-        // Phone OTP Verification
-        window.recaptchaVerifier = new RecaptchaVerifier(auth, 'recaptcha-container', { 'size': 'invisible' });
-        document.getElementById('btn-send-otp').addEventListener('click', () => {
-            clearErrors();
-            const phone = document.getElementById('signup-phone').value.trim();
-            if(!phone) return showError('signup-error', "Kripya valid Phone Number (+91) enter karein.");
-
-            signInWithPhoneNumber(auth, phone, window.recaptchaVerifier)
-                .then(confirmation => {
-                    window.confirmationResult = confirmation;
-                    document.getElementById('otp-input').style.display = 'block';
-                    document.getElementById('btn-verify-otp').style.display = 'block';
-                    showError('signup-error', "OTP Bhej Diya Gaya Hai!");
-                }).catch(err => showError('signup-error', "SMS Error: " + err.message));
-        });
-
-        document.getElementById('btn-verify-otp').addEventListener('click', () => {
-            clearErrors();
-            const code = document.getElementById('otp-input').value.trim();
-            if(!code) return showError('signup-error', "Kripya OTP code enter karein.");
-
-            window.confirmationResult.confirm(code).then(res => {
-                verifiedUser = res.user;
-                openSetupScreen();
-            }).catch(() => showError('signup-error', "Galat OTP Code! Fir se try karein."));
-        });
+            } catch (err) { showError('signup-error', err.message); }
+        };
 
         // Email Verification Step
-        document.getElementById('btn-email-signup').addEventListener('click', async () => {
-            clearErrors();
+        document.getElementById('btn-email-signup').onclick = async () => {
             const email = document.getElementById('signup-email').value.trim();
-            if(!email) return showError('signup-error', "Kripya Email address enter karein.");
-
+            if(!email) return showError('signup-error', "Email daalein.");
             try {
                 const res = await createUserWithEmailAndPassword(auth, email, "TempPass123!");
                 verifiedUser = res.user;
                 openSetupScreen();
-            } catch(err) { showError('signup-error', "Email Error: " + err.message); }
-        });
+            } catch(err) { showError('signup-error', err.message); }
+        };
 
         function openSetupScreen() {
-            clearErrors();
             document.getElementById('signup-screen').style.display = 'none';
             document.getElementById('setup-screen').style.display = 'flex';
-            
-            // Auto-Fill Owner Details if Owner Logging In
-            if(verifiedUser.email === OWNER_EMAIL) {
+            if(verifiedUser && verifiedUser.email === OWNER_EMAIL) {
                 document.getElementById('setup-name').value = "Naitik Pandey";
                 document.getElementById('setup-handle').value = OWNER_HANDLE;
             }
         }
 
-        // 2. COMPLETE PROFILE & SAVE TO FIREBASE
-        document.getElementById('btn-save-profile').addEventListener('click', async () => {
-            clearErrors();
+        // Complete Profile
+        document.getElementById('btn-save-profile').onclick = async () => {
             const name = document.getElementById('setup-name').value.trim();
             const rawHandle = document.getElementById('setup-handle').value.trim().toLowerCase();
             const password = document.getElementById('setup-password').value;
 
-            if (!name) return showError('setup-error', "Kripya apna Full ID Name likhein.");
-            if (!rawHandle) return showError('setup-error', "Kripya Unique Handle (@username) chunein.");
-            if (!password || password.length < 6) return showError('setup-error', "Password kam se kam 6 characters ka hona chahiye.");
+            if (!name || !rawHandle || !password) return showError('setup-error', "Saare fields bharein.");
 
-            // Check Handle Availability
             const handleRef = ref(db, 'handles/' + rawHandle);
             const snapshot = await get(handleRef);
-            if (snapshot.exists()) return showError('setup-error', "Yeh Handle Name pehle se le liya gaya hai! Doosra chuno.");
+            if (snapshot.exists()) return showError('setup-error', "Handle pehle se kisi ke paas hai.");
 
             try {
                 await set(handleRef, { uid: verifiedUser.uid });
@@ -388,52 +275,39 @@
                     name: name,
                     handle: rawHandle,
                     email: verifiedUser.email || "",
-                    phone: verifiedUser.phoneNumber || "",
                     password: password,
                     role: (verifiedUser.email === OWNER_EMAIL || rawHandle === OWNER_HANDLE) ? "owner" : "user"
                 });
-
                 location.reload();
-            } catch (err) { showError('setup-error', "Save Error: " + err.message); }
-        });
+            } catch (err) { showError('setup-error', err.message); }
+        };
 
-        // 3. MULTI-IDENTIFIER LOGIN (Email / Phone / Handle)
-        document.getElementById('btn-login').addEventListener('click', async () => {
-            clearErrors();
-            const identifier = document.getElementById('login-identifier').value.trim().toLowerCase();
+        // Login
+        document.getElementById('btn-login').onclick = async () => {
+            const id = document.getElementById('login-identifier').value.trim().toLowerCase();
             const pass = document.getElementById('login-pass').value;
 
-            if(!identifier) return showError('login-error', "Email, Mobile number ya Handle enter karein.");
-            if(!pass) return showError('login-error', "Password enter karein.");
+            if(!id || !pass) return showError('login-error', "Details bharein.");
 
             try {
-                if (identifier.includes("@") && identifier.includes(".")) {
-                    // Direct Email Login
-                    await signInWithEmailAndPassword(auth, identifier, pass);
+                if (id.includes("@") && id.includes(".")) {
+                    await signInWithEmailAndPassword(auth, id, pass);
                 } else {
-                    // Handle Search Logic
-                    const cleanHandle = identifier.replace("@", "");
+                    const cleanHandle = id.replace("@", "");
                     const handleSnap = await get(ref(db, 'handles/' + cleanHandle));
-                    
                     if (handleSnap.exists()) {
                         const uid = handleSnap.val().uid;
                         const userSnap = await get(ref(db, 'users/' + uid));
                         const userData = userSnap.val();
                         if (userData && userData.email) {
                             await signInWithEmailAndPassword(auth, userData.email, pass);
-                        } else {
-                            showError('login-error', "Is handle ke liye Registered Email se login karein.");
-                        }
-                    } else { 
-                        showError('login-error', "Yeh Handle / Account nahi mila!"); 
-                    }
+                        } else { showError('login-error', "Email se login karein."); }
+                    } else { showError('login-error', "Handle nahi mila."); }
                 }
-            } catch (err) { 
-                showError('login-error', "Galat Password ya Identifier! Wapas check karein."); 
-            }
-        });
+            } catch (err) { showError('login-error', "Galat Password ya Login Details."); }
+        };
 
-        // 4. AUTH STATE & DASHBOARD RENDER
+        // Auth Listener
         onAuthStateChanged(auth, async (user) => {
             if (user) {
                 const userSnap = await get(ref(db, 'users/' + user.uid));
@@ -451,7 +325,30 @@
 
                 document.getElementById('profile-name').innerText = data.name;
                 document.getElementById('profile-handle').innerText = "@" + data.handle;
-                document.getElementById('profile-email').innerText = data.email || "No Email";
-                document.getElementById('profile-phone').innerText = data.phone || "No Phone";
+                document.getElementById('profile-email').innerText = data.email || "";
                 document.getElementById('avatar-icon').innerText = data.name.charAt(0).toUpperCase();
-                document.getElementById('welcome-msg').inner
+                document.getElementById('welcome-msg').innerText = "Welcome back, " + data.name + "! ⚡";
+
+                if (data.role === "owner" || data.email === OWNER_EMAIL) {
+                    document.getElementById('owner-tag').style.display = 'inline-block';
+                }
+            } else {
+                document.getElementById('login-screen').style.display = 'flex';
+                document.getElementById('home-screen').style.display = 'none';
+            }
+        });
+
+        // Avatar Click Dropdown
+        document.getElementById('avatar-icon').onclick = () => {
+            const menu = document.getElementById('profile-dropdown');
+            menu.style.display = (menu.style.display === 'block') ? 'none' : 'block';
+        };
+
+        // Logout
+        document.getElementById('btn-logout').onclick = () => {
+            signOut(auth).then(() => location.reload());
+        };
+    </script>
+</body>
+                </html>
+    
