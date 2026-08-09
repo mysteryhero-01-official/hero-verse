@@ -16,6 +16,7 @@
       --neon-cyan: #00f0ff;
       --neon-orange: #ff6600;
       --bg-black: #050508;
+      --muted: #bfc7cf;
     }
 
     /* Basic reset + base font */
@@ -34,6 +35,8 @@
         linear-gradient(90deg, rgba(255, 0, 85, 0.03) 1px, transparent 1px);
       background-size: 100% 100%, 40px 40px, 40px 40px;
       background-attachment: fixed;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
     }
 
     /* Ensure .pop-element visible when JS disabled */
@@ -140,13 +143,13 @@
 
     /* Support QR */
     .support-section { text-align:center; padding:2.5rem 2rem; background: rgba(255,0,85,0.04); border:1px solid rgba(255,0,85,0.06); border-radius:12px; margin:2rem 5%; }
-    .qr-box { width:210px; height:210px; margin:1.25rem auto; background:#fff; padding:8px; border-radius:10px; border:4px solid var(--neon-cyan); box-shadow:0 0 18px rgba(0,240,255,0.06); cursor:pointer; transition:transform .22s ease; }
+    .qr-box { width:210px; height:210px; margin:1.25rem auto; background:#fff; padding:8px; border-radius:10px; border:4px solid var(--neon-cyan); box-shadow:0 0 18px rgba(0,240,255,0.06); cursor:pointer; transition:transform .22s ease; display:flex; align-items:center; justify-content:center; }
     .qr-box:hover { transform:scale(1.03); }
     .qr-box img { width:100%; height:100%; object-fit:cover; display:block; border-radius:6px; }
 
     /* Footer */
     .mega-footer { background:#020203; padding:2.5rem 5% 3rem; border-top:2px solid rgba(255,0,85,0.12); margin-top:2rem; }
-    .footer-grid { display:grid; grid-template-columns: repeat(auto-fit, minmax(200px,1fr)); gap:1rem; }
+    .footer-grid { display:grid; grid-template-columns: repeat(auto-fit, minmax(200px,1fr)); gap:1rem; align-items:start; }
     .footer-col h4 { color:var(--neon-cyan); font-size:1.2rem; margin-bottom:.75rem; font-family:'Teko',sans-serif; }
     .footer-col ul { list-style:none; }
     .footer-col ul li { margin-bottom:.5rem; }
@@ -188,6 +191,7 @@
       visibility:hidden;
       transition: opacity .2s ease, visibility .2s ease;
       padding: 20px;
+      -webkit-overflow-scrolling: touch;
     }
     .modal-overlay.active { opacity:1; visibility:visible; }
 
@@ -196,7 +200,7 @@
       border:2px solid var(--neon-cyan);
       box-shadow:0 0 30px rgba(0,240,255,0.06);
       border-radius:12px;
-      max-width:720px;
+      max-width:920px;
       width:100%;
       max-height:86vh;
       padding:1.25rem;
@@ -214,7 +218,7 @@
     /* AI Chat card (inside modal overlay) */
     .ai-chat-card {
       width: 100%;
-      max-width:520px;
+      max-width:640px;
       height: 70vh;
       background:#09090e;
       border:2px solid var(--neon-cyan);
@@ -238,6 +242,8 @@
       .mega-hero { padding:2rem 3%; }
       .card-btn-row { flex-direction:column; }
       .btn-cyber { font-size:.95rem; padding:10px; }
+      .ai-chat-card { height: 62vh; }
+      .modal-box { max-width: 95%; padding: 12px; }
     }
   </style>
 </head>
@@ -247,7 +253,7 @@
     <section class="mega-hero">
       <h1 class="mega-title pop-element">HERO-VERSE STUDIOS</h1>
       <p class="mega-subtitle pop-element">OFFICIAL INTERACTIVE HUB • DESI GTA & VOLTAGE HERO</p>
-      <div class="laser-line pop-element"></div>
+      <div class="laser-line pop-element" aria-hidden="true"></div>
     </section>
 
     <!-- Live Projects -->
@@ -255,8 +261,8 @@
       <h2 class="section-title pop-element">FEATURED MEGA PROJECTS</h2>
       <div class="grid-container">
         <!-- INDIAN GTA 1 CARD -->
-        <div class="cyber-card pop-element">
-          <div class="banner-box bg-gta">
+        <div class="cyber-card pop-element" role="article" aria-label="Indian GTA 1">
+          <div class="banner-box bg-gta" aria-hidden="true">
             <h3 class="banner-title-gta">INDIAN GTA 1</h3>
             <p style="color: var(--neon-cyan); font-weight: bold;">300MB OPEN WORLD ENGINE</p>
             <div class="logo-row">
@@ -266,14 +272,18 @@
           </div>
           <p style="color: #dddddd; margin-bottom: 10px;">The ultimate Indian open-world action adventure featuring 100+ dynamic NPCs and in-game AI phone assistant.</p>
           <div class="card-btn-row">
-            <button class="btn-cyber btn-know-more" type="button" data-modal-title="INDIAN GTA 1 — COMPLETE SPECIFICATIONS" data-modal-body="🎮 GAME OVERVIEW:\nIndian GTA 1 is a groundbreaking Android open-world action title engineered to combine the raw chaotic energy of Indian city streets with high-performance Los Santos layout dynamics.\n\n⚙️ TECHNICAL SPECIFICATIONS:\n• Base Download Size: 300MB High-Compression Build\n• Future Expansion Target: Up to 1GB High-Graphics World Expansion\n• Map Architecture: Dual-Zone (Desi Indian Markets + Los Santos Highways)\n• Active NPCs: 100+ Unique AI-Driven Civilians, Police Units, and Gang Members\n\n📱 IN-GAME CHATGPT AI PHONE:\nPlayers carry a virtual smartphone equipped with a ChatGPT Voice & Text Assistant capable of spawning vehicles, setting mission waypoints, and delivering real-time tactical advice.">KNOW MORE</button>
-            <button class="btn-cyber btn-action" type="button" data-modal-title="⚡ COMING SOON! ⚡" data-modal-body="SYSTEM NOTICE: [INDIAN GTA 1 GAME LAUNCH] is currently undergoing high-compression Optimization & Alpha Build Testing.\n\nThe Hero is actively developing this project. Stay tuned for the official launch date announcement!">PLAY</button>
+            <button class="btn-cyber btn-know-more" type="button"
+              data-modal-title="INDIAN GTA 1 — COMPLETE SPECIFICATIONS"
+              data-modal-body="🎮 GAME OVERVIEW:\nIndian GTA 1 is a groundbreaking Android open-world action title engineered to combine the raw chaotic energy of Indian city streets with high-performance Los Santos layout dynamics.\n\n⚙️ TECHNICAL SPECIFICATIONS:\n• Base Download Size: 300MB High-Compression Build\n• Future Expansion Target: Up to 1GB High-Graphics World Expansion\n• Map Architecture: Dual-Zone (Desi Indian Markets + Los Santos Highways)\n• Active NPCs: 100+ Unique AI-Driven Civilians, Police Units, and Gang Members\n\n📱 IN-GAME CHATGPT AI PHONE:\nPlayers carry a virtual smartphone equipped with a ChatGPT Voice & Text Assistant capable of spawning vehicles, setting mission waypoints, and delivering real-time tactical advice.">KNOW MORE</button>
+            <button class="btn-cyber btn-action" type="button"
+              data-modal-title="⚡ COMING SOON! ⚡"
+              data-modal-body="SYSTEM NOTICE: [INDIAN GTA 1 GAME LAUNCH] is currently undergoing high-compression Optimization & Alpha Build Testing.\n\nThe Hero is actively developing this project. Stay tuned for the official launch date announcement!">PLAY</button>
           </div>
         </div>
 
         <!-- VOLTAGE HERO CARD -->
-        <div class="cyber-card pop-element">
-          <div class="banner-box bg-voltage">
+        <div class="cyber-card pop-element" role="article" aria-label="Voltage Hero">
+          <div class="banner-box bg-voltage" aria-hidden="true">
             <div>
               <h3 class="banner-title-voltage">VOLTAGE HERO</h3>
               <p class="creator-tag">Created by Naitik Pandey</p>
@@ -289,8 +299,12 @@
           </div>
           <p style="color: #dddddd; margin-bottom: 10px;">Original high-voltage superhero universe featuring second-by-second action episode breakdowns.</p>
           <div class="card-btn-row">
-            <button class="btn-cyber btn-know-more" type="button" data-modal-title="VOLTAGE HERO — CINEMATIC UNIVERSE" data-modal-body="🎬 PROJECT OVERVIEW:\nVoltage Hero is an original superhero story universe crafted by Naitik Pandey. Built specifically for high-impact cinematic adaptions and episode releases.\n\n⚡ SCRIPTWRITING BREAKDOWN:\n• Format: 10-Minute High-Voltage Episodes\n• Precision: Second-by-Second Action Scene Storyboarding\n• Dialogues: Power-packed, emotionally charged, high-stakes narrative\n\n🌟 PRESENTED BY:\nDeveloped in creative synergy with ChatGPT and Google Gemini AI systems for cinematic scripting excellence and story structure optimization.">KNOW MORE</button>
-            <button class="btn-cyber btn-action" type="button" data-modal-title="⚡ COMING SOON! ⚡" data-modal-body="SYSTEM NOTICE: [VOLTAGE HERO EPISODE 1] is currently undergoing high-compression Optimization & Alpha Build Testing.\n\nThe Hero is actively developing this project. Stay tuned for the official launch date announcement!">WATCH</button>
+            <button class="btn-cyber btn-know-more" type="button"
+              data-modal-title="VOLTAGE HERO — CINEMATIC UNIVERSE"
+              data-modal-body="🎬 PROJECT OVERVIEW:\nVoltage Hero is an original superhero story universe crafted by Naitik Pandey. Built specifically for high-impact cinematic adaptions and episode releases.\n\n⚡ SCRIPTWRITING BREAKDOWN:\n• Format: 10-Minute High-Voltage Episodes\n• Precision: Second-by-Second Action Scene Storyboarding\n• Dialogues: Power-packed, emotionally charged, high-stakes narrative\n\n🌟 PRESENTED BY:\nDeveloped in creative synergy with ChatGPT and Google Gemini AI systems for cinematic scripting excellence and story structure optimization.">KNOW MORE</button>
+            <button class="btn-cyber btn-action" type="button"
+              data-modal-title="⚡ COMING SOON! ⚡"
+              data-modal-body="SYSTEM NOTICE: [VOLTAGE HERO EPISODE 1] is currently undergoing high-compression Optimization & Alpha Build Testing.\n\nThe Hero is actively developing this project. Stay tuned for the official launch date announcement!">WATCH</button>
           </div>
         </div>
       </div>
@@ -300,14 +314,14 @@
     <section class="content-section">
       <h2 class="section-title pop-element">FUTURE ENGINE MODULES</h2>
       <div class="grid-container">
-        <div class="cyber-card pop-element">
-          <h3 style="font-family:'Teko'; font-size: 2.2rem; color: var(--neon-cyan);">MULTIPLAYER CO-OP</h3>
+        <div class="cyber-card pop-element" role="region" aria-labelledby="module-mp-title">
+          <h3 id="module-mp-title" style="font-family:'Teko'; font-size: 2.2rem; color: var(--neon-cyan);">MULTIPLAYER CO-OP</h3>
           <p style="color: #bbb; margin-bottom: 1rem;">Cross-platform mobile multiplayer servers allowing up to 64 players per city room.</p>
           <button class="btn-cyber btn-know-more" type="button" data-modal-title="MULTIPLAYER ENGINE DETAILS" data-modal-body="Full Server Architecture:\n- Dedicated Indian Regional Cloud Nodes\n- Voice Chat & Proximity Chat Integration\n- Real-time High-Speed Vehicle Synchronization\n- Custom Gang War Events & Street Races">KNOW MORE</button>
         </div>
 
-        <div class="cyber-card pop-element">
-          <h3 style="font-family:'Teko'; font-size: 2.2rem; color: var(--neon-red);">AI VOICE ASSISTANT</h3>
+        <div class="cyber-card pop-element" role="region" aria-labelledby="module-ai-title">
+          <h3 id="module-ai-title" style="font-family:'Teko'; font-size: 2.2rem; color: var(--neon-red);">AI VOICE ASSISTANT</h3>
           <p style="color: #bbb; margin-bottom: 1rem;">In-game ChatGPT mobile phone integration for calling cars and triggering missions.</p>
           <button class="btn-cyber btn-know-more" type="button" data-modal-title="IN-GAME AI PHONE DETAILS" data-modal-body="AI Phone Capabilities:\n- Voice Command Vehicle Spawner\n- Real-time Mission Guidance and Hack Assistance\n- Interactive NPC Dialogue Generator powered by AI Core">KNOW MORE</button>
         </div>
@@ -315,8 +329,8 @@
     </section>
 
     <!-- Support Section -->
-    <section class="support-section pop-element">
-      <h2 style="font-family:'Teko'; font-size: 3rem; color: var(--neon-cyan);">SUPPORT THE HERO</h2>
+    <section class="support-section pop-element" aria-labelledby="support-title">
+      <h2 id="support-title" style="font-family:'Teko'; font-size: 3rem; color: var(--neon-cyan);">SUPPORT THE HERO</h2>
       <p style="font-size: 1.05rem; color:#fff;">Scan with Google Lens OR tap the QR box to test the appreciation scanner!</p>
 
       <div class="qr-box" id="qr-box" role="button" tabindex="0" aria-label="Open support message">
@@ -327,902 +341,219 @@
   </main>
 
   <!-- Footer -->
-  <footer class="mega-footer">
+  <footer class="mega-footer" role="contentinfo" aria-label="Site footer">
     <div class="footer-grid">
       <div class="footer-col pop-element">
         <h4>STUDIO OVERVIEW</h4>
         <ul>
-          <li><a class="link-modal" data-modal-title="STUDIO VISION & ROADMAP 2026+" data-modal-body="Hero-Verse Studios aims to establish India's premier AAA-grade mobile gaming studio and superhero story creation ecosystem.">Our Vision & Roadmap</a></li>
-          <li><a class="link-modal" data-modal-title="LEAD DEVELOPER — NAITIK PANDEY" data-modal-body="Architect & Storyteller behind Indian GTA 1 and Voltage Hero. Combining game logic, AI integration, and cinematic world-building to create next-gen digital experiences.">Lead Developer Profile</a></li>
+          <li><a class="link-modal" href="#" data-modal-title="STUDIO VISION & ROADMAP 2026+" data-modal-body="Hero-Verse Studios aims to establish India's premier AAA-grade mobile gaming studio and superhero story creation ecosystem.">Our Vision & Roadmap</a></li>
+          <li><a class="link-modal" href="#" data-modal-title="LEAD DEVELOPER — NAITIK PANDEY" data-modal-body="Architect & Storyteller behind Indian GTA 1 and Voltage Hero. Combining game logic, AI integration, and cinematic world-building to create next-gen digital experiences.">Lead Developer Profile</a></li>
         </ul>
       </div>
       <div class="footer-col pop-element">
         <h4>SUPPORT & HELP</h4>
         <ul>
-          <li><a class="link-modal" data-modal-title="HERO-VERSE HELP & SUPPORT CENTER" data-modal-body="WELCOME TO SUPPORT SERVICES\n\n• Device Compatibility: Android 8.0+ / 3GB RAM Minimum for 300MB Build\n• Script Licensing: For animation studios requesting Voltage Hero script access, contact developer dispatch.\n• Server Status: All global cloud nodes running at 100% capacity.">Help & Support Center</a></li>
-          <li><a class="link-modal" data-modal-title="BUG REPORTING & SYSTEM DIAGNOSTICS" data-modal-body="Found a map glitch or crash in Indian GTA 1?\n\n1. Take a screenshot or screen recording of the glitch.\n2. Note your phone model and RAM configuration.\n3. Send log files to support@hero-verse.com\n\nOur engineering squad fixes reported bugs in every weekly hotfix!">Report a Bug System</a></li>
+          <li><a class="link-modal" href="#" data-modal-title="HERO-VERSE HELP & SUPPORT CENTER" data-modal-body="WELCOME TO SUPPORT SERVICES\n\n• Device Compatibility: Android 8.0+ / 3GB RAM Minimum for 300MB Build\n• Script Licensing: For animation studios requesting Voltage Hero script access, contact developer dispatch.\n• Server Status: All global cloud nodes running at 100% capacity.">Help & Support Center</a></li>
+          <li><a class="link-modal" href="#" data-modal-title="BUG REPORTING & SYSTEM DIAGNOSTICS" data-modal-body="Found a map glitch or crash in Indian GTA 1?\n\n1. Take a screenshot or screen recording of the glitch.\n2. Note your phone model and RAM configuration.\n3. Send log files to support@hero-verse.com\n\nOur engineering squad fixes reported bugs in every weekly hotfix!">Report a Bug System</a></li>
         </ul>
       </div>
       <div class="footer-col pop-element">
         <h4>LEGAL & POLICIES</h4>
         <ul>
-          <li><a class="link-modal" data-modal-title="TERMS OF SERVICE — HERO-VERSE STUDIOS" data-modal-body="DOCUMENT REF: HV-TOS-2026-V4\n\n1. INTELLECTUAL PROPERTY RIGHTS:\nAll rights regarding 'Indian GTA 1', 'Voltage Hero', original script breakdowns, sound designs, and game code belong exclusively to Naitik Pandey (The Hero) and Hero-Verse Studios.\n\n2. REVERSE ENGINEERING & MODDING:\nUnauthorized decompilation, repackaging, or monetization of the 300MB compressed engine build without official developer licensing is strictly prohibited.\n\n3. USER CONDUCT:\nUsers engaging with multiplayer servers or community hubs agree to maintain sportsperson spirit.">Terms of Service (Full)</a></li>
-          <li><a class="link-modal" data-modal-title="PRIVACY POLICY — HERO-VERSE STUDIOS" data-modal-body="DOCUMENT REF: HV-PRIV-2026-V4\n\n1. DATA COLLECTION PROTOCOLS:\nHero-Verse collects minimal telemetry required for debugging and gameplay balancing. Personal data handling is described in full in the privacy doc.">Privacy Policy</a></li>
+          <li><a class="link-modal" href="#" data-modal-title="TERMS OF SERVICE — HERO-VERSE STUDIOS" data-modal-body="DOCUMENT REF: HV-TOS-2026-V4\n\n1. INTELLECTUAL PROPERTY RIGHTS:\nAll rights regarding 'Indian GTA 1', 'Voltage Hero', original script breakdowns, sound designs, and game code belong exclusively to Naitik Pandey (The Hero) and Hero-Verse Studios.\n\n2. REVERSE ENGINEERING & MODDING:\nUnauthorized decompilation, repackaging, or monetization of the 300MB compressed engine build without official developer licensing is strictly prohibited.\n\n3. USER CONDUCT:\nUsers engaging with multiplayer servers or community hubs agree to maintain sportsperson spirit.">Terms of Service (Full)</a></li>
+          <li><a class="link-modal" href="#" data-modal-title="PRIVACY POLICY — HERO-VERSE STUDIOS" data-modal-body="DOCUMENT REF: HV-PRIV-2026-V4\n\n1. DATA COLLECTION PROTOCOLS:\nHero-Verse collects minimal telemetry required for debugging and gameplay balancing. Personal data handling is described in full in the privacy doc.">Privacy Policy</a></li>
         </ul>
+      </div>
+    </div>
+
+    <div style="margin-top:1.25rem; display:flex; justify-content:space-between; align-items:center; gap:12px; flex-wrap:wrap;">
+      <div style="color:var(--muted); font-size:0.95rem;">© <span id="year"></span> Hero‑Verse Studios</div>
+      <div style="color:var(--muted); font-size:0.95rem;">
+        Repo:
+        <a href="https://github.com/mysteryhero-01-official/hero-verse" style="color:var(--neon-cyan); text-decoration:none; margin-left:6px;" target="_blank" rel="noopener noreferrer">github.com/mysteryhero-01-official/hero-verse</a>
       </div>
     </div>
   </footer>
 
   <!-- Floating AI Chat Button -->
-  <button class="ai-float-btn" id="ai-float-btn" aria-label="Open AI chat" type="button">
-    <span class="ai-icon">💬</span>
+  <button class="ai-float-btn" id="ai-float-btn" aria-label="Open AI chat" title="Open AI chat">
+    <span class="ai-icon">🤖</span>
+    <span class="sr-only">Open AI</span>
   </button>
 
-  <!-- Modal container (created/controlled by JS) -->
-  <div id="site-modal" class="modal-overlay" aria-hidden="true" style="display:none;">
-    <!-- content inserted by JS -->
+  <!-- Modal overlay (single shared) -->
+  <div id="modal-overlay" class="modal-overlay" role="dialog" aria-modal="true" aria-hidden="true">
+    <div class="modal-box" role="document" aria-labelledby="modal-title">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;">
+        <h2 class="modal-title" id="modal-title">Modal Title</h2>
+        <button id="modal-close" aria-label="Close dialog" class="modal-btn" style="background:transparent;border:1px solid rgba(255,255,255,0.06);color:var(--muted);">Close</button>
+      </div>
+      <div class="modal-body" id="modal-body" tabindex="0">Modal body content</div>
+    </div>
   </div>
 
-  <!-- JS: IntersectionObserver, Modal system, AI chat (local), and handlers -->
+  <!-- AI Chat overlay (separate for semantics) -->
+  <div id="ai-overlay" class="modal-overlay" role="dialog" aria-modal="true" aria-hidden="true">
+    <div class="modal-box ai-chat-card" role="document" aria-labelledby="ai-title">
+      <div class="ai-chat-header">
+        <div style="display:flex; gap:12px; align-items:center;">
+          <div style="font-size:1.15rem;">🤖</div>
+          <div>
+            <div id="ai-title" style="font-weight:800; color:var(--neon-cyan);">Hero-Verse AI Assistant</div>
+            <div style="font-size:0.85rem; color:var(--muted);">Prototype chat (local-only, no external API)</div>
+          </div>
+        </div>
+        <div>
+          <button id="ai-close" aria-label="Close AI chat" class="modal-btn" style="background:transparent;border:1px solid rgba(255,255,255,0.06);color:var(--muted);">Close</button>
+        </div>
+      </div>
+
+      <div class="ai-chat-body" id="ai-body" aria-live="polite">
+        <div class="chat-msg msg-ai">Welcome to Hero‑Verse Assistant. Type a message to start. (This is a local demo; connect to your AI backend to enable answers.)</div>
+      </div>
+
+      <div class="ai-chat-footer">
+        <input id="chat-input" class="chat-input" type="text" placeholder="Ask about the game, roadmap, or support..." aria-label="Chat input" />
+        <button id="chat-send" class="chat-send">Send</button>
+      </div>
+    </div>
+  </div>
+
   <script>
-    (function () {
-      // Helper: create modal DOM and AI chat nodes
-      const createModalShell = () => {
-        let root = document.getElementById('site-modal');
-        if (!root) {
-          root = document.createElement('div');
-          root.id = 'site-modal';
-          root.className = 'modal-overlay';
-          root.setAttribute('aria-hidden', 'true');
-          document.body.appendChild(root);
-        }
-        // keep root empty; content inserted on open
-      };
+    // Small boot: set year and show pop animations
+    document.addEventListener('DOMContentLoaded', () => {
+      document.getElementById('year').textContent = new Date().getFullYear();
 
-      // Show pop elements with IntersectionObserver
-      document.addEventListener('DOMContentLoaded', () => {
-        createModalShell();
+      // reveal pop-elements with slight stagger
+      const pops = Array.from(document.querySelectorAll('.pop-element'));
+      pops.forEach((el, i) => setTimeout(() => el.classList.add('show'), 120 * i));
 
-        // IntersectionObserver for .pop-element
-        const io = new IntersectionObserver((entries, obs) => {
-          entries.forEach(entry => {
-            if (entry.isIntersecting) {
-              entry.target.classList.add('show');
-              obs.unobserve(entry.target);
-            }
-          });
-        }, { threshold: 0.12 });
+      // Wire modal triggers (data-modal-title and data-modal-body)
+      function openModal(title, body) {
+        const overlay = document.getElementById('modal-overlay');
+        document.getElementById('modal-title').textContent = title || 'Information';
+        document.getElementById('modal-body').textContent = body || '';
+        overlay.classList.add('active');
+        overlay.setAttribute('aria-hidden', 'false');
+        // trap focus to close button
+        document.getElementById('modal-close').focus();
+      }
+      function closeModal() {
+        const overlay = document.getElementById('modal-overlay');
+        overlay.classList.remove('active');
+        overlay.setAttribute('aria-hidden', 'true');
+        disableBodyScroll(false);
+      }
 
-        document.querySelectorAll('.pop-element').forEach(el => {
-          io.observe(el);
+      document.querySelectorAll('[data-modal-title]').forEach(btn => {
+        btn.addEventListener('click', (e) => {
+          const title = btn.getAttribute('data-modal-title');
+          const body = btn.getAttribute('data-modal-body') || btn.dataset.modalBody || '';
+          openModal(title, body);
         });
-
-        // Ensure buttons without type get explicit type=button
-        document.querySelectorAll('button:not([type])').forEach(b => b.setAttribute('type','button'));
-
-        // Attach click handlers for elements that use data-modal-*
-        document.querySelectorAll('[data-modal-title]').forEach(el => {
-          el.addEventListener('click', () => {
-            const title = el.getAttribute('data-modal-title') || '';
-            const body = el.getAttribute('data-modal-body') || '';
-            openModal(title, body);
-          });
+      });
+      document.querySelectorAll('.link-modal').forEach(a => {
+        a.addEventListener('click', (e) => {
+          e.preventDefault();
+          const title = a.getAttribute('data-modal-title');
+          const body = a.getAttribute('data-modal-body') || a.dataset.modalBody || '';
+          openModal(title, body);
         });
+      });
 
-        // Footer link-modal elements
-        document.querySelectorAll('.link-modal').forEach(el => {
-          el.addEventListener('click', (ev) => {
-            ev.preventDefault();
-            const title = el.getAttribute('data-modal-title') || '';
-            const body = el.getAttribute('data-modal-body') || '';
-            openModal(title, body);
-          });
-        });
-
-        // QR box open
-        const qr = document.getElementById('qr-box');
-        if (qr) {
-          qr.addEventListener('click', () => openModal('⚡ SPECIAL DILDAR MESSAGE ⚡', 'Aapka dhanyawaad! ❤️\\n\\nHum ye dekhna chahte the ki aap kitne dildaar aur madad karne waale hain! Aapka support hamare Desi GTA aur Voltage Hero ke sapne ko aage badhane me fuel ka kaam karta hai!'));
-          qr.addEventListener('keydown', (e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); qr.click(); } });
-        }
-
-        // Floating AI button opens AI Chat
-        const aiBtn = document.getElementById('ai-float-btn');
-        if (aiBtn) {
-          aiBtn.addEventListener('click', () => openAIChat());
+      document.getElementById('modal-close').addEventListener('click', closeModal);
+      document.getElementById('modal-overlay').addEventListener('click', (e) => {
+        if (e.target === e.currentTarget) closeModal();
+      });
+      document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape') {
+          closeModal();
+          closeAI();
         }
       });
 
-      // Modal open/close functions
-      function openModal(title, body) {
-        const root = document.getElementById('site-modal');
-        if (!root) return;
-        root.innerHTML = `
-          <div class="modal-box" role="dialog" aria-modal="true" aria-labelledby="modal-title" tabindex="-1">
-            <div style="display:flex; justify-content:space-between; align-items:center; gap:12px;">
-              <h3 id="modal-title" class="modal-title">${escapeHtml(title)}</h3>
-              <div>
-                <button id="modal-close-top" class="modal-btn" type="button">Close</button>
-              </div>
-            </div>
-            <div class="modal-body" id="modal-body">${nl2br(escapeHtml(body))}</div>
-            <div style="text-align:right; margin-top:12px;">
-              <button id="modal-close-bottom" class="modal-btn" type="button">Close</button>
-            </div>
-          </div>`;
-        root.style.display = '';
-        setTimeout(()=> root.classList.add('active'), 20);
-        root.setAttribute('aria-hidden', 'false');
-        disableBodyScroll(true);
-
-        // focus management
-        const focusableClose = root.querySelector('#modal-close-top');
-        if (focusableClose) focusableClose.focus();
-
-        // Listeners
-        root.querySelectorAll('#modal-close-top, #modal-close-bottom').forEach(btn => {
-          btn.addEventListener('click', closeModal);
+      // QR box open support modal
+      const qrBox = document.getElementById('qr-box');
+      if (qrBox) {
+        qrBox.addEventListener('click', () => {
+          openModal('Thank you — Support', 'Thanks for scanning! Your appreciation helps the Hero.\\n\\nIf you want to contribute, visit our GitHub repo: https://github.com/mysteryhero-01-official/hero-verse');
         });
-        // click outside to close
-        root.addEventListener('click', onOverlayClick);
-        // esc to close
-        document.addEventListener('keydown', onKeyDown);
+        qrBox.addEventListener('keydown', (e) => {
+          if (e.key === 'Enter' || e.key === ' ') qrBox.click();
+        });
       }
 
-      function closeModal() {
-        const root = document.getElementById('site-modal');
-        if (!root) return;
-        root.classList.remove('active');
-        root.setAttribute('aria-hidden', 'true');
-        disableBodyScroll(false);
-        // cleanup after animation
-        setTimeout(()=> {
-          root.innerHTML = '';
-          root.style.display = 'none';
-        }, 220);
-        root.removeEventListener('click', onOverlayClick);
-        document.removeEventListener('keydown', onKeyDown);
+      // AI chat open/close
+      const aiBtn = document.getElementById('ai-float-btn');
+      const aiOverlay = document.getElementById('ai-overlay');
+      const aiBody = document.getElementById('ai-body');
+      const chatInput = document.getElementById('chat-input');
+      const chatSend = document.getElementById('chat-send');
+
+      function openAI() {
+        aiOverlay.classList.add('active');
+        aiOverlay.setAttribute('aria-hidden', 'false');
+        // focus input
+        setTimeout(() => chatInput.focus(), 120);
+      }
+      function closeAI() {
+        aiOverlay.classList.remove('active');
+        aiOverlay.setAttribute('aria-hidden', 'true');
       }
 
-      function onOverlayClick(e) {
-        if (e.target && e.currentTarget === e.target) closeModal();
+      aiBtn.addEventListener('click', () => openAI());
+      document.getElementById('ai-close').addEventListener('click', closeAI);
+      aiOverlay.addEventListener('click', (e) => {
+        if (e.target === e.currentTarget) closeAI();
+      });
+
+      // Simple local chat behavior (no external API)
+      function appendMessage(text, cls='msg-user') {
+        const el = document.createElement('div');
+        el.className = 'chat-msg ' + cls;
+        el.textContent = text;
+        aiBody.appendChild(el);
+        aiBody.scrollTop = aiBody.scrollHeight;
       }
-      function onKeyDown(e) {
-        if (e.key === 'Escape') closeModal();
-      }
-
-      function disableBodyScroll(disable) {
-        document.body.style.overflow = disable ? 'hidden' : '';
-      }
-
-      // AI Chat: simple local chat simulation (replace with API if you want)
-      let aiChatOpen = false;
-      function openAIChat() {
-        if (aiChatOpen) return;
-        aiChatOpen = true;
-        const root = document.getElementById('site-modal');
-        root.innerHTML = `
-          <div class="ai-chat-card" role="dialog" aria-modal="true" aria-labelledby="ai-chat-title" tabindex="-1">
-            <div class="ai-chat-header">
-              <strong id="ai-chat-title">Hero AI Chat</strong>
-              <div>
-                <button id="ai-close-top" class="modal-btn" type="button">Close</button>
-              </div>
-            </div>
-            <div class="ai-chat-body" id="ai-chat-body" aria-live="polite"></div>
-            <div class="ai-chat-footer">
-              <input id="ai-chat-input" class="chat-input" placeholder="Type your message..." aria-label="Chat message" />
-              <button id="ai-chat-send" class="chat-send" type="button">Send</button>
-            </div>
-          </div>`;
-        root.style.display = '';
-        setTimeout(()=> root.classList.add('active'), 10);
-        root.setAttribute('aria-hidden', 'false');
-        disableBodyScroll(true);
-
-        // wire up
-        const body = document.getElementById('ai-chat-body');
-        const input = document.getElementById('ai-chat-input');
-        const send = document.getElementById('ai-chat-send');
-        const close = document.getElementById('ai-close-top');
-
-        // welcome message
-        appendAIMessage('Welcome! Main Hero-Verse AI hoon. Kaise madad karu aaj?');
-
-        send.addEventListener('click', onSend);
-        input.addEventListener('keydown', (e) => { if (e.key === 'Enter') onSend(); });
-        close.addEventListener('click', closeAI);
-
-        // click outside to close
-        root.addEventListener('click', onOverlayClickAI);
-
-        function onSend() {
-          const text = input.value && input.value.trim();
-          if (!text) return;
-          appendUserMessage(text);
-          input.value = '';
-          // Simulate "thinking" and then respond with canned logic
-          appendAIMessage('Typing...', {loading:true});
-          setTimeout(()=> {
-            // remove last "Typing..."
-            const last = body.querySelector('.chat-msg.loading');
-            if (last) last.remove();
-            // Simple canned responses - you can expand or integrate real API
-            const reply = cannedReply(text);
-            appendAIMessage(reply);
-          }, 900 + Math.random()*900);
+      async function handleSend() {
+        const text = chatInput.value.trim();
+        if (!text) return;
+        appendMessage(text, 'msg-user');
+        chatInput.value = '';
+        // local "assistant" reply (placeholder)
+        appendMessage('Thinking...', 'msg-ai');
+        // simulate processing
+        await new Promise(r => setTimeout(r, 700));
+        // replace last AI message with an example reply
+        const aiMsgs = aiBody.querySelectorAll('.msg-ai');
+        const last = aiMsgs[aiMsgs.length - 1];
+        if (last) {
+          last.textContent = `Demo: I heard "${text}". For full AI responses connect this UI to your AI backend or server-side agent.`;
         }
-
-        function closeAI() {
-          aiChatOpen = false;
-          root.classList.remove('active');
-          root.setAttribute('aria-hidden','true');
-          disableBodyScroll(false);
-          setTimeout(()=> {
-            root.innerHTML = '';
-            root.style.display = 'none';
-          },220);
-          root.removeEventListener('click', onOverlayClickAI);
-        }
-
-        function onOverlayClickAI(e) {
-          if (e.target && e.currentTarget === e.target) closeAI();
-        }
-
-        function appendUserMessage(text) {
-          const el = document.createElement('div');
-          el.className = 'chat-msg msg-user';
-          el.textContent = text;
-          body.appendChild(el);
-          body.scrollTop = body.scrollHeight;
-        }
-
-        function appendAIMessage(text, opts) {
-          const el = document.createElement('div');
-          el.className = 'chat-msg msg-ai' + (opts && opts.loading ? ' loading' : '');
-          el.textContent = text;
-          body.appendChild(el);
-          body.scrollTop = body.scrollHeight;
-        }
-
-        function cannedReply(input) {
-          const s = input.toLowerCase();
-          if (s.includes('hello') || s.includes('hi')) return 'Hi Hero! Kaise madad karun? Aapko project info, bug report tips, ya roadmap chahiye?';
-          if (s.includes('bug') || s.includes('crash')) return 'Bug report ke liye screenshot aur device info bhejo. Agar browser console error hai toh console output paste karo.';
-          if (s.includes('gta') || s.includes('indian gta')) return 'Indian GTA 1 is optimized for mobile. For performance, enable low-res textures in settings and report device model for tuning.';
-          if (s.includes('play') || s.includes('launch')) return 'Alpha builds are not public yet. Follow our channel for launch announcements.';
-          return "Ye simple demo reply hai. Agar tum real AI responses chahte ho toh API key provide kar ke integration kar sakte hain — batao main kar deta hoon.";
-        }
+        aiBody.scrollTop = aiBody.scrollHeight;
       }
 
-      // Expose global functions for existing onclick attributes (if any)
-      window.openModal = function(title, body) {
-        openModal(title || '', body || '');
-      };
-      window.closeModal = function() { closeModal(); };
+      chatSend.addEventListener('click', handleSend);
+      chatInput.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter') handleSend();
+      });
 
-      // small utilities
-      function escapeHtml(s) {
-        return String(s).replace(/[&<>\"']/g, function(m){ return ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'})[m]; });
-      }
-      function nl2br(s) { return String(s).replace(/\n/g, '<br>'); }
+      // Accessibility: focus trap for modal (basic)
+      document.getElementById('modal-overlay').addEventListener('keydown', (e) => {
+        if (e.key === 'Tab') {
+          const focusables = Array.from(document.getElementById('modal-overlay').querySelectorAll('button, [href], input, textarea, [tabindex]:not([tabindex="-1"])')).filter(Boolean);
+          if (!focusables.length) return;
+          const idx = focusables.indexOf(document.activeElement);
+          if (e.shiftKey) {
+            if (idx === 0) { focusables[focusables.length - 1].focus(); e.preventDefault(); }
+          } else {
+            if (idx === focusables.length - 1) { focusables[0].focus(); e.preventDefault(); }
+          }
+        }
+      });
 
-    })();
+      // Prevent zoom-on-focus on small iOS devices by ensuring input font-size >= 16px (done in CSS)
+    });
   </script>
-
-  <noscript><style>.pop-element{opacity:1; transform:none;}</style></noscript>
 </body>
 </html>
-<!-- ================================================================= -->
-<!-- HERO-VERSE STUDIOS: MULTI-PAGE & FIREBASE GATEKEEPER MODULE (APPEND) -->
-<!-- ================================================================= -->
-
-<!-- Firebase SDK Imports -->
-<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
-<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
-<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database-compat.js"></script>
-
-<style>
-  /* Full-Screen Gatekeeper Overlay */
-  #heroGatekeeperOverlay {
-    position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
-    background: #050508;
-    background-image: 
-      radial-gradient(circle at 50% 50%, rgba(255, 0, 85, 0.25) 0%, transparent 70%),
-      linear-gradient(rgba(255, 0, 85, 0.1) 1px, transparent 1px),
-      linear-gradient(90deg, rgba(255, 0, 85, 0.1) 1px, transparent 1px);
-    background-size: 100% 100%, 30px 30px, 30px 30px;
-    z-index: 99999999;
-    display: flex; justify-content: center; align-items: center; text-align: center; padding: 2rem;
-    font-family: 'Rajdhani', sans-serif;
-  }
-
-  .gate-card {
-    background: #0d0d14; border: 2px solid #00f0ff;
-    box-shadow: 0 0 50px #00f0ff; border-radius: 15px;
-    max-width: 480px; width: 95%; padding: 2.5rem 2rem;
-  }
-
-  .gate-title {
-    font-family: 'Teko', sans-serif; font-size: 3.5rem; color: #ff0055;
-    text-shadow: 0 0 15px #ff0055; line-height: 0.9; margin-bottom: 0.5rem;
-  }
-
-  .gate-input {
-    width: 100%; padding: 12px; background: #111; border: 1px solid #00f0ff;
-    color: #fff; border-radius: 6px; font-size: 1rem; outline: none; margin-bottom: 12px;
-  }
-
-  .gate-btn {
-    width: 100%; padding: 12px; background: #ff0055; border: none; color: #fff;
-    font-family: 'Teko', sans-serif; font-size: 1.6rem; font-weight: bold;
-    border-radius: 6px; cursor: pointer; box-shadow: 0 0 15px #ff0055; transition: 0.2s;
-  }
-  .gate-btn:hover { background: #ff3377; }
-
-  /* Dedicated Full Screen Page Views */
-  .hero-dedicated-view {
-    position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
-    background: #050508; z-index: 999999; display: none;
-    flex-direction: column; overflow-y: auto; padding: 3rem 5%;
-    font-family: 'Rajdhani', sans-serif;
-  }
-  .hero-dedicated-view.active { display: flex; }
-  .view-header { display: flex; justify-content: space-between; align-items: center; border-bottom: 2px solid #ff0055; padding-bottom: 1.5rem; margin-bottom: 2rem; }
-  .view-back-btn { background: transparent; border: 2px solid #00f0ff; color: #00f0ff; padding: 8px 20px; font-family: 'Teko', sans-serif; font-size: 1.4rem; border-radius: 6px; cursor: pointer; box-shadow: 0 0 10px #00f0ff; transition: 0.3s; }
-  .view-back-btn:hover { background: #00f0ff; color: #000; }
-</style>
-
-<!-- GATEKEEPER LOCK DISPLAY -->
-<div id="heroGatekeeperOverlay">
-  <div class="gate-card">
-    <h2 class="gate-title">HERO-VERSE GATE</h2>
-    <p style="color: #00f0ff; font-weight: bold; font-size: 1.1rem; margin-bottom: 1.2rem;">FIREBASE SECURED • ACCESS REQUIRED</p>
-    
-    <input type="text" id="fbUsername" class="gate-input" placeholder="Choose Unique Hero ID (e.g. Gamer99)">
-    <input type="text" id="fbPhone" class="gate-input" placeholder="Phone Number (for Verification)">
-    
-    <button type="button" class="gate-btn" onclick="registerAndUnlockFirebase()">LOGIN / REGISTER WITH FIREBASE ⚡</button>
-    
-    <div style="margin: 12px 0; color: #666; font-size: 0.85rem;">--- OR QUICK ACCESS ---</div>
-    
-    <button type="button" onclick="loginWithGoogleFirebase()" style="width:100%; padding:10px; background:#fff; color:#000; border:none; border-radius:6px; font-weight:bold; cursor:pointer; display:flex; align-items:center; justify-content:center; gap:8px;">
-      <img src="https://www.google.com/favicon.ico" width="16" height="16" alt="Google"> Continue with Google
-    </button>
-  </div>
-</div>
-
-<!-- UNIVERSAL NEW PAGE VIEW CONTAINER -->
-<div id="universalHeroView" class="hero-dedicated-view">
-  <div class="view-header">
-    <h2 style="font-family:'Teko'; font-size:3.5rem; color:#00f0ff;" id="dedicatedViewTitle">HERO-VERSE SYSTEM</h2>
-    <button type="button" class="view-back-btn" onclick="closeHeroView()">← BACK TO HUB</button>
-  </div>
-  <div style="max-width: 900px; font-size: 1.3rem; line-height: 1.8; color: #dddddd;" id="dedicatedViewContent">
-    <!-- Dynamic page text loaded here -->
-  </div>
-</div>
-
-<script>
-  // Firebase Auto Configuration with Your Project ID
-  const firebaseConfig = {
-    apiKey: "AIzaSyD-HeroVerseDefaultKeyAutoAuth2026",
-    authDomain: "Hero-verse-f53ee.firebaseapp.com",
-    databaseURL: "https://Hero-verse-f53ee-default-rtdb.firebaseio.com",
-    projectId: "Hero-verse-f53ee",
-    storageBucket: "Hero-verse-f53ee.appspot.com",
-    messagingSenderId: "109823746501",
-    appId: "1:109823746501:web:a1b2c3d4e5f6g7h8i9j0"
-  };
-
-  if (!firebase.apps.length) {
-    firebase.initializeApp(firebaseConfig);
-  }
-  const db = firebase.database();
-  const auth = firebase.auth();
-
-  // Admin Security Protection List
-  const PROTECTED_ADMIN_HANDLES = [
-    "mysteryhero", 
-    "mystery_hero", 
-    "naitik", 
-    "naitikpandey", 
-    "voltagehero", 
-    "desigta", 
-    "heroverse", 
-    "admin"
-  ];
-
-  // Real Database Registration logic
-  function registerAndUnlockFirebase() {
-    const user = document.getElementById('fbUsername').value.trim().toLowerCase();
-    const phone = document.getElementById('fbPhone').value.trim();
-
-    if (!user || !phone) {
-      alert("⚠️ ERROR: Please enter both Unique Hero ID and Phone Number!");
-      return;
-    }
-
-    if (PROTECTED_ADMIN_HANDLES.includes(user)) {
-      alert("⛔ ACCESS DENIED!\n\nThe ID '" + user + "' is STRICTLY RESERVED for Lead Developer Naitik Pandey!\n\nPlease pick a different handle.");
-      return;
-    }
-
-    const userRef = db.ref('registered_users/' + user);
-    userRef.once('value', (snapshot) => {
-      if (snapshot.exists()) {
-        alert("⛔ ID TAKEN!\n\nThe ID '" + user + "' is already registered by another user in Firebase. Try another!");
-      } else {
-        userRef.set({
-          heroID: user,
-          phoneNum: phone,
-          timeJoined: new Date().toISOString()
-        }).then(() => {
-          alert("⚡ FIREBASE ACCOUNT CREATED!\n\nWelcome Agent " + user + "! Data saved securely.");
-          unlockStudioSite();
-        }).catch(() => {
-          // Fallback local unlock if DB offline
-          alert("⚡ WELCOME " + user + "! Local Access Granted.");
-          unlockStudioSite();
-        });
-      }
-    });
-  }
-
-  function loginWithGoogleFirebase() {
-    const provider = new firebase.auth.GoogleAuthProvider();
-    auth.signInWithPopup(provider).then((res) => {
-      alert("✨ Google Login Verified! Welcome " + res.user.displayName);
-      unlockStudioSite();
-    }).catch(() => {
-      alert("✨ Google Session Access Granted!");
-      unlockStudioSite();
-    });
-  }
-
-  function unlockStudioSite() {
-    document.getElementById('heroGatekeeperOverlay').style.display = 'none';
-  }
-
-  // Multi-Page Dynamic Navigation Controls
-  function openHeroView(title, content) {
-    document.getElementById('dedicatedViewTitle').innerText = title;
-    document.getElementById('dedicatedViewContent').innerHTML = content;
-    document.getElementById('universalHeroView').classList.add('active');
-  }
-
-  function closeHeroView() {
-    document.getElementById('universalHeroView').classList.remove('active');
-  }
-
-  // Override old modal popups to open as Dedicated Full Pages!
-  window.addEventListener('DOMContentLoaded', () => {
-    // Intercept all button clicks that had openModal or details logic
-    document.querySelectorAll('button, a, .qr-box').forEach(element => {
-      const oldClick = element.getAttribute('onclick');
-      if (oldClick && oldClick.includes('openModal')) {
-        element.setAttribute('onclick', oldClick.replace(/openModal/g, 'openHeroView'));
-      }
-    });
-  });
-</script>
-<!-- ================================================================= -->
-<!-- ================================================================= -->
-<!-- HERO-VERSE STUDIOS: PERSISTENT FIREBASE & MASTER ADMIN SUITE (APPEND) -->
-<!-- ================================================================= -->
-
-<!-- Firebase SDK Imports -->
-<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
-<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
-<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database-compat.js"></script>
-
-<style>
-  /* Full-Screen Cyberpunk Auth Gate */
-  #heroAuthMasterOverlay {
-    position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
-    background: #050508;
-    background-image: 
-      radial-gradient(circle at 50% 50%, rgba(255, 0, 85, 0.2) 0%, transparent 70%),
-      linear-gradient(rgba(255, 0, 85, 0.08) 1px, transparent 1px),
-      linear-gradient(90deg, rgba(255, 0, 85, 0.08) 1px, transparent 1px);
-    background-size: 100% 100%, 30px 30px, 30px 30px;
-    z-index: 99999999;
-    display: flex; justify-content: center; align-items: center; padding: 1.5rem;
-    font-family: 'Rajdhani', sans-serif;
-  }
-
-  .auth-card {
-    background: #0d0d14; border: 2px solid #00f0ff;
-    box-shadow: 0 0 40px rgba(0, 240, 255, 0.3); border-radius: 15px;
-    max-width: 480px; width: 100%; padding: 2.2rem; position: relative; max-height: 90vh; overflow-y: auto;
-  }
-
-  .auth-title {
-    font-family: 'Teko', sans-serif; font-size: 3rem; color: #ff0055;
-    text-shadow: 0 0 12px #ff0055; line-height: 0.9; margin-bottom: 0.3rem; text-align: center;
-  }
-
-  .auth-input-group { position: relative; margin-bottom: 12px; }
-  .auth-input {
-    width: 100%; padding: 12px 15px; background: #111; border: 1px solid #00f0ff;
-    color: #fff; border-radius: 6px; font-size: 1rem; outline: none;
-  }
-  .auth-input:focus { border-color: #ff0055; box-shadow: 0 0 10px rgba(255,0,85,0.4); }
-
-  .live-tick {
-    position: absolute; right: 15px; top: 12px; font-size: 1.2rem; color: #00ff88; display: none;
-  }
-
-  .auth-btn {
-    width: 100%; padding: 12px; background: #ff0055; border: none; color: #fff;
-    font-family: 'Teko', sans-serif; font-size: 1.5rem; font-weight: bold;
-    border-radius: 6px; cursor: pointer; box-shadow: 0 0 15px #ff0055; transition: 0.2s; margin-top: 5px;
-  }
-  .auth-btn:hover { background: #ff3377; }
-
-  .auth-link {
-    color: #00f0ff; cursor: pointer; text-decoration: underline; font-size: 0.95rem; text-align: center; margin-top: 15px; display: block;
-  }
-  .auth-link:hover { color: #fff; }
-
-  .custom-alert {
-    background: rgba(255, 0, 85, 0.15); border-left: 4px solid #ff0055;
-    padding: 10px; border-radius: 4px; font-size: 0.9rem; color: #ff88aa; margin-bottom: 12px; display: none;
-  }
-  .custom-success {
-    background: rgba(0, 255, 136, 0.15); border-left: 4px solid #00ff88;
-    padding: 10px; border-radius: 4px; font-size: 0.9rem; color: #88ffcc; margin-bottom: 12px; display: none;
-  }
-
-  /* Top Right Profile Icon in Dashboard */
-  #heroProfileNavbar {
-    position: fixed; top: 15px; right: 25px; z-index: 99999; display: none; align-items: center; gap: 10px;
-    background: #0d0d14; border: 2px solid #00f0ff; padding: 6px 15px; border-radius: 30px; box-shadow: 0 0 15px #00f0ff; cursor: pointer;
-  }
-  #heroProfileNavbar img { width: 32px; height: 32px; border-radius: 50%; object-fit: cover; border: 1px solid #ff0055; }
-  #heroProfileNavbar span { font-family: 'Teko', sans-serif; font-size: 1.2rem; color: #fff; }
-
-  /* EXCLUSIVE ADMIN DEV BUTTON & PANEL */
-  #adminDevFloatBtn {
-    position: fixed; bottom: 20px; left: 20px; width: auto; padding: 10px 18px;
-    background: #110006; border: 2px solid #ff0055; border-radius: 25px;
-    box-shadow: 0 0 20px #ff0055; color: #ff0055; font-family: 'Teko', sans-serif;
-    font-size: 1.3rem; font-weight: bold; cursor: pointer; z-index: 999999; display: none;
-  }
-  #adminDevFloatBtn:hover { background: #ff0055; color: #fff; box-shadow: 0 0 30px #ff0055; }
-
-  #adminDevModal {
-    position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: rgba(0,0,0,0.95);
-    z-index: 99999999; display: none; justify-content: center; align-items: center; font-family: 'Rajdhani', sans-serif;
-  }
-</style>
-
-<!-- ================= AUTHENTICATION OVERLAY ================= -->
-<div id="heroAuthMasterOverlay" style="display: none;">
-  <div class="auth-card">
-    
-    <!-- VIEW 1: LOGIN BOX -->
-    <div id="authViewLogin">
-      <h2 class="auth-title">HERO-VERSE GATE</h2>
-      <p style="color: #00f0ff; text-align: center; font-size: 1rem; margin-bottom: 1.5rem;">Access Your Studio Account</p>
-      
-      <div id="loginAlertBox" class="custom-alert"></div>
-
-      <div class="auth-input-group">
-        <input type="text" id="loginIdentifier" class="auth-input" placeholder="Hero ID, Mobile No, or Email">
-      </div>
-      <div class="auth-input-group">
-        <input type="password" id="loginPassword" class="auth-input" placeholder="Password">
-      </div>
-
-      <button type="button" class="auth-btn" onclick="executeStudioLogin()">SECURE LOGIN ⚡</button>
-      
-      <a class="auth-link" onclick="switchAuthView('forgot')">Forgot Password / Reset with OTP?</a>
-      <a class="auth-link" onclick="switchAuthView('register')">Don't have an account? Create an Account</a>
-    </div>
-
-    <!-- VIEW 2: CREATE ACCOUNT (STEP 1 - PHONE / GOOGLE) -->
-    <div id="authViewRegister1" style="display: none;">
-      <h2 class="auth-title">CREATE ACCOUNT</h2>
-      <p style="color: #00f0ff; text-align: center; font-size: 1rem; margin-bottom: 1.5rem;">Step 1: Mobile Verification</p>
-      
-      <div id="reg1Alert" class="custom-alert"></div>
-
-      <div class="auth-input-group">
-        <input type="text" id="regPhone" class="auth-input" placeholder="Enter Mobile Number (10 digits)">
-      </div>
-
-      <button type="button" class="auth-btn" onclick="sendOtpAndProceed()">SEND OTP & VERIFY 📱</button>
-
-      <div style="margin: 15px 0; color: #666; text-align: center; font-size: 0.85rem;">--- OR ---</div>
-      
-      <button type="button" onclick="loginWithGoogleFirebase()" style="width:100%; padding:10px; background:#fff; color:#000; border:none; border-radius:6px; font-weight:bold; cursor:pointer; display:flex; align-items:center; justify-content:center; gap:8px;">
-        <img src="https://www.google.com/favicon.ico" width="16" height="16" alt="Google"> Continue with Google
-      </button>
-
-      <a class="auth-link" onclick="switchAuthView('login')">Already have an account? Login</a>
-    </div>
-
-    <!-- VIEW 2.5: OTP VERIFICATION BOX -->
-    <div id="authViewOtp" style="display: none;">
-      <h2 class="auth-title">OTP VERIFICATION</h2>
-      <p style="color: #00f0ff; text-align: center; font-size: 1rem; margin-bottom: 1.5rem;">Enter 6-digit code sent to your phone</p>
-      
-      <div class="auth-input-group">
-        <input type="text" id="enteredOtp" class="auth-input" placeholder="Enter 6-digit OTP (e.g. 123456)" maxlength="6">
-      </div>
-
-      <button type="button" class="auth-btn" onclick="verifyOtpAndNext()">VERIFY OTP ⚡</button>
-      <a class="auth-link" onclick="switchAuthView('register')">Back to Mobile Input</a>
-    </div>
-
-    <!-- VIEW 3: CREATE ACCOUNT (STEP 2 - ID, PASSWORD & LIVE VALIDATION) -->
-    <div id="authViewRegister2" style="display: none;">
-      <h2 class="auth-title">HERO PROFILE SETUP</h2>
-      <p style="color: #00f0ff; text-align: center; font-size: 1rem; margin-bottom: 1rem;">Step 2: Credentials & ID</p>
-      
-      <div id="reg2Alert" class="custom-alert"></div>
-      <div id="reg2Success" class="custom-success"></div>
-
-      <!-- Unique ID with Live Tick -->
-      <div class="auth-input-group">
-        <input type="text" id="regUsername" class="auth-input" placeholder="Choose Unique Hero ID" oninput="liveValidateId(this.value)">
-        <span id="idLiveTick" class="live-tick">✔</span>
-      </div>
-      <p style="font-size: 0.75rem; color: #888; margin-top: -8px; margin-bottom: 10px;">💡 Recommended: <span id="suggestedIdText" style="color:var(--neon-cyan); cursor:pointer;" onclick="useSuggestedId()">HeroGamer_99</span></p>
-
-      <!-- Password Box -->
-      <div class="auth-input-group">
-        <input type="password" id="regPassword" class="auth-input" placeholder="Create Password (Min 6 chars)">
-      </div>
-
-      <button type="button" class="auth-btn" onclick="proceedToPersonalDetails()">NEXT: PERSONAL INFO →</button>
-    </div>
-
-    <!-- VIEW 4: CREATE ACCOUNT (STEP 3 - DOB, GENDER & PROFILE PHOTO) -->
-    <div id="authViewRegister3" style="display: none;">
-      <h2 class="auth-title">FINAL TOUCHES</h2>
-      <p style="color: #00f0ff; text-align: center; font-size: 1rem; margin-bottom: 1rem;">Step 3: Personalization</p>
-
-      <div class="auth-input-group">
-        <label style="font-size: 0.85rem; color: #aaa;">Date of Birth:</label>
-        <input type="date" id="regDob" class="auth-input">
-      </div>
-
-      <div class="auth-input-group">
-        <label style="font-size: 0.85rem; color: #aaa;">Gender:</label>
-        <select id="regGender" class="auth-input">
-          <option value="Male">Male</option>
-          <option value="Female">Female</option>
-          <option value="Hero">Hero (Other)</option>
-        </select>
-      </div>
-
-      <div class="auth-input-group">
-        <label style="font-size: 0.85rem; color: #aaa;">Profile Photo URL (or Avatar Link):</label>
-        <input type="text" id="regPhotoUrl" class="auth-input" placeholder="https://... (Leave empty for default avatar)">
-      </div>
-
-      <button type="button" class="auth-btn" onclick="finalizeRegistration()">FINISH & LAUNCH STUDIO 🚀</button>
-    </div>
-
-    <!-- VIEW 5: FORGOT PASSWORD / RESET WITH OTP -->
-    <div id="authViewForgot" style="display: none;">
-      <h2 class="auth-title">RESET PASSWORD</h2>
-      <p style="color: #00f0ff; text-align: center; font-size: 1rem; margin-bottom: 1.5rem;">Security Verification</p>
-      
-      <div id="forgotAlert" class="custom-alert"></div>
-
-      <div class="auth-input-group">
-        <input type="text" id="forgotPhoneOrEmail" class="auth-input" placeholder="Registered Mobile No or Email">
-      </div>
-      <button type="button" class="auth-btn" onclick="sendResetOtp()">SEND RESET OTP 📱</button>
-
-      <div id="resetSection" style="display:none; margin-top:15px;">
-        <div class="auth-input-group">
-          <input type="text" id="forgotOtp" class="auth-input" placeholder="Enter OTP">
-        </div>
-        <div class="auth-input-group">
-          <input type="password" id="newPassword" class="auth-input" placeholder="Enter New Password">
-        </div>
-        <button type="button" class="auth-btn" onclick="saveNewPassword()">UPDATE PASSWORD ⚡</button>
-      </div>
-
-      <a class="auth-link" onclick="switchAuthView('login')">Back to Login</a>
-    </div>
-
-  </div>
-</div>
-
-<!-- ================= TOP RIGHT PROFILE NAVBAR ICON ================= -->
-<div id="heroProfileNavbar" onclick="openProfileEditModal()">
-  <img id="navUserAvatar" src="https://api.qrserver.com/v1/create-qr-code/?size=100&data=Hero" alt="Avatar">
-  <span id="navUsernameDisplay">Agent</span>
-  <span id="navAdminBadge" style="display:none; background:#ff0055; color:#fff; font-size:0.75rem; padding:2px 8px; border-radius:10px; font-weight:bold;">👑 MASTER ADMIN</span>
-</div>
-
-<!-- SECRET EXCLUSIVE ADMIN FLOATING CONTROL BUTTON -->
-<div id="adminDevFloatBtn" onclick="openAdminDevModal()">
-  ⚡ DEV CONTROL PANEL
-</div>
-
-<!-- EXCLUSIVE ADMIN DEV CONTROL MODAL -->
-<div id="adminDevModal">
-  <div class="auth-card" style="max-width: 600px;">
-    <h2 class="auth-title" style="color:#00f0ff;">👑 LEAD DEVELOPER DASHBOARD</h2>
-    <p style="color:#ff0055; font-weight:bold; text-align:center; margin-bottom:1.5rem;">CONFIDENTIAL ADMIN SYSTEM • WELCOME NAITIK PANDEY</p>
-
-    <div style="display:flex; flex-direction:column; gap:12px;">
-      <button type="button" class="auth-btn" style="background:#111; border:1px solid #00f0ff; color:#00f0ff;" onclick="alert('⚡ INDIAN GTA 1 & VOLTAGE HERO SOURCE BUILD ENGINE: 100% HEALTHY\nMemory Latency: 12ms\nActive Assets: Compressed 300MB Build Verified.')">📁 VIEW GAME SOURCE ENGINE DATA</button>
-      <button type="button" class="auth-btn" style="background:#111; border:1px solid #00f0ff; color:#00f0ff;" onclick="alert('📊 REGISTERED USERS DATABASE:\nConnected to Firebase Node (Hero-verse-f53ee)\nAdmin Status: MASTER SOVEREIGN')">👥 VIEW FIREBASE USER ACCOUNTS</button>
-      <button type="button" class="auth-btn" style="background:#ff0055;" onclick="alert('🚀 OVERDRIVE MODE ACTIVATED!\nGlobal Cloud Node Latency boosted to Maximum Speed!')">⚡ TRIGGER CLOUD OVERDRIVE</button>
-    </div>
-
-    <button type="button" onclick="closeAdminDevModal()" style="background:none; border:none; color:#aaa; width:100%; margin-top:20px; cursor:pointer;">Close Dev Panel</button>
-  </div>
-</div>
-
-<!-- PROFILE EDIT MODAL -->
-<div id="profileEditModal" style="position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: rgba(0,0,0,0.9); z-index: 9999999; display: none; justify-content: center; align-items: center; font-family: 'Rajdhani', sans-serif;">
-  <div class="auth-card">
-    <h2 class="auth-title">EDIT HERO PROFILE</h2>
-    <div class="auth-input-group"><label style="font-size:0.85rem; color:#aaa;">Hero ID:</label><input type="text" id="editUsername" class="auth-input" disabled></div>
-    <div class="auth-input-group"><label style="font-size:0.85rem; color:#aaa;">Phone:</label><input type="text" id="editPhone" class="auth-input"></div>
-    <div class="auth-input-group"><label style="font-size:0.85rem; color:#aaa;">Profile Photo URL:</label><input type="text" id="editPhoto" class="auth-input"></div>
-    <button type="button" class="auth-btn" onclick="saveProfileEdits()">SAVE CHANGES 💾</button>
-    <button type="button" onclick="closeProfileEditModal()" style="background:none; border:none; color:#aaa; width:100%; margin-top:15px; cursor:pointer;">Close</button>
-  </div>
-</div>
-
-<!-- ================= SYSTEM ENGINE, FIREBASE & PERSISTENCE LOGIC ================= -->
-<script>
-  // Firebase Configuration with Hero-verse-f53ee ID linked
-  const firebaseConfig = {
-    apiKey: "AIzaSyD-HeroVerseDefaultKeyAutoAuth2026",
-    authDomain: "Hero-verse-f53ee.firebaseapp.com",
-    databaseURL: "https://Hero-verse-f53ee-default-rtdb.firebaseio.com",
-    projectId: "Hero-verse-f53ee",
-    storageBucket: "Hero-verse-f53ee.appspot.com",
-    messagingSenderId: "109823746501",
-    appId: "1:109823746501:web:a1b2c3d4e5f6g7h8i9j0"
-  };
-
-  if (!firebase.apps.length) { firebase.initializeApp(firebaseConfig); }
-  const db = firebase.database();
-  const auth = firebase.auth();
-
-  // Reserved Admin & Brand Protection Array
-  const ADMIN_PROTECTED_NAMES = ["mysteryhero", "mystery_hero", "naitik", "naitikpandey", "voltagehero", "desigta", "heroverse", "admin", "developer"];
-
-  // MASTER ADMIN CREDENTIALS (Updated Password)
-  const MASTER_ADMIN_ID = "mysteryhero";
-  const MASTER_ADMIN_PASS = "995641NP";
-
-  let tempRegData = {};
-
-  function switchAuthView(viewName) {
-    document.getElementById('authViewLogin').style.display = 'none';
-    document.getElementById('authViewRegister1').style.display = 'none';
-    document.getElementById('authViewOtp').style.display = 'none';
-    document.getElementById('authViewRegister2').style.display = 'none';
-    document.getElementById('authViewRegister3').style.display = 'none';
-    document.getElementById('authViewForgot').style.display = 'none';
-
-    if (viewName === 'login') document.getElementById('authViewLogin').style.display = 'block';
-    if (viewName === 'register') document.getElementById('authViewRegister1').style.display = 'block';
-    if (viewName === 'otp') document.getElementById('authViewOtp').style.display = 'block';
-    if (viewName === 'reg2') document.getElementById('authViewRegister2').style.display = 'block';
-    if (viewName === 'reg3') document.getElementById('authViewRegister3').style.display = 'block';
-    if (viewName === 'forgot') document.getElementById('authViewForgot').style.display = 'block';
-  }
-
-  function showAlert(boxId, msg) {
-    const box = document.getElementById(boxId);
-    box.innerText = "⚠ OFFICIAL WARNING: " + msg;
-    box.style.display = 'block';
-  }
-  function showSuccess(boxId, msg) {
-    const box = document.getElementById(boxId);
-    box.innerText = "✔ " + msg;
-    box.style.display = 'block';
-  }
-
-  // LOGIN EXECUTION WITH FIREBASE & MASTER ADMIN
-  function executeStudioLogin() {
-    const identifier = document.getElementById('loginIdentifier').value.trim().toLowerCase();
-    const pass = document.getElementById('loginPassword').value.trim();
-
-    if (!identifier || !pass) {
-      showAlert('loginAlertBox', 'Please enter your ID/Email/Phone and Password.');
-      return;
-    }
-
-    // 🌟 MASTER ADMIN LOGIN CHECK
-    if (identifier === MASTER_ADMIN_ID && pass === MASTER_ADMIN_PASS) {
-      alert("👑 WELCOME LEAD DEVELOPER NAITIK PANDEY!\n\nMaster Admin Rights & Dev Panel Unlocked!");
-      completeLoginSession(MASTER_ADMIN_ID, "https://api.qrserver.com/v1/create-qr-code/?size=100&data=NaitikPandeyAdmin", true);
-      return;
-    }
-
-    // Firebase Database Real Lookup
-    db.ref('registered_users/' + identifier).once('value', (s) => {
-      if (s.exists() && s.val().password === pass) {
-        completeLoginSession(s.val().username, s.val().photo, false);
-      } else {
-        showAlert('loginAlertBox', 'Incorrect credentials or User ID not found in database!');
-      }
-    });
-  }
-
-  // REGISTRATION & OTP TRIGGERS
-  function sendOtpAndProceed() {
-    const phone = document.getElementById('regPhone').value.trim();
-    if (!phone || phone.length < 10) {
-      showAlert('reg1Alert', 'Please enter a valid 10-digit mobile number.');
-      return;
-    }
-    tempRegData.phone = phone;
-    alert("📱 OTP Dispatched! Testing verification code is: 123456");
-    switchAuthView('otp');
-  }
-
-  function verifyOtpAndNext() {
-    const otp = document.getElementById('enteredOtp').value.trim();
-    if (otp !== "123456") {
-      alert("❌ Invalid OTP! Use 123456 for testing.");
-      return;
-    }
-    const randomNum = Math.floor(10 + Math.random() * 90);
-    const suggested = "HeroGamer_" + randomNum;
-    document.getElementById('suggestedIdText').innerText = suggested;
-    tempRegData.suggestedId = suggested;
-
-    switchAuthView('reg2');
-  }
-
-  function useSuggestedId() {
-    document.getElementById('regUsername').value = tempRegData.suggestedId;
-    liveValidateId(tempRegData.suggestedId);
-  }
-
-  function liveValidateId(val) {
-    val = val.trim().toLowerCase();
-    const tick = document.getElementById('idLiveTick');
-    const alertBox = document.getElementById('reg2Alert');
-    const successBox = document.getElementById('reg2Success');
-
-    alertBox.style.display = 'none';
-    successBox.style.display = 'none';
-
-    if (ADMIN_PROTECTED_NAMES.includes(val)) {
-      tick.style.display = 'none';
-      showAlert('reg2Alert', "This ID is STRICTLY RESERVED for Studio Owner (Naitik Pandey)!");
-      return;
-    }
-
-    if (val.length < 3) {
-      tick.style.display = 'none';
-      return;
-    }
-
-    db.ref('registered_users/' + val).once('value', (snap) => {
-      if (snap.exists()) {
-        tick.style.display = 'none';
-        showAlert('reg2Alert', "ID already taken! Choose another handle.");
-      } else {
-        tick.style.display = 'block';
-        showSuccess('reg2Success', "ID is available and verified!");
-      }
-    });
-  }
-
-  function proceedToPersonalDetails() {
-    const username = document.getElementById('regUsername').value.trim().toLowerCase();
-    const password = document.getElementById('regPassword').value.trim();
-
-    if (!username || ADMIN_PROTECTED_NAMES.includes(username)) {
-      showAlert('reg2Alert', 'Please choose a valid unique Hero ID.');
-      return;
-    }
-    if (!password || password.length < 6) {
-      showAlert('reg2Alert', 'Password must be 
