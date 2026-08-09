@@ -1,55 +1,55 @@
-// Serverless AI proxy (Node.js + Express)
-// Usage: deploy to Vercel/Netlify/Firebase Functions. Configure environment variables:
-// AI_PROVIDER=google  OR openai
-// GOOGLE_API_KEY=your_google_api_key   (for PaLM/Vertex generative API)
-// OPENAI_API_KEY=your_openai_key  (optional fallback)
+// Serverless AI proxy
+// Usage: deploy to Vercel / Netlify / Cloud Functions
+// Configure environment variables:
+//   TARGET_AI_URL - the upstream AI endpoint (e.g. OpenAI or Google PaLM endpoint)
+//   AI_API_KEY - the API key for the provider
 
 const express = require('express');
 const fetch = require('node-fetch');
 const app = express();
 app.use(express.json());
 
-const AI_PROVIDER = process.env.AI_PROVIDER || 'google';
+const TARGET_URL = process.env.TARGET_AI_URL; // e.g. https://api.openai.com/v1/chat/completions
+const API_KEY = process.env.AI_API_KEY;
 
-app.post('/', async (req, res) => {
-  const prompt = (req.body && req.body.prompt) || '';
+if (!TARGET_URL || !API_KEY) {
+  console.warn('AI proxy running without TARGET_AI_URL or AI_API_KEY - configure env variables');
+}
+
+app.post('/api/ai', async (req, res) => {
+  const { prompt, model='gpt-4', temperature=0.2 } = req.body || {};
   if (!prompt) return res.status(400).json({error:'missing prompt'});
 
-  try{
-    if (AI_PROVIDER === 'google'){
-      // Example using Google Generative Language API (PaLM/Vertex). Replace model and endpoint as needed.
-      const apiKey = process.env.GOOGLE_API_KEY;
-      if(!apiKey) return res.status(500).json({error:'GOOGLE_API_KEY not configured'});
+  if (!TARGET_URL || !API_KEY) {
+    return res.status(500).json({error:'AI proxy not configured. Set TARGET_AI_URL and AI_API_KEY in environment.'});
+  }
 
-      const model = process.env.GOOGLE_PALM_MODEL || 'models/text-bison-001';
-      const url = `https://generativelanguage.googleapis.com/v1beta2/${model}:generateText?key=${apiKey}`;
-      const body = { "prompt": { "text": prompt }, "temperature": 0.7 };
+  try {
+    // Generic forwarder: POST the received body to TARGET_URL with Authorization header
+    const upstream = await fetch(TARGET_URL, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${API_KEY}`
+      },
+      body: JSON.stringify({ prompt, model, temperature })
+    });
 
-      const r = await fetch(url, {method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(body)});
-      const j = await r.json();
-      // adjust based on actual response shape
-      const reply = j.candidates && j.candidates[0] && j.candidates[0].output || j.output || JSON.stringify(j);
-      return res.json({reply});
+    const json = await upstream.json();
 
-    } else {
-      // OpenAI fallback
-      const key = process.env.OPENAI_API_KEY;
-      if(!key) return res.status(500).json({error:'OPENAI_API_KEY not configured'});
-      const r = await fetch('https://api.openai.com/v1/chat/completions',{method:'POST',headers:{'Authorization':'Bearer '+key,'Content-Type':'application/json'},body:JSON.stringify({model:'gpt-4o-mini',messages:[{role:'user',content:prompt}],max_tokens:600})});
-      const j = await r.json();
-      const reply = j.choices && j.choices[0] && (j.choices[0].message && j.choices[0].message.content) || JSON.stringify(j);
-      return res.json({reply});
-    }
-  }catch(err){
-    console.error(err);
-    return res.status(500).json({error:'AI proxy error', details: String(err)});
+    // The shape of response differs per provider. We return the raw upstream body under `upstream`
+    // and also try to normalize common fields into `reply`.
+    let reply = null;
+    if (json.choices && Array.isArray(json.choices) && json.choices[0].text) reply = json.choices[0].text;
+    if (json.choices && Array.isArray(json.choices) && json.choices[0].message) reply = json.choices[0].message.content;
+    if (!reply && json.output && json.output[0] && json.output[0].content) reply = (json.output[0].content.map(c=>c.text || '').join('\n'));
+
+    return res.json({ upstream: json, reply });
+  } catch (err) {
+    console.error('AI proxy error', err);
+    return res.status(500).json({ error: 'proxy failed', detail: err.message });
   }
 });
 
-// For serverless platforms that expect default export
+// For serverless platforms like Vercel export the app
 module.exports = app;
-
-// If running standalone for local testing
-if (require.main === module) {
-  const port = process.env.PORT || 3000; app.listen(port, ()=>console.log('AI proxy listening on',port));
-}
