@@ -1,537 +1,19 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>HERO-VERSE STUDIOS | Next-Gen Gaming Universe</title>
-
-  <!-- Fonts performance -->
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Teko:wght@400;600;700&family=Rajdhani:wght@500;700;900&display=swap" rel="stylesheet" />
-
-  <style>
-    :root {
-      --neon-red: #ff0055;
-      --neon-cyan: #00f0ff;
-      --neon-orange: #ff6600;
-      --bg-black: #050508;
-      --muted: #bfc7cf;
-    }
-
-    /* Basic reset + base font */
-    * { margin: 0; padding: 0; box-sizing: border-box; }
-    html, body { height: 100%; }
-    body {
-      background-color: var(--bg-black);
-      color: #ffffff;
-      overflow-x: hidden;
-      font-family: 'Rajdhani', sans-serif;
-      -webkit-font-smoothing:antialiased;
-      -moz-osx-font-smoothing:grayscale;
-      background-image:
-        linear-gradient(180deg, rgba(255, 0, 85, 0.15) 0%, rgba(5, 5, 8, 0.95) 40%, rgba(0, 0, 0, 1) 100%),
-        linear-gradient(rgba(255, 0, 85, 0.06) 1px, transparent 1px),
-        linear-gradient(90deg, rgba(255, 0, 85, 0.03) 1px, transparent 1px);
-      background-size: 100% 100%, 40px 40px, 40px 40px;
-      background-attachment: fixed;
-      -webkit-font-smoothing: antialiased;
-      -moz-osx-font-smoothing: grayscale;
-    }
-
-    /* Ensure .pop-element visible when JS disabled */
-    noscript .pop-element, .pop-element.noscript { opacity: 1 !important; transform: none !important; }
-
-    /* Pop / reveal animation */
-    .pop-element {
-      opacity: 0;
-      transform: translateY(40px) scale(0.98);
-      transition: opacity 0.65s ease, transform 0.65s cubic-bezier(.2,.9,.28,1.4);
-    }
-    .pop-element.show {
-      opacity: 1;
-      transform: translateY(0) scale(1);
-    }
-
-    /* Layout */
-    .mega-hero {
-      min-height: 80vh;
-      display:flex;
-      flex-direction:column;
-      justify-content:center;
-      align-items:center;
-      text-align:center;
-      padding:2rem 5%;
-    }
-
-    .mega-title {
-      font-family: 'Teko', sans-serif;
-      font-size: clamp(2.8rem, 8vw, 5.5rem);
-      text-transform: uppercase;
-      color: #ffffff;
-      text-shadow: 0 0 10px var(--neon-red), 0 0 30px var(--neon-red);
-      letter-spacing: 4px;
-      line-height: 0.9;
-    }
-    .mega-subtitle {
-      font-size: clamp(1rem, 2.2vw, 1.6rem);
-      color: var(--neon-cyan);
-      text-shadow: 0 0 10px var(--neon-cyan);
-      letter-spacing: 2px;
-      margin-top: 15px;
-      font-weight:700;
-    }
-    .laser-line {
-      width:100%;
-      height:3px;
-      background: linear-gradient(90deg, transparent, var(--neon-red), var(--neon-cyan), transparent);
-      box-shadow: 0 0 12px rgba(255,0,85,0.28);
-      margin: 2rem 0;
-    }
-
-    .content-section { padding: 3rem 5%; position: relative; z-index: 10; }
-    .section-title {
-      font-family:'Teko', sans-serif;
-      font-size: clamp(1.8rem, 5vw, 3.8rem);
-      color:#fff;
-      text-align:center;
-      margin-bottom:2rem;
-      text-shadow: 0 0 10px var(--neon-red);
-    }
-
-    .grid-container {
-      display:grid;
-      grid-template-columns: repeat(auto-fit, minmax(260px,1fr));
-      gap:1.25rem;
-    }
-
-    /* Cards */
-    .cyber-card {
-      background:#0d0d14;
-      border: 2px solid rgba(255,0,85,0.16);
-      border-radius:12px;
-      padding:1.25rem;
-      box-shadow: 0 0 12px rgba(255,0,85,0.08);
-      transition: transform .25s ease, box-shadow .25s ease, border-color .25s ease;
-      display:flex;
-      flex-direction:column;
-      justify-content:space-between;
-    }
-    .cyber-card:hover {
-      transform: translateY(-6px);
-      border-color: var(--neon-cyan);
-      box-shadow: 0 0 20px rgba(0,240,255,0.12);
-    }
-
-    .banner-box { width:100%; min-height:140px; border-radius:8px; padding:1rem; display:flex; justify-content:space-between; flex-direction:column; margin-bottom:1rem; border:1px solid rgba(255,255,255,0.04); }
-    .bg-gta { background: linear-gradient(135deg,#120006 0%, #4a001a 50%, #000 100%); box-shadow: inset 0 0 20px rgba(255,0,85,0.12); }
-    .bg-voltage { background: linear-gradient(135deg,#00101c 0%, #00364a 50%, #000 100%); box-shadow: inset 0 0 20px rgba(0,240,255,0.06); }
-
-    .banner-title-gta, .banner-title-voltage { font-family:'Teko', sans-serif; font-size: clamp(1.6rem, 3.5vw, 3rem); line-height:0.95; color:#fff; }
-    .creator-tag { font-size: 1rem; color:var(--neon-cyan); font-weight:bold; text-shadow:0 0 8px rgba(0,240,255,0.06); }
-
-    .logo-row { display:flex; gap:.5rem; margin-top:.5rem; flex-wrap:wrap; align-items:center; }
-    .ai-badge, .yt-badge { background:#000; padding:4px 8px; border-radius:5px; font-size:.85rem; font-weight:700; display:inline-block; }
-    .ai-badge { border:1px solid var(--neon-cyan); color:#fff; }
-    .yt-badge { border:1px solid #ff0000; color:#ff8080; background:#330000; }
-
-    .card-btn-row { display:flex; gap:.6rem; margin-top:1rem; }
-    .btn-cyber { flex:1; padding:10px; font-family:'Teko',sans-serif; font-size:1rem; border-radius:6px; cursor:pointer; border:none; font-weight:700; text-transform:uppercase; }
-    .btn-know-more { background:transparent; border:1px solid var(--neon-cyan); color:var(--neon-cyan); }
-    .btn-know-more:hover { background:var(--neon-cyan); color:#000; box-shadow:0 0 12px rgba(0,240,255,0.12); }
-    .btn-action { background:var(--neon-red); color:#fff; box-shadow:0 0 10px rgba(255,0,85,0.12); }
-    .btn-action:hover { background:#ff3377; }
-
-    /* Support QR */
-    .support-section { text-align:center; padding:2.5rem 2rem; background: rgba(255,0,85,0.04); border:1px solid rgba(255,0,85,0.06); border-radius:12px; margin:2rem 5%; }
-    .qr-box { width:210px; height:210px; margin:1.25rem auto; background:#fff; padding:8px; border-radius:10px; border:4px solid var(--neon-cyan); box-shadow:0 0 18px rgba(0,240,255,0.06); cursor:pointer; transition:transform .22s ease; display:flex; align-items:center; justify-content:center; }
-    .qr-box:hover { transform:scale(1.03); }
-    .qr-box img { width:100%; height:100%; object-fit:cover; display:block; border-radius:6px; }
-
-    /* Footer */
-    .mega-footer { background:#020203; padding:2.5rem 5% 3rem; border-top:2px solid rgba(255,0,85,0.12); margin-top:2rem; }
-    .footer-grid { display:grid; grid-template-columns: repeat(auto-fit, minmax(200px,1fr)); gap:1rem; align-items:start; }
-    .footer-col h4 { color:var(--neon-cyan); font-size:1.2rem; margin-bottom:.75rem; font-family:'Teko',sans-serif; }
-    .footer-col ul { list-style:none; }
-    .footer-col ul li { margin-bottom:.5rem; }
-    .footer-col ul li a { color:#ddd; text-decoration:none; cursor:pointer; transition: all .18s ease; display:inline-block; }
-    .footer-col ul li a:hover { color:var(--neon-red); transform:translateX(6px); }
-
-    /* Floating AI button */
-    .ai-float-btn {
-      position: fixed;
-      bottom:20px;
-      right:20px;
-      width:68px;
-      height:68px;
-      background:#0d0d14;
-      border:2px solid var(--neon-cyan);
-      border-radius:50%;
-      box-shadow:0 0 24px rgba(0,240,255,0.1);
-      display:flex;
-      justify-content:center;
-      align-items:center;
-      cursor:pointer;
-      z-index:900;
-      transition: transform .18s ease, box-shadow .18s ease;
-    }
-    .ai-float-btn:hover { transform:scale(1.06); box-shadow:0 0 30px rgba(255,0,85,0.08); border-color:var(--neon-red); }
-    .ai-icon { font-size:1.6rem; color:var(--neon-cyan); }
-    .ai-btn-text { font-size:0.62rem; color:var(--neon-cyan); font-family:'Teko'; font-weight:700; display:block; text-align:center; }
-
-    /* Modal overlay and box (accessible) */
-    .modal-overlay {
-      position: fixed;
-      inset: 0;
-      background: rgba(0,0,0,0.9);
-      display:flex;
-      justify-content:center;
-      align-items:center;
-      z-index:1000;
-      opacity:0;
-      visibility:hidden;
-      transition: opacity .2s ease, visibility .2s ease;
-      padding: 20px;
-      -webkit-overflow-scrolling: touch;
-    }
-    .modal-overlay.active { opacity:1; visibility:visible; }
-
-    .modal-box {
-      background:#0d0d14;
-      border:2px solid var(--neon-cyan);
-      box-shadow:0 0 30px rgba(0,240,255,0.06);
-      border-radius:12px;
-      max-width:920px;
-      width:100%;
-      max-height:86vh;
-      padding:1.25rem;
-      overflow:auto;
-      transform: translateY(10px);
-      transition: transform .28s cubic-bezier(.2,.9,.25,1.1);
-    }
-    .modal-overlay.active .modal-box { transform: translateY(0); }
-
-    .modal-title { font-family:'Teko',sans-serif; font-size:1.5rem; color:var(--neon-red); margin-bottom:.75rem; }
-    .modal-body { font-size:1rem; color:#eee; line-height:1.5; white-space:pre-line; }
-
-    .modal-btn { background:var(--neon-red); color:#fff; border:none; padding:8px 14px; border-radius:6px; cursor:pointer; font-family:'Teko'; font-weight:700; }
-
-    /* AI Chat card (inside modal overlay) */
-    .ai-chat-card {
-      width: 100%;
-      max-width:640px;
-      height: 70vh;
-      background:#09090e;
-      border:2px solid var(--neon-cyan);
-      border-radius:12px;
-      box-shadow:0 0 36px rgba(0,240,255,0.06);
-      display:flex;
-      flex-direction:column;
-      overflow:hidden;
-    }
-    .ai-chat-header { padding:12px; background: rgba(0,240,255,0.04); display:flex; justify-content:space-between; align-items:center; border-bottom:1px solid rgba(0,240,255,0.06); }
-    .ai-chat-body { flex:1; padding:12px; overflow:auto; display:flex; flex-direction:column; gap:8px; }
-    .chat-msg { padding:8px 12px; border-radius:10px; max-width:80%; line-height:1.35; font-size:.98rem; }
-    .msg-ai { background: rgba(0,240,255,0.08); border:1px solid rgba(0,240,255,0.12); color:#fff; align-self:flex-start; }
-    .msg-user { background: rgba(255,0,85,0.12); border:1px solid rgba(255,0,85,0.12); color:#fff; align-self:flex-end; }
-    .ai-chat-footer { display:flex; gap:8px; padding:10px; border-top:1px solid rgba(255,255,255,0.03); background:#050508; }
-    .chat-input { flex:1; padding:8px 10px; background:#111; border:1px solid rgba(0,240,255,0.08); border-radius:8px; color:#fff; }
-    .chat-send { background:var(--neon-cyan); color:#000; padding:6px 12px; border:none; border-radius:8px; cursor:pointer; font-weight:700; }
-
-    /* small screens tweaks */
-    @media (max-width:480px) {
-      .mega-hero { padding:2rem 3%; }
-      .card-btn-row { flex-direction:column; }
-      .btn-cyber { font-size:.95rem; padding:10px; }
-      .ai-chat-card { height: 62vh; }
-      .modal-box { max-width: 95%; padding: 12px; }
-    }
-  </style>
-</head>
-<body>
-  <main>
-    <!-- Main Hero Title -->
-    <section class="mega-hero">
-      <h1 class="mega-title pop-element">HERO-VERSE STUDIOS</h1>
-      <p class="mega-subtitle pop-element">OFFICIAL INTERACTIVE HUB • DESI GTA & VOLTAGE HERO</p>
-      <div class="laser-line pop-element" aria-hidden="true"></div>
-    </section>
-
-    <!-- Live Projects -->
-    <section class="content-section">
-      <h2 class="section-title pop-element">FEATURED MEGA PROJECTS</h2>
-      <div class="grid-container">
-        <!-- INDIAN GTA 1 CARD -->
-        <div class="cyber-card pop-element" role="article" aria-label="Indian GTA 1">
-          <div class="banner-box bg-gta" aria-hidden="true">
-            <h3 class="banner-title-gta">INDIAN GTA 1</h3>
-            <p style="color: var(--neon-cyan); font-weight: bold;">300MB OPEN WORLD ENGINE</p>
-            <div class="logo-row">
-              <span class="ai-badge">🤖 ChatGPT AI Phone</span>
-              <span class="ai-badge">🗺️ Indian + Los Santos</span>
-            </div>
-          </div>
-          <p style="color: #dddddd; margin-bottom: 10px;">The ultimate Indian open-world action adventure featuring 100+ dynamic NPCs and an in-game AI phone assistant.</p>
-          <div class="card-btn-row">
-            <button class="btn-cyber btn-know-more" type="button"
-              data-modal-title="INDIAN GTA 1 — COMPLETE SPECIFICATIONS"
-              data-modal-body="🎮 GAME OVERVIEW:\nIndian GTA 1 is a groundbreaking Android open-world action title engineered to combine the raw chaotic energy of Indian city streets with high-performance Los Santos layout dynamics.\n\n⚙️ TECHNICAL SPECIFICATIONS:\n• Base Download Size: 300MB High-Compression Build\n• Future Expansion Target: Up to 1GB High-Graphics World Expansion\n• Map Architecture: Dual-Zone (Desi Indian Markets + Los Santos Highways)\n• Active NPCs: 100+ Unique AI-Driven Civilians, Police Units, and Gang Members\n\n📱 IN-GAME AI PHONE:\nPlayers carry a virtual smartphone equipped with an AI Voice & Text Assistant capable of spawning vehicles, setting mission waypoints, and delivering real-time tactical advice.">KNOW MORE</button>
-            <button class="btn-cyber btn-action" type="button"
-              data-modal-title="⚡ COMING SOON! ⚡"
-              data-modal-body="SYSTEM NOTICE: [INDIAN GTA 1 GAME LAUNCH] is currently undergoing high-compression Optimization & Alpha Build Testing.\n\nThe Hero is actively developing this project. Stay tuned for the official launch date announcement!">PLAY</button>
-          </div>
-        </div>
-
-        <!-- VOLTAGE HERO CARD -->
-        <div class="cyber-card pop-element" role="article" aria-label="Voltage Hero">
-          <div class="banner-box bg-voltage" aria-hidden="true">
-            <div>
-              <h3 class="banner-title-voltage">VOLTAGE HERO</h3>
-              <p class="creator-tag">Created by Naitik Pandey</p>
-            </div>
-            <div>
-              <p style="font-size: 0.85rem; color: #aaa; margin-bottom: 4px;">Presented By:</p>
-              <div class="logo-row">
-                <span class="ai-badge">🤖 ChatGPT</span>
-                <span class="ai-badge">✨ Google Gemini</span>
-                <span class="yt-badge">▶ YouTube Series</span>
-              </div>
-            </div>
-          </div>
-          <p style="color: #dddddd; margin-bottom: 10px;">Original high-voltage superhero universe featuring second-by-second action episode breakdowns.</p>
-          <div class="card-btn-row">
-            <button class="btn-cyber btn-know-more" type="button"
-              data-modal-title="VOLTAGE HERO — CINEMATIC UNIVERSE"
-              data-modal-body="🎬 PROJECT OVERVIEW:\nVoltage Hero is an original superhero story universe crafted by Naitik Pandey. Built specifically for high-impact cinematic adaptions and episode releases.\n\n⚡ SCRIPTWRITING BREAKDOWN:\n• Format: 10-Minute High-Voltage Episodes\n• Precision: Second-by-Second Action Scene Storyboarding\n• Dialogues: Power-packed, emotionally charged, high-stakes narrative\n\n🌟 PRESENTED BY:\nDeveloped in creative synergy with modern AI systems for cinematic scripting excellence and story structure optimization.">KNOW MORE</button>
-            <button class="btn-cyber btn-action" type="button"
-              data-modal-title="⚡ COMING SOON! ⚡"
-              data-modal-body="SYSTEM NOTICE: [VOLTAGE HERO EPISODE 1] is currently undergoing high-compression Optimization & Alpha Build Testing.\n\nThe Hero is actively developing this project. Stay tuned for the official launch date announcement!">WATCH</button>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- Modules Grid -->
-    <section class="content-section">
-      <h2 class="section-title pop-element">FUTURE ENGINE MODULES</h2>
-      <div class="grid-container">
-        <div class="cyber-card pop-element" role="region" aria-labelledby="module-mp-title">
-          <h3 id="module-mp-title" style="font-family:'Teko'; font-size: 2.2rem; color: var(--neon-cyan);">MULTIPLAYER CO-OP</h3>
-          <p style="color: #bbb; margin-bottom: 1rem;">Cross-platform mobile multiplayer servers allowing up to 64 players per city room.</p>
-          <button class="btn-cyber btn-know-more" type="button" data-modal-title="MULTIPLAYER ENGINE DETAILS" data-modal-body="Full Server Architecture:\n- Dedicated Indian Regional Cloud Nodes\n- Voice Chat & Proximity Chat Integration\n- Real-time High-Speed Vehicle Synchronization\n- Custom Gang War Events & Street Races">KNOW MORE</button>
-        </div>
-
-        <div class="cyber-card pop-element" role="region" aria-labelledby="module-ai-title">
-          <h3 id="module-ai-title" style="font-family:'Teko'; font-size: 2.2rem; color: var(--neon-red);">AI VOICE ASSISTANT</h3>
-          <p style="color: #bbb; margin-bottom: 1rem;">In-game AI mobile phone integration for calling cars and triggering missions.</p>
-          <button class="btn-cyber btn-know-more" type="button" data-modal-title="IN-GAME AI PHONE DETAILS" data-modal-body="AI Phone Capabilities:\n- Voice Command Vehicle Spawner\n- Real-time Mission Guidance and Hack Assistance\n- Interactive NPC Dialogue Generator powered by AI Core">KNOW MORE</button>
-        </div>
-      </div>
-    </section>
-
-    <!-- Support Section -->
-    <section class="support-section pop-element" aria-labelledby="support-title">
-      <h2 id="support-title" style="font-family:'Teko'; font-size: 3rem; color: var(--neon-cyan);">SUPPORT THE HERO</h2>
-      <p style="font-size: 1.05rem; color:#fff;">Scan with Google Lens OR tap the QR box to test the appreciation scanner!</p>
-
-      <div class="qr-box" id="qr-box" role="button" tabindex="0" aria-label="Open support message">
-        <img src="https://api.qrserver.com/v1/create-qr-code/?size=250x250&data=Aapka%20dhanyawaad!%20-Hero-Verse%20Studios" alt="Support QR Code" />
-      </div>
-      <p style="color: var(--neon-red); font-weight: bold; font-size: 1.1rem;">[ SCAN WITH PHONE CAMERA / TAP QR CODE ]</p>
-    </section>
-  </main>
-
-  <!-- Footer -->
-  <footer class="mega-footer" role="contentinfo" aria-label="Site footer">
-    <div class="footer-grid">
-      <div class="footer-col pop-element">
-        <h4>STUDIO OVERVIEW</h4>
-        <ul>
-          <li><a class="link-modal" href="#" data-modal-title="STUDIO VISION & ROADMAP 2026+" data-modal-body="Hero‑Verse Studios aims to establish India's premier AAA-grade mobile gaming studio and superhero story creation ecosystem. We focus on lightweight mobile engines, cinematic universe storytelling, and AI‑assisted production pipelines.">Our Vision & Roadmap</a></li>
-          <li><a class="link-modal" href="#" data-modal-title="LEAD DEVELOPER — NAITIK PANDEY" data-modal-body="Naitik Pandey — Architect & Storyteller behind Indian GTA 1 and Voltage Hero. Combining game logic, AI integration, and cinematic world-building to create next‑gen digital experiences.">Lead Developer Profile</a></li>
-        </ul>
-      </div>
-      <div class="footer-col pop-element">
-        <h4>SUPPORT & HELP</h4>
-        <ul>
-          <li><a class="link-modal" href="#" data-modal-title="HERO‑VERSE HELP & SUPPORT CENTER" data-modal-body="WELCOME TO SUPPORT SERVICES\n\n• Device Compatibility: Android 8.0+ / 3GB RAM Minimum for 300MB Build\n• Script Licensing: For animation studios requesting Voltage Hero script access, contact developer dispatch.\n• Server Status: Global cloud nodes monitored 24/7.">Help & Support Center</a></li>
-          <li><a class="link-modal" href="#" data-modal-title="BUG REPORTING & SYSTEM DIAGNOSTICS" data-modal-body="Found a map glitch or crash in Indian GTA 1?\n\n1. Take a screenshot or screen recording of the glitch.\n2. Note your phone model and RAM configuration.\n3. Send log files to support@hero-verse.com\n\nOur engineering squad addresses reported bugs in scheduled hotfixes." >Report a Bug System</a></li>
-        </ul>
-      </div>
-      <div class="footer-col pop-element">
-        <h4>LEGAL & POLICIES</h4>
-        <ul>
-          <li><a class="link-modal" href="#" data-modal-title="TERMS OF SERVICE — HERO‑VERSE STUDIOS" data-modal-body="DOCUMENT REF: HV-TOS-2026-V4\n\n1. INTELLECTUAL PROPERTY RIGHTS:\nAll rights regarding 'Indian GTA 1', 'Voltage Hero', original script breakdowns, sound designs and game code belong exclusively to Naitik Pandey and Hero‑Verse Studios.\n\n2. REVERSE ENGINEERING & MODDING:\nUnauthorized decompilation or monetization without licensing is prohibited.\n\n3. USER CONDUCT:\nUsers must follow community guidelines while on multiplayer servers.">Terms of Service (Full)</a></li>
-          <li><a class="link-modal" href="#" data-modal-title="PRIVACY POLICY — HERO‑VERSE STUDIOS" data-modal-body="DOCUMENT REF: HV-PRIV-2026-V4\n\nHero‑Verse collects minimal telemetry needed for debugging and gameplay balancing. Personal data handling is described in full in the privacy document.">Privacy Policy</a></li>
-        </ul>
-      </div>
-    </div>
-
-    <div style="margin-top:1.25rem; display:flex; justify-content:space-between; align-items:center; gap:12px; flex-wrap:wrap;">
-      <div style="color:var(--muted); font-size:0.95rem;">© <span id="year"></span> Hero‑Verse Studios</div>
-      <div style="color:var(--muted); font-size:0.95rem;">Developed by Naitik Pandey</div>
-    </div>
-  </footer>
-
-  <!-- Floating AI Chat Button -->
-  <button class="ai-float-btn" id="ai-float-btn" aria-label="Open AI chat" title="Open AI chat">
-    <span class="ai-icon">🤖</span>
-    <span class="sr-only">Open AI</span>
-  </button>
-
-  <!-- Modal overlay (single shared) -->
-  <div id="modal-overlay" class="modal-overlay" role="dialog" aria-modal="true" aria-hidden="true">
-    <div class="modal-box" role="document" aria-labelledby="modal-title">
-      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;">
-        <h2 class="modal-title" id="modal-title">Modal Title</h2>
-        <button id="modal-close" aria-label="Close dialog" class="modal-btn" style="background:transparent;border:1px solid rgba(255,255,255,0.06);color:var(--muted);">Close</button>
-      </div>
-      <div class="modal-body" id="modal-body" tabindex="0">Modal body content</div>
-    </div>
-  </div>
-
-  <!-- AI Chat overlay (separate for semantics) -->
-  <div id="ai-overlay" class="modal-overlay" role="dialog" aria-modal="true" aria-hidden="true">
-    <div class="modal-box ai-chat-card" role="document" aria-labelledby="ai-title">
-      <div class="ai-chat-header">
-        <div style="display:flex; gap:12px; align-items:center;">
-          <div style="font-size:1.15rem;">🤖</div>
-          <div>
-            <div id="ai-title" style="font-weight:800; color:var(--neon-cyan);">Hero‑Verse AI Assistant</div>
-            <div style="font-size:0.85rem; color:var(--muted);">Connects to your configured AI backend (serverless proxy)</div>
-          </div>
-        </div>
-        <div>
-          <button id="ai-close" aria-label="Close AI chat" class="modal-btn" style="background:transparent;border:1px solid rgba(255,255,255,0.06);color:var(--muted);">Close</button>
-        </div>
-      </div>
-
-      <div class="ai-chat-body" id="ai-body" aria-live="polite">
-        <div class="chat-msg msg-ai">Welcome to Hero‑Verse Assistant. Type a message to start. To enable full AI responses, deploy the included serverless AI proxy and set your AI provider API key in the environment.</div>
-      </div>
-
-      <div class="ai-chat-footer">
-        <input id="chat-input" class="chat-input" type="text" placeholder="Ask about the game, roadmap, or support..." aria-label="Chat input" />
-        <button id="chat-send" class="chat-send">Send</button>
-      </div>
-    </div>
-  </div>
-
-  <script>
-    // Small boot: set year and show pop animations
-    document.addEventListener('DOMContentLoaded', () => {
-      document.getElementById('year').textContent = new Date().getFullYear();
-
-      // reveal pop-elements with slight stagger
-      const pops = Array.from(document.querySelectorAll('.pop-element'));
-      pops.forEach((el, i) => setTimeout(() => el.classList.add('show'), 120 * i));
-
-      // Wire modal triggers (data-modal-title and data-modal-body)
-      function openModal(title, body) {
-        const overlay = document.getElementById('modal-overlay');
-        document.getElementById('modal-title').textContent = title || 'Information';
-        document.getElementById('modal-body').textContent = body || '';
-        overlay.classList.add('active');
-        overlay.setAttribute('aria-hidden', 'false');
-        document.getElementById('modal-close').focus();
-      }
-      function closeModal() {
-        const overlay = document.getElementById('modal-overlay');
-        overlay.classList.remove('active');
-        overlay.setAttribute('aria-hidden', 'true');
-      }
-
-      document.querySelectorAll('[data-modal-title]').forEach(btn => {
-        btn.addEventListener('click', (e) => {
-          const title = btn.getAttribute('data-modal-title');
-          const body = btn.getAttribute('data-modal-body') || btn.dataset.modalBody || '';
-          openModal(title, body);
-        });
-      });
-      document.querySelectorAll('.link-modal').forEach(a => {
-        a.addEventListener('click', (e) => {
-          e.preventDefault();
-          const title = a.getAttribute('data-modal-title');
-          const body = a.getAttribute('data-modal-body') || a.dataset.modalBody || '';
-          openModal(title, body);
-        });
-      });
-
-      document.getElementById('modal-close').addEventListener('click', closeModal);
-      document.getElementById('modal-overlay').addEventListener('click', (e) => {
-        if (e.target === e.currentTarget) closeModal();
-      });
-
-      // AI overlay handlers
-      const aiBtn = document.getElementById('ai-float-btn');
-      const aiOverlay = document.getElementById('ai-overlay');
-      const aiBody = document.getElementById('ai-body');
-      const chatInput = document.getElementById('chat-input');
-      const chatSend = document.getElementById('chat-send');
-
-      function openAI() {
-        aiOverlay.classList.add('active');
-        aiOverlay.setAttribute('aria-hidden','false');
-        setTimeout(()=> chatInput.focus(), 100);
-      }
-      function closeAI() {
-        aiOverlay.classList.remove('active');
-        aiOverlay.setAttribute('aria-hidden','true');
-      }
-
-      aiBtn.addEventListener('click', openAI);
-      document.getElementById('ai-close').addEventListener('click', closeAI);
-      aiOverlay.addEventListener('click', (e) => { if (e.target === e.currentTarget) closeAI(); });
-
-      async function sendToBackend(message) {
-        try {
-          const res = await fetch('/api/ai', {
-            method: 'POST', headers: {'Content-Type':'application/json'},
-            body: JSON.stringify({prompt: message})
-          });
-          if (!res.ok) throw new Error('AI backend error');
-          const data = await res.json();
-          return data.reply || data.output || 'No reply from AI.';
-        } catch (err) {
-          return 'AI backend unavailable. ' + err.message;
-        }
-      }
-
-      function appendMsg(text, cls='msg-user'){
-        const el = document.createElement('div'); el.className = 'chat-msg '+cls; el.textContent = text; aiBody.appendChild(el); aiBody.scrollTop = aiBody.scrollHeight;
-      }
-
-      chatSend.addEventListener('click', async ()=>{
-        const txt = chatInput.value.trim(); if (!txt) return; appendMsg(txt,'msg-user'); chatInput.value = '';
-        appendMsg('Thinking...', 'msg-ai');
-        const reply = await sendToBackend(txt);
-        const last = aiBody.querySelector('.msg-ai:last-child'); if (last) last.remove();
-        appendMsg(reply, 'msg-ai');
-      });
-
-      chatInput.addEventListener('keydown', (e)=>{ if (e.key==='Enter') chatSend.click(); });
-
-    });
-  </script>
-
-  <noscript><style>.pop-element{opacity:1; transform:none;}</style></noscript>
-</body>
-</html>
-<!DOCTYPE html>
-<html lang="en">
-<head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Hero-Verse Studio | Advanced Auth & AI Hub</title>
+    <title>Hero-Verse Studio | Official Hub</title>
     <style>
         * { box-sizing: border-box; margin: 0; padding: 0; }
         body {
             background-color: #0b0c10;
             color: #fff;
-            font-family: 'Segoe UI', Arial, sans-serif;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             min-height: 100vh;
         }
 
+        /* CARD CONTAINER STYLES */
         .card-container {
             display: flex;
             justify-content: center;
@@ -543,38 +25,54 @@
             background: #1f2833;
             padding: 30px;
             border-radius: 12px;
-            box-shadow: 0 4px 20px rgba(0, 240, 255, 0.2);
+            box-shadow: 0 4px 25px rgba(0, 240, 255, 0.25);
             width: 360px;
             text-align: center;
+            position: relative;
         }
-        .auth-card h2 { color: #66fcf1; margin-bottom: 15px; }
+        .auth-card h2 { color: #66fcf1; margin-bottom: 15px; letter-spacing: 1px; }
         input {
             width: 100%;
-            padding: 10px;
+            padding: 12px;
             margin: 8px 0;
-            border-radius: 5px;
+            border-radius: 6px;
             border: 1px solid #45a29e;
             background: #0b0c10;
             color: #fff;
+            outline: none;
+            font-size: 14px;
         }
+        input:focus { border-color: #66fcf1; box-shadow: 0 0 8px rgba(102, 252, 241, 0.4); }
         button {
             width: 100%;
-            padding: 11px;
+            padding: 12px;
             margin: 8px 0;
             border: none;
-            border-radius: 5px;
+            border-radius: 6px;
             font-weight: bold;
             cursor: pointer;
-            transition: 0.2s;
+            transition: 0.3s;
+            font-size: 14px;
         }
         .btn-primary { background: #66fcf1; color: #000; }
         .btn-secondary { background: #45a29e; color: #000; }
         .btn-google { background: #db4437; color: #fff; }
         .btn-apple { background: #000; color: #fff; border: 1px solid #fff; }
+        button:hover { opacity: 0.9; transform: translateY(-1px); }
         .divider { margin: 15px 0; border-bottom: 1px solid #45a29e; }
         .toggle-link { color: #66fcf1; cursor: pointer; font-size: 13px; text-decoration: underline; margin-top: 10px; display: block; }
+        
+        /* LIVE ERROR TEXT (NO ALERTS) */
+        .live-error {
+            color: #ff4d4d;
+            font-size: 12px;
+            margin: 5px 0 10px 0;
+            text-align: left;
+            min-height: 16px;
+            font-weight: 500;
+        }
 
-        /* NAVBAR & PROFILE */
+        /* ORIGINAL HOME PAGE / DASHBOARD STYLES */
         #home-screen { display: none; }
         navbar {
             background: #1f2833;
@@ -583,12 +81,13 @@
             justify-content: space-between;
             align-items: center;
             border-bottom: 2px solid #66fcf1;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.5);
         }
-        .logo { font-size: 20px; font-weight: bold; color: #66fcf1; }
+        .logo { font-size: 22px; font-weight: bold; color: #66fcf1; letter-spacing: 1px; }
         .profile-container { position: relative; }
         .profile-avatar {
-            width: 42px;
-            height: 42px;
+            width: 44px;
+            height: 44px;
             border-radius: 50%;
             background: #66fcf1;
             color: #000;
@@ -596,54 +95,46 @@
             justify-content: center;
             align-items: center;
             font-weight: bold;
-            font-size: 18px;
+            font-size: 20px;
             cursor: pointer;
             border: 2px solid #fff;
+            box-shadow: 0 0 10px rgba(102, 252, 241, 0.5);
         }
         .profile-menu {
             display: none;
             position: absolute;
             right: 0;
-            top: 50px;
+            top: 55px;
             background: #1f2833;
             border: 1px solid #45a29e;
             border-radius: 8px;
-            width: 230px;
-            padding: 12px;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.5);
+            width: 240px;
+            padding: 15px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.7);
             text-align: left;
+            z-index: 100;
         }
-        .profile-menu p { font-size: 13px; margin-bottom: 5px; color: #c5c6c7; }
+        .profile-menu p { font-size: 13px; margin-bottom: 6px; color: #c5c6c7; word-break: break-all; }
         .owner-badge {
             background: gold;
             color: black;
-            padding: 2px 6px;
+            padding: 3px 8px;
             border-radius: 4px;
             font-size: 11px;
             font-weight: bold;
             display: inline-block;
-            margin-bottom: 8px;
+            margin-bottom: 10px;
         }
-        .btn-logout { background: #db4437; color: white; padding: 8px; margin-top: 5px; width: 100%; }
+        .btn-logout { background: #db4437; color: white; padding: 8px; margin-top: 8px; width: 100%; }
 
-        /* AI SECTION */
-        .ai-box {
+        .main-dashboard { padding: 40px 20px; text-align: center; }
+        .project-card {
             background: #1f2833;
-            max-width: 600px;
-            margin: 30px auto;
+            border: 1px solid #45a29e;
             padding: 20px;
             border-radius: 10px;
-            border: 1px solid #45a29e;
-        }
-        #ai-response {
-            background: #0b0c10;
-            padding: 12px;
-            border-radius: 5px;
-            min-height: 80px;
-            margin-top: 10px;
-            text-align: left;
-            color: #66fcf1;
-            white-space: pre-wrap;
+            margin: 20px auto;
+            max-width: 500px;
         }
     </style>
 </head>
@@ -653,8 +144,13 @@
     <div id="login-screen" class="card-container">
         <div class="auth-card">
             <h2>HERO-VERSE LOGIN</h2>
+            
             <input type="text" id="login-identifier" placeholder="Email / Mobile / Handle (@username)">
             <input type="password" id="login-pass" placeholder="Password">
+            
+            <!-- Live Error Msg Box -->
+            <div id="login-error" class="live-error"></div>
+            
             <button class="btn-primary" id="btn-login">Login</button>
             
             <div class="divider"></div>
@@ -667,21 +163,25 @@
         <div class="auth-card">
             <h2>SIGN UP VERIFICATION</h2>
             
-            <!-- Email Option -->
             <input type="email" id="signup-email" placeholder="Email Address">
-            
-            <!-- Phone Option -->
+            <button class="btn-primary" id="btn-email-signup">Verify Email</button>
+
+            <div class="divider"></div>
+
             <input type="tel" id="signup-phone" placeholder="+91XXXXXXXXXX">
             <button class="btn-secondary" id="btn-send-otp">Send Phone OTP</button>
+            
             <input type="text" id="otp-input" placeholder="Enter OTP" style="display:none;">
             <button class="btn-secondary" id="btn-verify-otp" style="display:none;">Verify OTP</button>
             <div id="recaptcha-container"></div>
 
-            <button class="btn-primary" id="btn-email-signup">Verify Email</button>
-            
             <div class="divider"></div>
+            
             <button class="btn-google" id="btn-google-signup">Sign Up with Google</button>
             <button class="btn-apple" id="btn-apple-signup">Sign Up with Apple</button>
+
+            <!-- Live Error Msg Box -->
+            <div id="signup-error" class="live-error"></div>
 
             <span class="toggle-link" id="go-to-login">Already Have Account? Login</span>
         </div>
@@ -691,25 +191,29 @@
     <div id="setup-screen" class="card-container" style="display:none;">
         <div class="auth-card">
             <h2>CREATE PROFILE</h2>
-            <p style="font-size: 12px; color: #45a29e; margin-bottom: 10px;">Verification Done! Set Your Account Details:</p>
+            <p style="font-size: 12px; color: #45a29e; margin-bottom: 12px;">Verification Complete! Set Your Profile Credentials:</p>
             
             <input type="text" id="setup-name" placeholder="Full ID Name (e.g. Naitik Pandey)">
             <input type="text" id="setup-handle" placeholder="Unique Handle (e.g. mysteryhero_01_official)">
             <input type="password" id="setup-password" placeholder="Set Password (Min 6 Chars)">
             
+            <!-- Live Error Msg Box -->
+            <div id="setup-error" class="live-error"></div>
+            
             <button class="btn-primary" id="btn-save-profile">Complete & Save Account</button>
         </div>
     </div>
 
-    <!-- 4. HOME DASHBOARD & AI ASSISTANT -->
+    <!-- 4. ORIGINAL HOME DASHBOARD (AFTER LOGIN SUCCESS) -->
     <div id="home-screen">
         <navbar>
             <div class="logo">⚡ HERO-VERSE STUDIO</div>
             
+            <!-- Top Right Profile Dropdown Menu -->
             <div class="profile-container">
                 <div class="profile-avatar" id="avatar-icon">N</div>
                 <div class="profile-menu" id="profile-dropdown">
-                    <p id="profile-name" style="color:#fff; font-weight:bold; font-size:15px;"></p>
+                    <p id="profile-name" style="color:#fff; font-weight:bold; font-size:16px;"></p>
                     <p id="profile-handle" style="color:#66fcf1;"></p>
                     <p id="profile-email"></p>
                     <p id="profile-phone" style="font-size:12px; color:#aaa;"></p>
@@ -719,20 +223,23 @@
             </div>
         </navbar>
 
-        <div style="text-align: center; margin-top: 30px;">
+        <div class="main-dashboard">
             <h1 id="welcome-msg">Welcome to Hero-Verse!</h1>
-            
-            <!-- FIREBASE VERTEX AI INTERFACE -->
-            <div class="ai-box">
-                <h3 style="color:#66fcf1;">🤖 Hero-Verse AI Assistant (Gemini Driven)</h3>
-                <input type="text" id="ai-prompt" placeholder="Ask AI anything (Voltage Hero / Desi GTA)...">
-                <button class="btn-primary" id="btn-trigger-ai">Trigger AI Assistant</button>
-                <div id="ai-response">AI Response will appear here...</div>
+            <p style="margin-top: 10px; color: #c5c6c7;">Main Control Center for Voltage Hero & Desi GTA Engine.</p>
+
+            <div class="project-card">
+                <h3 style="color:#66fcf1; margin-bottom: 10px;">⚡ Voltage Hero Script Engine</h3>
+                <p style="font-size:13px; color:#aaa;">10-Minute Episode Breakdown & Cinematic Story Script Generator Active.</p>
+            </div>
+
+            <div class="project-card">
+                <h3 style="color:#66fcf1; margin-bottom: 10px;">🎮 Desi GTA Android Dev Log</h3>
+                <p style="font-size:13px; color:#aaa;">Map Design, 100+ Characters, UI Systems & In-Game Assistant Ready.</p>
             </div>
         </div>
     </div>
 
-    <!-- FIREBASE SDKs & VERTEX AI MODULE -->
+    <!-- FIREBASE MODULE CODE -->
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
         import { 
@@ -740,9 +247,7 @@
             GoogleAuthProvider, OAuthProvider, RecaptchaVerifier, signInWithPhoneNumber, signInWithPopup, signOut, onAuthStateChanged 
         } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
         import { getDatabase, ref, get, set } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-database.js";
-        import { getVertexAI, getGenerativeModel } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-vertexai.js";
 
-        // CONFIGURATION
         const firebaseConfig = {
             apiKey: "AIzaSyBdcEn5eIA4-98ydaZ9LLM10sBDsGR4Mkw",
             authDomain: "hero-verse-f53ee.firebaseapp.com",
@@ -756,84 +261,106 @@
         const auth = getAuth(app);
         const db = getDatabase(app);
 
-        // INITIALIZE FIREBASE VERTEX AI (GEMINI AGENT)
-        const vertexAI = getVertexAI(app);
-        const aiModel = getGenerativeModel(vertexAI, { model: "gemini-1.5-flash" });
-
-        // OWNER MASTER DATA
+        // OWNER MASTER DETAILS
         const OWNER_EMAIL = "rd8556532@gmail.com";
         const OWNER_HANDLE = "mysteryhero_01_official";
-        const OWNER_PHONE = "+919956418589";
 
         let verifiedUser = null;
 
-        // UI SCREEN SWITCHERS
+        // HELPER: DISPLAY LIVE ERROR TEXT (NO POPUP ALERTS)
+        function showError(elementId, message) {
+            const el = document.getElementById(elementId);
+            if (el) el.innerText = message;
+        }
+
+        function clearErrors() {
+            showError('login-error', '');
+            showError('signup-error', '');
+            showError('setup-error', '');
+        }
+
+        // SCREEN SWITCHING LOGIC
         document.getElementById('go-to-signup').addEventListener('click', () => {
+            clearErrors();
             document.getElementById('login-screen').style.display = 'none';
             document.getElementById('signup-screen').style.display = 'flex';
         });
+
         document.getElementById('go-to-login').addEventListener('click', () => {
+            clearErrors();
             document.getElementById('signup-screen').style.display = 'none';
             document.getElementById('login-screen').style.display = 'flex';
         });
 
-        // 1. VERIFICATION METHODS
-        // Google Sign Up
+        // 1. SIGN UP VERIFICATION METHODS
+        // Google Sign-In
         document.getElementById('btn-google-signup').addEventListener('click', async () => {
+            clearErrors();
             try {
                 const res = await signInWithPopup(auth, new GoogleAuthProvider());
                 verifiedUser = res.user;
                 openSetupScreen();
-            } catch (err) { alert("Google Error: " + err.message); }
+            } catch (err) { showError('signup-error', "Google Error: " + err.message); }
         });
 
-        // Apple Sign Up
+        // Apple Sign-In
         document.getElementById('btn-apple-signup').addEventListener('click', async () => {
+            clearErrors();
             try {
                 const provider = new OAuthProvider('apple.com');
                 const res = await signInWithPopup(auth, provider);
                 verifiedUser = res.user;
                 openSetupScreen();
-            } catch (err) { alert("Apple Error: " + err.message); }
+            } catch (err) { showError('signup-error', "Apple Error: " + err.message); }
         });
 
-        // Phone OTP
+        // Phone OTP Verification
         window.recaptchaVerifier = new RecaptchaVerifier(auth, 'recaptcha-container', { 'size': 'invisible' });
         document.getElementById('btn-send-otp').addEventListener('click', () => {
-            const phone = document.getElementById('signup-phone').value;
+            clearErrors();
+            const phone = document.getElementById('signup-phone').value.trim();
+            if(!phone) return showError('signup-error', "Kripya valid Phone Number (+91) enter karein.");
+
             signInWithPhoneNumber(auth, phone, window.recaptchaVerifier)
                 .then(confirmation => {
                     window.confirmationResult = confirmation;
-                    alert("OTP Sent!");
                     document.getElementById('otp-input').style.display = 'block';
                     document.getElementById('btn-verify-otp').style.display = 'block';
-                }).catch(err => alert("SMS Error: " + err.message));
+                    showError('signup-error', "OTP Bhej Diya Gaya Hai!");
+                }).catch(err => showError('signup-error', "SMS Error: " + err.message));
         });
 
         document.getElementById('btn-verify-otp').addEventListener('click', () => {
-            const code = document.getElementById('otp-input').value;
+            clearErrors();
+            const code = document.getElementById('otp-input').value.trim();
+            if(!code) return showError('signup-error', "Kripya OTP code enter karein.");
+
             window.confirmationResult.confirm(code).then(res => {
                 verifiedUser = res.user;
                 openSetupScreen();
-            }).catch(err => alert("Invalid OTP!"));
+            }).catch(() => showError('signup-error', "Galat OTP Code! Fir se try karein."));
         });
 
         // Email Verification Step
         document.getElementById('btn-email-signup').addEventListener('click', async () => {
-            const email = document.getElementById('signup-email').value;
-            if(!email) return alert("Email daalein!");
-            // Temporary dummy password for initial creation stage
+            clearErrors();
+            const email = document.getElementById('signup-email').value.trim();
+            if(!email) return showError('signup-error', "Kripya Email address enter karein.");
+
             try {
                 const res = await createUserWithEmailAndPassword(auth, email, "TempPass123!");
                 verifiedUser = res.user;
                 openSetupScreen();
-            } catch(err) { alert("Email Error: " + err.message); }
+            } catch(err) { showError('signup-error', "Email Error: " + err.message); }
         });
 
         function openSetupScreen() {
+            clearErrors();
             document.getElementById('signup-screen').style.display = 'none';
             document.getElementById('setup-screen').style.display = 'flex';
-            if(verifiedUser.email === OWNER_EMAIL || verifiedUser.phoneNumber === OWNER_PHONE) {
+            
+            // Auto-Fill Owner Details if Owner Logging In
+            if(verifiedUser.email === OWNER_EMAIL) {
                 document.getElementById('setup-name').value = "Naitik Pandey";
                 document.getElementById('setup-handle').value = OWNER_HANDLE;
             }
@@ -841,48 +368,53 @@
 
         // 2. COMPLETE PROFILE & SAVE TO FIREBASE
         document.getElementById('btn-save-profile').addEventListener('click', async () => {
+            clearErrors();
             const name = document.getElementById('setup-name').value.trim();
             const rawHandle = document.getElementById('setup-handle').value.trim().toLowerCase();
             const password = document.getElementById('setup-password').value;
 
-            if (!name || !rawHandle || !password) return alert("Saare fields bharein!");
+            if (!name) return showError('setup-error', "Kripya apna Full ID Name likhein.");
+            if (!rawHandle) return showError('setup-error', "Kripya Unique Handle (@username) chunein.");
+            if (!password || password.length < 6) return showError('setup-error', "Password kam se kam 6 characters ka hona chahiye.");
 
-            // Check Handle Uniqueness
+            // Check Handle Availability
             const handleRef = ref(db, 'handles/' + rawHandle);
             const snapshot = await get(handleRef);
-            if (snapshot.exists()) return alert("Yeh handle pehle se kisi ne le liya hai!");
+            if (snapshot.exists()) return showError('setup-error', "Yeh Handle Name pehle se le liya gaya hai! Doosra chuno.");
 
-            try {// Save Handle mapping & User Details in Realtime Database
+            try {
                 await set(handleRef, { uid: verifiedUser.uid });
                 await set(ref(db, 'users/' + verifiedUser.uid), {
                     name: name,
                     handle: rawHandle,
                     email: verifiedUser.email || "",
                     phone: verifiedUser.phoneNumber || "",
-                    password: password, // For identifier login mapping
+                    password: password,
                     role: (verifiedUser.email === OWNER_EMAIL || rawHandle === OWNER_HANDLE) ? "owner" : "user"
                 });
 
-                alert("Profile Complete! Redirecting...");
                 location.reload();
-            } catch (err) { alert("Save Error: " + err.message); }
+            } catch (err) { showError('setup-error', "Save Error: " + err.message); }
         });
 
         // 3. MULTI-IDENTIFIER LOGIN (Email / Phone / Handle)
         document.getElementById('btn-login').addEventListener('click', async () => {
+            clearErrors();
             const identifier = document.getElementById('login-identifier').value.trim().toLowerCase();
             const pass = document.getElementById('login-pass').value;
 
-            if(!identifier || !pass) return alert("Identifier aur Password bharein!");
+            if(!identifier) return showError('login-error', "Email, Mobile number ya Handle enter karein.");
+            if(!pass) return showError('login-error', "Password enter karein.");
 
             try {
                 if (identifier.includes("@") && identifier.includes(".")) {
                     // Direct Email Login
                     await signInWithEmailAndPassword(auth, identifier, pass);
-                } else if (identifier.startsWith("@") || !identifier.includes("@")) {
-                    // Handle Search
+                } else {
+                    // Handle Search Logic
                     const cleanHandle = identifier.replace("@", "");
                     const handleSnap = await get(ref(db, 'handles/' + cleanHandle));
+                    
                     if (handleSnap.exists()) {
                         const uid = handleSnap.val().uid;
                         const userSnap = await get(ref(db, 'users/' + uid));
@@ -890,11 +422,15 @@
                         if (userData && userData.email) {
                             await signInWithEmailAndPassword(auth, userData.email, pass);
                         } else {
-                            alert("Please use Email/Password for this handle.");
+                            showError('login-error', "Is handle ke liye Registered Email se login karein.");
                         }
-                    } else { alert("Handle nahi mila!"); }
+                    } else { 
+                        showError('login-error', "Yeh Handle / Account nahi mila!"); 
+                    }
                 }
-            } catch (err) { alert("Login Failed: " + err.message); }
+            } catch (err) { 
+                showError('login-error', "Galat Password ya Identifier! Wapas check karein."); 
+            }
         });
 
         // 4. AUTH STATE & DASHBOARD RENDER
@@ -918,45 +454,4 @@
                 document.getElementById('profile-email').innerText = data.email || "No Email";
                 document.getElementById('profile-phone').innerText = data.phone || "No Phone";
                 document.getElementById('avatar-icon').innerText = data.name.charAt(0).toUpperCase();
-                document.getElementById('welcome-msg').innerText = "Welcome, " + data.name + "! ⚡";
-
-                if (data.role === "owner" || data.email === OWNER_EMAIL) {
-                    document.getElementById('owner-tag').style.display = 'inline-block';
-                }
-            } else {
-                document.getElementById('login-screen').style.display = 'flex';
-                document.getElementById('home-screen').style.display = 'none';
-            }
-        });
-
-        // 5. TRIGGER FIREBASE VERTEX AI (GEMINI AGENT)
-        document.getElementById('btn-trigger-ai').addEventListener('click', async () => {
-            const prompt = document.getElementById('ai-prompt').value;
-            const resDiv = document.getElementById('ai-response');
-            
-            if(!prompt) return alert("AI ke liye prompt likhein!");
-            
-            resDiv.innerText = "Hero-Verse AI is thinking...";
-            try {
-                const result = await aiModel.generateContent(prompt);
-                const response = await result.response;
-                resDiv.innerText = response.text();
-            } catch (err) {
-                resDiv.innerText = "AI Trigger Error: " + err.message;
-            }
-        });
-
-        // PROFILE DROPDOWN
-        document.getElementById('avatar-icon').addEventListener('click', () => {
-            const menu = document.getElementById('profile-dropdown');
-            menu.style.display = (menu.style.display === 'block') ? 'none' : 'block';
-        });
-
-        // LOGOUT
-        document.getElementById('btn-logout').addEventListener('click', () => {
-            signOut(auth).then(() => location.reload());
-        });
-    </script>
-</body>
-</html>
-
+                document.getElementById('welcome-msg').inner
