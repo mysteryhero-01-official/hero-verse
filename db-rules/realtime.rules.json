@@ -1,0 +1,10 @@
+{
+  "rules": {
+    "registered_users": {
+      "$userId": {
+        ".read": "auth != null",
+        ".write": "auth != null && !(['mysteryhero','mystery_hero','naitik','naitikpandey','voltagehero','desigta','heroverse','admin'].includes($userId))"
+      }
+    }
+  }
+}
