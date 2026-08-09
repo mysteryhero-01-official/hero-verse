@@ -517,3 +517,446 @@
   <noscript><style>.pop-element{opacity:1; transform:none;}</style></noscript>
 </body>
 </html>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hero-Verse Studio | Advanced Auth & AI Hub</title>
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body {
+            background-color: #0b0c10;
+            color: #fff;
+            font-family: 'Segoe UI', Arial, sans-serif;
+            min-height: 100vh;
+        }
+
+        .card-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 20px;
+        }
+        .auth-card {
+            background: #1f2833;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 4px 20px rgba(0, 240, 255, 0.2);
+            width: 360px;
+            text-align: center;
+        }
+        .auth-card h2 { color: #66fcf1; margin-bottom: 15px; }
+        input {
+            width: 100%;
+            padding: 10px;
+            margin: 8px 0;
+            border-radius: 5px;
+            border: 1px solid #45a29e;
+            background: #0b0c10;
+            color: #fff;
+        }
+        button {
+            width: 100%;
+            padding: 11px;
+            margin: 8px 0;
+            border: none;
+            border-radius: 5px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+        .btn-primary { background: #66fcf1; color: #000; }
+        .btn-secondary { background: #45a29e; color: #000; }
+        .btn-google { background: #db4437; color: #fff; }
+        .btn-apple { background: #000; color: #fff; border: 1px solid #fff; }
+        .divider { margin: 15px 0; border-bottom: 1px solid #45a29e; }
+        .toggle-link { color: #66fcf1; cursor: pointer; font-size: 13px; text-decoration: underline; margin-top: 10px; display: block; }
+
+        /* NAVBAR & PROFILE */
+        #home-screen { display: none; }
+        navbar {
+            background: #1f2833;
+            padding: 15px 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 2px solid #66fcf1;
+        }
+        .logo { font-size: 20px; font-weight: bold; color: #66fcf1; }
+        .profile-container { position: relative; }
+        .profile-avatar {
+            width: 42px;
+            height: 42px;
+            border-radius: 50%;
+            background: #66fcf1;
+            color: #000;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-weight: bold;
+            font-size: 18px;
+            cursor: pointer;
+            border: 2px solid #fff;
+        }
+        .profile-menu {
+            display: none;
+            position: absolute;
+            right: 0;
+            top: 50px;
+            background: #1f2833;
+            border: 1px solid #45a29e;
+            border-radius: 8px;
+            width: 230px;
+            padding: 12px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.5);
+            text-align: left;
+        }
+        .profile-menu p { font-size: 13px; margin-bottom: 5px; color: #c5c6c7; }
+        .owner-badge {
+            background: gold;
+            color: black;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-size: 11px;
+            font-weight: bold;
+            display: inline-block;
+            margin-bottom: 8px;
+        }
+        .btn-logout { background: #db4437; color: white; padding: 8px; margin-top: 5px; width: 100%; }
+
+        /* AI SECTION */
+        .ai-box {
+            background: #1f2833;
+            max-width: 600px;
+            margin: 30px auto;
+            padding: 20px;
+            border-radius: 10px;
+            border: 1px solid #45a29e;
+        }
+        #ai-response {
+            background: #0b0c10;
+            padding: 12px;
+            border-radius: 5px;
+            min-height: 80px;
+            margin-top: 10px;
+            text-align: left;
+            color: #66fcf1;
+            white-space: pre-wrap;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- 1. LOGIN SCREEN (FIRST DISPLAYED) -->
+    <div id="login-screen" class="card-container">
+        <div class="auth-card">
+            <h2>HERO-VERSE LOGIN</h2>
+            <input type="text" id="login-identifier" placeholder="Email / Mobile / Handle (@username)">
+            <input type="password" id="login-pass" placeholder="Password">
+            <button class="btn-primary" id="btn-login">Login</button>
+            
+            <div class="divider"></div>
+            <span class="toggle-link" id="go-to-signup">New User? Create Account (Sign Up)</span>
+        </div>
+    </div>
+
+    <!-- 2. SIGN UP VERIFICATION SCREEN -->
+    <div id="signup-screen" class="card-container" style="display:none;">
+        <div class="auth-card">
+            <h2>SIGN UP VERIFICATION</h2>
+            
+            <!-- Email Option -->
+            <input type="email" id="signup-email" placeholder="Email Address">
+            
+            <!-- Phone Option -->
+            <input type="tel" id="signup-phone" placeholder="+91XXXXXXXXXX">
+            <button class="btn-secondary" id="btn-send-otp">Send Phone OTP</button>
+            <input type="text" id="otp-input" placeholder="Enter OTP" style="display:none;">
+            <button class="btn-secondary" id="btn-verify-otp" style="display:none;">Verify OTP</button>
+            <div id="recaptcha-container"></div>
+
+            <button class="btn-primary" id="btn-email-signup">Verify Email</button>
+            
+            <div class="divider"></div>
+            <button class="btn-google" id="btn-google-signup">Sign Up with Google</button>
+            <button class="btn-apple" id="btn-apple-signup">Sign Up with Apple</button>
+
+            <span class="toggle-link" id="go-to-login">Already Have Account? Login</span>
+        </div>
+    </div>
+
+    <!-- 3. PROFILE SETUP FORM (AFTER VERIFICATION) -->
+    <div id="setup-screen" class="card-container" style="display:none;">
+        <div class="auth-card">
+            <h2>CREATE PROFILE</h2>
+            <p style="font-size: 12px; color: #45a29e; margin-bottom: 10px;">Verification Done! Set Your Account Details:</p>
+            
+            <input type="text" id="setup-name" placeholder="Full ID Name (e.g. Naitik Pandey)">
+            <input type="text" id="setup-handle" placeholder="Unique Handle (e.g. mysteryhero_01_official)">
+            <input type="password" id="setup-password" placeholder="Set Password (Min 6 Chars)">
+            
+            <button class="btn-primary" id="btn-save-profile">Complete & Save Account</button>
+        </div>
+    </div>
+
+    <!-- 4. HOME DASHBOARD & AI ASSISTANT -->
+    <div id="home-screen">
+        <navbar>
+            <div class="logo">⚡ HERO-VERSE STUDIO</div>
+            
+            <div class="profile-container">
+                <div class="profile-avatar" id="avatar-icon">N</div>
+                <div class="profile-menu" id="profile-dropdown">
+                    <p id="profile-name" style="color:#fff; font-weight:bold; font-size:15px;"></p>
+                    <p id="profile-handle" style="color:#66fcf1;"></p>
+                    <p id="profile-email"></p>
+                    <p id="profile-phone" style="font-size:12px; color:#aaa;"></p>
+                    <div id="owner-tag" style="display:none;" class="owner-badge">👑 PROJECT OWNER</div>
+                    <button class="btn-logout" id="btn-logout">Logout</button>
+                </div>
+            </div>
+        </navbar>
+
+        <div style="text-align: center; margin-top: 30px;">
+            <h1 id="welcome-msg">Welcome to Hero-Verse!</h1>
+            
+            <!-- FIREBASE VERTEX AI INTERFACE -->
+            <div class="ai-box">
+                <h3 style="color:#66fcf1;">🤖 Hero-Verse AI Assistant (Gemini Driven)</h3>
+                <input type="text" id="ai-prompt" placeholder="Ask AI anything (Voltage Hero / Desi GTA)...">
+                <button class="btn-primary" id="btn-trigger-ai">Trigger AI Assistant</button>
+                <div id="ai-response">AI Response will appear here...</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- FIREBASE SDKs & VERTEX AI MODULE -->
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+        import { 
+            getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, 
+            GoogleAuthProvider, OAuthProvider, RecaptchaVerifier, signInWithPhoneNumber, signInWithPopup, signOut, onAuthStateChanged 
+        } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
+        import { getDatabase, ref, get, set } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-database.js";
+        import { getVertexAI, getGenerativeModel } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-vertexai.js";
+
+        // CONFIGURATION
+        const firebaseConfig = {
+            apiKey: "AIzaSyBdcEn5eIA4-98ydaZ9LLM10sBDsGR4Mkw",
+            authDomain: "hero-verse-f53ee.firebaseapp.com",
+            projectId: "hero-verse-f53ee",
+            storageBucket: "hero-verse-f53ee.firebasestorage.app",
+            messagingSenderId: "385086115984",
+            appId: "1:385086115984:web:f9fed6cbd06fecd8d04815"
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app);
+        const db = getDatabase(app);
+
+        // INITIALIZE FIREBASE VERTEX AI (GEMINI AGENT)
+        const vertexAI = getVertexAI(app);
+        const aiModel = getGenerativeModel(vertexAI, { model: "gemini-1.5-flash" });
+
+        // OWNER MASTER DATA
+        const OWNER_EMAIL = "rd8556532@gmail.com";
+        const OWNER_HANDLE = "mysteryhero_01_official";
+        const OWNER_PHONE = "+919956418589";
+
+        let verifiedUser = null;
+
+        // UI SCREEN SWITCHERS
+        document.getElementById('go-to-signup').addEventListener('click', () => {
+            document.getElementById('login-screen').style.display = 'none';
+            document.getElementById('signup-screen').style.display = 'flex';
+        });
+        document.getElementById('go-to-login').addEventListener('click', () => {
+            document.getElementById('signup-screen').style.display = 'none';
+            document.getElementById('login-screen').style.display = 'flex';
+        });
+
+        // 1. VERIFICATION METHODS
+        // Google Sign Up
+        document.getElementById('btn-google-signup').addEventListener('click', async () => {
+            try {
+                const res = await signInWithPopup(auth, new GoogleAuthProvider());
+                verifiedUser = res.user;
+                openSetupScreen();
+            } catch (err) { alert("Google Error: " + err.message); }
+        });
+
+        // Apple Sign Up
+        document.getElementById('btn-apple-signup').addEventListener('click', async () => {
+            try {
+                const provider = new OAuthProvider('apple.com');
+                const res = await signInWithPopup(auth, provider);
+                verifiedUser = res.user;
+                openSetupScreen();
+            } catch (err) { alert("Apple Error: " + err.message); }
+        });
+
+        // Phone OTP
+        window.recaptchaVerifier = new RecaptchaVerifier(auth, 'recaptcha-container', { 'size': 'invisible' });
+        document.getElementById('btn-send-otp').addEventListener('click', () => {
+            const phone = document.getElementById('signup-phone').value;
+            signInWithPhoneNumber(auth, phone, window.recaptchaVerifier)
+                .then(confirmation => {
+                    window.confirmationResult = confirmation;
+                    alert("OTP Sent!");
+                    document.getElementById('otp-input').style.display = 'block';
+                    document.getElementById('btn-verify-otp').style.display = 'block';
+                }).catch(err => alert("SMS Error: " + err.message));
+        });
+
+        document.getElementById('btn-verify-otp').addEventListener('click', () => {
+            const code = document.getElementById('otp-input').value;
+            window.confirmationResult.confirm(code).then(res => {
+                verifiedUser = res.user;
+                openSetupScreen();
+            }).catch(err => alert("Invalid OTP!"));
+        });
+
+        // Email Verification Step
+        document.getElementById('btn-email-signup').addEventListener('click', async () => {
+            const email = document.getElementById('signup-email').value;
+            if(!email) return alert("Email daalein!");
+            // Temporary dummy password for initial creation stage
+            try {
+                const res = await createUserWithEmailAndPassword(auth, email, "TempPass123!");
+                verifiedUser = res.user;
+                openSetupScreen();
+            } catch(err) { alert("Email Error: " + err.message); }
+        });
+
+        function openSetupScreen() {
+            document.getElementById('signup-screen').style.display = 'none';
+            document.getElementById('setup-screen').style.display = 'flex';
+            if(verifiedUser.email === OWNER_EMAIL || verifiedUser.phoneNumber === OWNER_PHONE) {
+                document.getElementById('setup-name').value = "Naitik Pandey";
+                document.getElementById('setup-handle').value = OWNER_HANDLE;
+            }
+        }
+
+        // 2. COMPLETE PROFILE & SAVE TO FIREBASE
+        document.getElementById('btn-save-profile').addEventListener('click', async () => {
+            const name = document.getElementById('setup-name').value.trim();
+            const rawHandle = document.getElementById('setup-handle').value.trim().toLowerCase();
+            const password = document.getElementById('setup-password').value;
+
+            if (!name || !rawHandle || !password) return alert("Saare fields bharein!");
+
+            // Check Handle Uniqueness
+            const handleRef = ref(db, 'handles/' + rawHandle);
+            const snapshot = await get(handleRef);
+            if (snapshot.exists()) return alert("Yeh handle pehle se kisi ne le liya hai!");
+
+            try {// Save Handle mapping & User Details in Realtime Database
+                await set(handleRef, { uid: verifiedUser.uid });
+                await set(ref(db, 'users/' + verifiedUser.uid), {
+                    name: name,
+                    handle: rawHandle,
+                    email: verifiedUser.email || "",
+                    phone: verifiedUser.phoneNumber || "",
+                    password: password, // For identifier login mapping
+                    role: (verifiedUser.email === OWNER_EMAIL || rawHandle === OWNER_HANDLE) ? "owner" : "user"
+                });
+
+                alert("Profile Complete! Redirecting...");
+                location.reload();
+            } catch (err) { alert("Save Error: " + err.message); }
+        });
+
+        // 3. MULTI-IDENTIFIER LOGIN (Email / Phone / Handle)
+        document.getElementById('btn-login').addEventListener('click', async () => {
+            const identifier = document.getElementById('login-identifier').value.trim().toLowerCase();
+            const pass = document.getElementById('login-pass').value;
+
+            if(!identifier || !pass) return alert("Identifier aur Password bharein!");
+
+            try {
+                if (identifier.includes("@") && identifier.includes(".")) {
+                    // Direct Email Login
+                    await signInWithEmailAndPassword(auth, identifier, pass);
+                } else if (identifier.startsWith("@") || !identifier.includes("@")) {
+                    // Handle Search
+                    const cleanHandle = identifier.replace("@", "");
+                    const handleSnap = await get(ref(db, 'handles/' + cleanHandle));
+                    if (handleSnap.exists()) {
+                        const uid = handleSnap.val().uid;
+                        const userSnap = await get(ref(db, 'users/' + uid));
+                        const userData = userSnap.val();
+                        if (userData && userData.email) {
+                            await signInWithEmailAndPassword(auth, userData.email, pass);
+                        } else {
+                            alert("Please use Email/Password for this handle.");
+                        }
+                    } else { alert("Handle nahi mila!"); }
+                }
+            } catch (err) { alert("Login Failed: " + err.message); }
+        });
+
+        // 4. AUTH STATE & DASHBOARD RENDER
+        onAuthStateChanged(auth, async (user) => {
+            if (user) {
+                const userSnap = await get(ref(db, 'users/' + user.uid));
+                if (!userSnap.exists()) {
+                    verifiedUser = user;
+                    openSetupScreen();
+                    return;
+                }
+
+                const data = userSnap.val();
+                document.getElementById('login-screen').style.display = 'none';
+                document.getElementById('signup-screen').style.display = 'none';
+                document.getElementById('setup-screen').style.display = 'none';
+                document.getElementById('home-screen').style.display = 'block';
+
+                document.getElementById('profile-name').innerText = data.name;
+                document.getElementById('profile-handle').innerText = "@" + data.handle;
+                document.getElementById('profile-email').innerText = data.email || "No Email";
+                document.getElementById('profile-phone').innerText = data.phone || "No Phone";
+                document.getElementById('avatar-icon').innerText = data.name.charAt(0).toUpperCase();
+                document.getElementById('welcome-msg').innerText = "Welcome, " + data.name + "! ⚡";
+
+                if (data.role === "owner" || data.email === OWNER_EMAIL) {
+                    document.getElementById('owner-tag').style.display = 'inline-block';
+                }
+            } else {
+                document.getElementById('login-screen').style.display = 'flex';
+                document.getElementById('home-screen').style.display = 'none';
+            }
+        });
+
+        // 5. TRIGGER FIREBASE VERTEX AI (GEMINI AGENT)
+        document.getElementById('btn-trigger-ai').addEventListener('click', async () => {
+            const prompt = document.getElementById('ai-prompt').value;
+            const resDiv = document.getElementById('ai-response');
+            
+            if(!prompt) return alert("AI ke liye prompt likhein!");
+            
+            resDiv.innerText = "Hero-Verse AI is thinking...";
+            try {
+                const result = await aiModel.generateContent(prompt);
+                const response = await result.response;
+                resDiv.innerText = response.text();
+            } catch (err) {
+                resDiv.innerText = "AI Trigger Error: " + err.message;
+            }
+        });
+
+        // PROFILE DROPDOWN
+        document.getElementById('avatar-icon').addEventListener('click', () => {
+            const menu = document.getElementById('profile-dropdown');
+            menu.style.display = (menu.style.display === 'block') ? 'none' : 'block';
+        });
+
+        // LOGOUT
+        document.getElementById('btn-logout').addEventListener('click', () => {
+            signOut(auth).then(() => location.reload());
+        });
+    </script>
+</body>
+</html>
+
