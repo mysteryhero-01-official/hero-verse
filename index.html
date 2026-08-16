@@ -1,354 +1,1356 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Hero-Verse Studio</title>
-    <style>
-        * { box-sizing: border-box; margin: 0; padding: 0; }
-        body {
-            background-color: #0b0c10;
-            color: #fff;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            min-height: 100vh;
-        }
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-        .card-container {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            min-height: 100vh;
-            padding: 20px;
-        }
-        .auth-card {
-            background: #1f2833;
-            padding: 30px;
-            border-radius: 12px;
-            box-shadow: 0 4px 25px rgba(0, 240, 255, 0.25);
-            width: 360px;
-            text-align: center;
-        }
-        .auth-card h2 { color: #66fcf1; margin-bottom: 15px; }
-        input {
-            width: 100%;
-            padding: 12px;
-            margin: 8px 0;
-            border-radius: 6px;
-            border: 1px solid #45a29e;
-            background: #0b0c10;
-            color: #fff;
-            outline: none;
-            font-size: 14px;
-        }
-        button {
-            width: 100%;
-            padding: 12px;
-            margin: 8px 0;
-            border: none;
-            border-radius: 6px;
-            font-weight: bold;
-            cursor: pointer;
-            font-size: 14px;
-        }
-        .btn-primary { background: #66fcf1; color: #000; }
-        .btn-secondary { background: #45a29e; color: #000; }
-        .btn-google { background: #db4437; color: #fff; }
-        .btn-apple { background: #000; color: #fff; border: 1px solid #fff; }
-        .divider { margin: 15px 0; border-bottom: 1px solid #45a29e; }
-        .toggle-link { color: #66fcf1; cursor: pointer; font-size: 13px; text-decoration: underline; margin-top: 10px; display: block; }
-        
-        .live-error {
-            color: #ff4d4d;
-            font-size: 12px;
-            margin: 5px 0;
-            text-align: left;
-            min-height: 16px;
-        }
+  <title>Hero-Verse Studio | Official Creative & Game Dev Hub</title>
+  <meta
+    name="description"
+    content="Hero-Verse Studio — Voltage Hero, Desi GTA and Neural Core."
+  />
 
-        #home-screen { display: none; }
-        navbar {
-            background: #1f2833;
-            padding: 15px 30px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            border-bottom: 2px solid #66fcf1;
-        }
-        .logo { font-size: 20px; font-weight: bold; color: #66fcf1; }
-        .profile-container { position: relative; }
-        .profile-avatar {
-            width: 42px;
-            height: 42px;
-            border-radius: 50%;
-            background: #66fcf1;
-            color: #000;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            font-weight: bold;
-            font-size: 18px;
-            cursor: pointer;
-            border: 2px solid #fff;
-        }
-        .profile-menu {
-            display: none;
-            position: absolute;
-            right: 0;
-            top: 50px;
-            background: #1f2833;
-            border: 1px solid #45a29e;
-            border-radius: 8px;
-            width: 230px;
-            padding: 12px;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.5);
-            text-align: left;
-        }
-        .profile-menu p { font-size: 13px; margin-bottom: 5px; color: #c5c6c7; }
-        .owner-badge {
-            background: gold;
-            color: black;
-            padding: 2px 6px;
-            border-radius: 4px;
-            font-size: 11px;
-            font-weight: bold;
-            display: inline-block;
-            margin-bottom: 8px;
-        }
-        .btn-logout { background: #db4437; color: white; padding: 8px; margin-top: 5px; width: 100%; }
-        .main-dashboard { padding: 40px 20px; text-align: center; }
-    </style>
-</head>
-<body>
+  <style>
+    :root {
+      --bg: #0b0c10;
+      --bg2: #0f141a;
+      --card: #1f2833;
+      --card2: #18212b;
+      --cyan: #66fcf1;
+      --teal: #45a29e;
+      --white: #f4f7f8;
+      --muted: #9caab5;
+      --red: #ff4d4d;
+      --green: #39ff88;
+      --gold: #ffd166;
+      --border: rgba(102, 252, 241, .16);
+      --shadow: 0 0 30px rgba(102, 252, 241, .08);
+    }
 
-    <!-- 1. LOGIN SCREEN -->
-    <div id="login-screen" class="card-container">
-        <div class="auth-card">
-            <h2>HERO-VERSE LOGIN</h2>
-            <input type="text" id="login-identifier" placeholder="Email / Mobile / Handle (@username)">
-            <input type="password" id="login-pass" placeholder="Password">
-            <div id="login-error" class="live-error"></div>
-            <button class="btn-primary" id="btn-login">Login</button>
-            <div class="divider"></div>
-            <span class="toggle-link" id="go-to-signup">New User? Create Account (Sign Up)</span>
-        </div>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      min-height: 100vh;
+      font-family: Inter, system-ui, -apple-system, BlinkMacSystemFont,
+        "Segoe UI", sans-serif;
+      background:
+        radial-gradient(circle at 20% 10%, rgba(69,162,158,.13), transparent 30%),
+        radial-gradient(circle at 85% 20%, rgba(102,252,241,.08), transparent 28%),
+        var(--bg);
+      color: var(--white);
+      overflow-x: hidden;
+    }
+
+    button,
+    input {
+      font: inherit;
+    }
+
+    button {
+      cursor: pointer;
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    .hidden {
+      display: none !important;
+    }
+
+    .cyan {
+      color: var(--cyan);
+    }
+
+    /* =========================
+       LOADING
+    ========================= */
+
+    #loadingScreen {
+      position: fixed;
+      inset: 0;
+      z-index: 9999;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: #08090d;
+    }
+
+    .loader-wrap {
+      text-align: center;
+    }
+
+    .loader-logo {
+      font-size: 2rem;
+      font-weight: 900;
+      letter-spacing: 2px;
+      color: var(--cyan);
+      text-shadow: 0 0 20px rgba(102,252,241,.55);
+      animation: pulse 1.5s infinite;
+    }
+
+    .loader-line {
+      width: 220px;
+      height: 3px;
+      margin: 20px auto 0;
+      background: rgba(255,255,255,.08);
+      overflow: hidden;
+      border-radius: 99px;
+    }
+
+    .loader-line::after {
+      content: "";
+      display: block;
+      width: 45%;
+      height: 100%;
+      background: var(--cyan);
+      box-shadow: 0 0 12px var(--cyan);
+      animation: loading 1.2s infinite;
+    }
+
+    @keyframes loading {
+      0% { transform: translateX(-120%); }
+      100% { transform: translateX(330%); }
+    }
+
+    @keyframes pulse {
+      50% { opacity: .55; }
+    }
+
+    /* =========================
+       AUTH
+    ========================= */
+
+    #authView {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 25px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .grid-bg {
+      position: absolute;
+      inset: 0;
+      opacity: .12;
+      background-image:
+        linear-gradient(rgba(102,252,241,.15) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(102,252,241,.15) 1px, transparent 1px);
+      background-size: 45px 45px;
+      mask-image: linear-gradient(to bottom, black, transparent);
+    }
+
+    .auth-orb {
+      position: absolute;
+      width: 350px;
+      height: 350px;
+      border-radius: 50%;
+      border: 1px solid rgba(102,252,241,.12);
+      box-shadow:
+        0 0 100px rgba(102,252,241,.08),
+        inset 0 0 80px rgba(69,162,158,.08);
+    }
+
+    .auth-card {
+      width: min(460px, 100%);
+      position: relative;
+      z-index: 2;
+      background: rgba(31,40,51,.88);
+      border: 1px solid var(--border);
+      border-radius: 25px;
+      padding: 34px;
+      backdrop-filter: blur(20px);
+      box-shadow: 0 30px 100px rgba(0,0,0,.5);
+    }
+
+    .brand {
+      text-align: center;
+      margin-bottom: 28px;
+    }
+
+    .brand-icon {
+      font-size: 3rem;
+      filter: drop-shadow(0 0 12px rgba(102,252,241,.7));
+    }
+
+    .brand h1 {
+      margin-top: 8px;
+      font-size: 1.65rem;
+      font-weight: 900;
+      letter-spacing: 1.5px;
+    }
+
+    .brand p {
+      margin-top: 7px;
+      color: var(--muted);
+      font-size: .88rem;
+    }
+
+    .auth-title {
+      margin-bottom: 20px;
+    }
+
+    .auth-title h2 {
+      font-size: 1.35rem;
+    }
+
+    .auth-title p {
+      margin-top: 5px;
+      color: var(--muted);
+      font-size: .85rem;
+    }
+
+    .input-group {
+      margin-bottom: 16px;
+    }
+
+    .input-group label {
+      display: block;
+      margin-bottom: 7px;
+      font-size: .82rem;
+      color: #c9d3da;
+    }
+
+    .input-wrap {
+      position: relative;
+    }
+
+    .input-wrap span {
+      position: absolute;
+      left: 14px;
+      top: 50%;
+      transform: translateY(-50%);
+      opacity: .65;
+    }
+
+    .input-wrap input {
+      width: 100%;
+      padding: 13px 14px 13px 42px;
+      border-radius: 12px;
+      border: 1px solid rgba(255,255,255,.08);
+      outline: none;
+      background: #10161c;
+      color: white;
+      transition: .2s;
+    }
+
+    .input-wrap input:focus {
+      border-color: var(--cyan);
+      box-shadow: 0 0 0 3px rgba(102,252,241,.07);
+    }
+
+    .field-error {
+      min-height: 17px;
+      margin-top: 5px;
+      color: var(--red);
+      font-size: .76rem;
+    }
+
+    .auth-error {
+      min-height: 20px;
+      margin: 8px 0;
+      color: var(--red);
+      font-size: .82rem;
+      text-align: center;
+    }
+
+    .primary-btn {
+      width: 100%;
+      padding: 13px;
+      border: 0;
+      border-radius: 12px;
+      background: var(--cyan);
+      color: #061012;
+      font-weight: 900;
+      transition: .2s;
+    }
+
+    .primary-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 0 25px rgba(102,252,241,.28);
+    }
+
+    .secondary-btn {
+      width: 100%;
+      padding: 12px;
+      border-radius: 12px;
+      border: 1px solid var(--teal);
+      background: transparent;
+      color: white;
+      margin-top: 10px;
+    }
+
+    .auth-switch {
+      text-align: center;
+      margin-top: 18px;
+      color: var(--muted);
+      font-size: .85rem;
+    }
+
+    .auth-switch button {
+      border: 0;
+      background: none;
+      color: var(--cyan);
+      font-weight: 800;
+    }
+
+    .security-note {
+      margin-top: 20px;
+      padding: 10px 12px;
+      border-radius: 10px;
+      background: rgba(69,162,158,.07);
+      border: 1px solid rgba(69,162,158,.12);
+      color: #9db8b6;
+      font-size: .72rem;
+      line-height: 1.5;
+    }
+
+    /* =========================
+       DASHBOARD
+    ========================= */
+
+    #appView {
+      min-height: 100vh;
+    }
+
+    .navbar {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      height: 74px;
+      padding: 0 4%;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      background: rgba(11,12,16,.84);
+      border-bottom: 1px solid rgba(102,252,241,.1);
+      backdrop-filter: blur(18px);
+    }
+
+    .nav-brand {
+      display: flex;
+      align-items: center;
+      gap: 9px;
+      font-weight: 950;
+      letter-spacing: 1px;
+    }
+
+    .nav-brand .bolt {
+      font-size: 1.35rem;
+      color: var(--cyan);
+    }
+
+    .nav-tag {
+      display: block;
+      font-size: .58rem;
+      color: var(--muted);
+      letter-spacing: .8px;
+      margin-top: 3px;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 22px;
+      align-items: center;
+    }
+
+    .nav-links button {
+      border: 0;
+      background: none;
+      color: #aeb8c0;
+      font-size: .8rem;
+      transition: .2s;
+    }
+
+    .nav-links button:hover {
+      color: var(--cyan);
+    }
+
+    .profile-area {
+      position: relative;
+    }
+
+    .avatar-btn {
+      width: 42px;
+      height: 42px;
+      border-radius: 50%;
+      border: 1px solid var(--cyan);
+      background: #172028;
+      color: var(--cyan);
+      font-weight: 900;
+      box-shadow: 0 0 16px rgba(102,252,241,.12);
+    }
+
+    .profile-menu {
+      position: absolute;
+      right: 0;
+      top: 55px;
+      width: 285px;
+      padding: 16px;
+      border-radius: 16px;
+      background: #131a21;
+      border: 1px solid rgba(102,252,241,.17);
+      box-shadow: 0 25px 60px rgba(0,0,0,.45);
+    }
+
+    .profile-header {
+      display: flex;
+      gap: 11px;
+      align-items: center;
+      padding-bottom: 13px;
+      border-bottom: 1px solid rgba(255,255,255,.07);
+    }
+
+    .profile-big-avatar {
+      width: 48px;
+      height: 48px;
+      border-radius: 50%;
+      display: grid;
+      place-items: center;
+      background: rgba(102,252,241,.1);
+      color: var(--cyan);
+      font-weight: 900;
+      font-size: 1.2rem;
+    }
+
+    .profile-name {
+      font-weight: 800;
+    }
+
+    .profile-handle {
+      color: var(--cyan);
+      font-size: .76rem;
+      margin-top: 2px;
+    }
+
+    .profile-details {
+      padding: 13px 0;
+      font-size: .76rem;
+      color: #9eabb4;
+      line-height: 1.9;
+    }
+
+    .owner-badge {
+      display: inline-block;
+      margin-top: 5px;
+      padding: 4px 8px;
+      border-radius: 6px;
+      background: var(--gold);
+      color: #17120a;
+      font-size: .66rem;
+      font-weight: 950;
+    }
+
+    .logout-btn {
+      width: 100%;
+      padding: 10px;
+      border-radius: 9px;
+      border: 1px solid rgba(255,77,77,.35);
+      background: rgba(255,77,77,.06);
+      color: #ff7777;
+    }
+
+    /* =========================
+       MAIN
+    ========================= */
+
+    .main {
+      width: min(1400px, 92%);
+      margin: auto;
+      padding: 35px 0 50px;
+    }
+
+    .hero-banner {
+      min-height: 360px;
+      position: relative;
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+      padding: 50px;
+      border-radius: 28px;
+      border: 1px solid rgba(102,252,241,.13);
+      background:
+        linear-gradient(90deg, rgba(10,12,15,.97), rgba(10,12,15,.66), rgba(10,12,15,.88)),
+        radial-gradient(circle at 80% 50%, rgba(102,252,241,.2), transparent 35%),
+        #101820;
+      box-shadow: var(--shadow);
+    }
+
+    .hero-banner::after {
+      content: "⚡";
+      position: absolute;
+      right: 8%;
+      top: 50%;
+      transform: translateY(-50%);
+      font-size: 15rem;
+      opacity: .035;
+    }
+
+    .hero-content {
+      position: relative;
+      z-index: 2;
+      max-width: 720px;
+    }
+
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      color: var(--cyan);
+      font-size: .72rem;
+      font-weight: 900;
+      letter-spacing: 2px;
+      margin-bottom: 14px;
+    }
+
+    .hero-content h1 {
+      font-size: clamp(2.1rem, 5vw, 4rem);
+      line-height: 1.02;
+      font-weight: 950;
+      letter-spacing: -1.5px;
+    }
+
+    .hero-content h1 span {
+      color: var(--cyan);
+      text-shadow: 0 0 22px rgba(102,252,241,.25);
+    }
+
+    .hero-content p {
+      max-width: 670px;
+      margin-top: 17px;
+      color: #aeb9c1;
+      line-height: 1.7;
+    }
+
+    .hero-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 25px;
+    }
+
+    .hero-btn {
+      border: 0;
+      padding: 12px 18px;
+      border-radius: 10px;
+      font-weight: 900;
+      background: var(--cyan);
+      color: #071011;
+    }
+
+    .outline-btn {
+      border: 1px solid var(--teal);
+      padding: 11px 17px;
+      border-radius: 10px;
+      background: transparent;
+      color: white;
+      font-weight: 800;
+    }
+
+    /* =========================
+       STATS
+    ========================= */
+
+    .section {
+      margin-top: 40px;
+      scroll-margin-top: 95px;
+    }
+
+    .section-heading {
+      display: flex;
+      justify-content: space-between;
+      align-items: end;
+      gap: 15px;
+      margin-bottom: 17px;
+    }
+
+    .section-heading h2 {
+      font-size: 1.25rem;
+      letter-spacing: .4px;
+    }
+
+    .section-heading p {
+      color: var(--muted);
+      font-size: .78rem;
+      margin-top: 5px;
+    }
+
+    .status-online {
+      color: var(--green);
+      font-size: .72rem;
+      font-weight: 800;
+    }
+
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 13px;
+    }
+
+    .stat-card {
+      padding: 20px;
+      border-radius: 15px;
+      background: linear-gradient(145deg, #1f2833, #151c24);
+      border: 1px solid rgba(255,255,255,.05);
+    }
+
+    .stat-icon {
+      font-size: 1.5rem;
+    }
+
+    .stat-label {
+      color: var(--muted);
+      font-size: .72rem;
+      margin-top: 12px;
+    }
+
+    .stat-value {
+      margin-top: 5px;
+      font-weight: 850;
+      font-size: .9rem;
+    }
+
+    /* =========================
+       PROJECT CARDS
+    ========================= */
+
+    .project-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 17px;
+    }
+
+    .project-card {
+      position: relative;
+      min-height: 400px;
+      padding: 25px;
+      overflow: hidden;
+      border-radius: 20px;
+      border: 1px solid rgba(102,252,241,.11);
+      background:
+        radial-gradient(circle at 90% 10%, rgba(102,252,241,.1), transparent 30%),
+        #171e26;
+      transition: .25s;
+    }
+
+    .project-card:hover {
+      transform: translateY(-5px);
+      border-color: rgba(102,252,241,.3);
+      box-shadow: 0 15px 45px rgba(0,0,0,.3);
+    }
+
+    .project-number {
+      color: var(--teal);
+      font-size: .65rem;
+      font-weight: 900;
+      letter-spacing: 2px;
+    }
+
+    .project-icon {
+      margin-top: 25px;
+      font-size: 3rem;
+      filter: drop-shadow(0 0 12px rgba(102,252,241,.2));
+    }
+
+    .project-card h3 {
+      margin-top: 15px;
+      font-size: 1.35rem;
+    }
+
+    .project-card > p {
+      margin-top: 10px;
+      color: #a5b1b9;
+      line-height: 1.6;
+      font-size: .8rem;
+    }
+
+    .feature-list {
+      list-style: none;
+      margin-top: 17px;
+    }
+
+    .feature-list li {
+      margin-top: 8px;
+      color: #c3ccd2;
+      font-size: .75rem;
+    }
+
+    .feature-list li::before {
+      content: "▹";
+      color: var(--cyan);
+      margin-right: 7px;
+    }
+
+    .card-actions {
+      position: absolute;
+      bottom: 20px;
+      left: 20px;
+      right: 20px;
+      display: flex;
+      gap: 8px;
+    }
+
+    .card-actions button {
+      flex: 1;
+      padding: 10px 6px;
+      border-radius: 9px;
+      border: 1px solid var(--teal);
+      background: transparent;
+      color: white;
+      font-size: .72rem;
+      font-weight: 800;
+    }
+
+    .card-actions .main-action {
+      background: var(--cyan);
+      border-color: var(--cyan);
+      color: #071011;
+    }
+
+    /* =========================
+       SCRIPT LAB
+    ========================= */
+
+    .lab-panel {
+      display: grid;
+      grid-template-columns: 1fr 1.25fr;
+      gap: 17px;
+    }
+
+    .panel {
+      padding: 22px;
+      border-radius: 18px;
+      background: #151d25;
+      border: 1px solid rgba(255,255,255,.06);
+    }
+
+    .panel h3 {
+      font-size: .95rem;
+      margin-bottom: 14px;
+    }
+
+    .lab-input,
+    .lab-select,
+    .terminal-input {
+      width: 100%;
+      padding: 12px;
+      background: #0c1116;
+      border: 1px solid rgba(255,255,255,.08);
+      color: white;
+      border-radius: 9px;
+      outline: none;
+      margin-bottom: 10px;
+    }
+
+    textarea.lab-input {
+      min-height: 130px;
+      resize: vertical;
+    }
+
+    .lab-output {
+      min-height: 300px;
+      max-height: 420px;
+      overflow-y: auto;
+      padding: 16px;
+      background: #080b0e;
+      border-radius: 10px;
+      border: 1px solid rgba(102,252,241,.08);
+      color: #b9c6cd;
+      font-family: "Courier New", monospace;
+      font-size: .75rem;
+      line-height: 1.7;
+      white-space: pre-wrap;
+    }
+
+    /* =========================
+       DEV LOG
+    ========================= */
+
+    .dev-grid {
+      display: grid;
+      grid-template-columns: 1.3fr .7fr;
+      gap: 17px;
+    }
+
+    .log-row {
+      padding: 14px 0;
+      border-bottom: 1px solid rgba(255,255,255,.06);
+    }
+
+    .log-row:last-child {
+      border-bottom: 0;
+    }
+
+    .log-row strong {
+      font-size: .82rem;
+    }
+
+    .log-row p {
+      margin-top: 5px;
+      color: var(--muted);
+      font-size: .74rem;
+      line-height: 1.5;
+    }
+
+    .progress {
+      height: 7px;
+      margin-top: 9px;
+      border-radius: 99px;
+      overflow: hidden;
+      background: #0a0d11;
+    }
+
+    .progress div {
+      height: 100%;
+      background: var(--cyan);
+      box-shadow: 0 0 10px rgba(102,252,241,.4);
+    }
+
+    /* =========================
+       TERMINAL
+    ========================= */
+
+    .terminal {
+      background: #07090c;
+      border: 1px solid rgba(102,252,241,.13);
+      border-radius: 15px;
+      overflow: hidden;
+    }
+
+    .terminal-top {
+      display: flex;
+      gap: 7px;
+      align-items: center;
+      padding: 10px 13px;
+      background: #10151b;
+      border-bottom: 1px solid rgba(255,255,255,.06);
+    }
+
+    .dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: #59636b;
+    }
+
+    .terminal-title {
+      margin-left: 5px;
+      color: #87939b;
+      font-family: monospace;
+      font-size: .7rem;
+    }
+
+    .terminal-body {
+      min-height: 280px;
+      max-height: 350px;
+      padding: 16px;
+      overflow-y: auto;
+      color: #b7d1d0;
+      font-family: "Courier New", monospace;
+      font-size: .76rem;
+      line-height: 1.7;
+    }
+
+    .terminal-line {
+      margin-bottom: 10px;
+    }
+
+    .prompt {
+      color: var(--cyan);
+    }
+
+    .terminal-form {
+      display: flex;
+      gap: 8px;
+      padding: 12px;
+      border-top: 1px solid rgba(255,255,255,.06);
+    }
+
+    .terminal-form input {
+      flex: 1;
+      background: #0d1217;
+      color: white;
+      border: 1px solid rgba(255,255,255,.08);
+      border-radius: 8px;
+      padding: 10px;
+      outline: none;
+    }
+
+    .terminal-form button {
+      border: 0;
+      padding: 0 16px;
+      border-radius: 8px;
+      background: var(--cyan);
+      color: #061012;
+      font-weight: 900;
+    }
+
+    /* =========================
+       FOOTER
+    ========================= */
+
+    footer {
+      margin-top: 60px;
+      padding: 25px 4%;
+      border-top: 1px solid rgba(255,255,255,.06);
+      color: #75818a;
+      font-size: .7rem;
+      display: flex;
+      justify-content: space-between;
+      gap: 15px;
+    }
+
+    /* =========================
+       MODAL
+    ========================= */
+
+    .modal {
+      position: fixed;
+      inset: 0;
+      z-index: 500;
+      display: grid;
+      place-items: center;
+      padding: 20px;
+      background: rgba(0,0,0,.75);
+      backdrop-filter: blur(8px);
+    }
+
+    .modal-card {
+      width: min(760px, 100%);
+      max-height: 90vh;
+      overflow-y: auto;
+      padding: 25px;
+      border-radius: 20px;
+      background: #151d25;
+      border: 1px solid rgba(102,252,241,.18);
+      box-shadow: 0 30px 100px rgba(0,0,0,.55);
+    }
+
+    .modal-head {
+      display: flex;
+      justify-content: space-between;
+      gap: 15px;
+      align-items: center;
+      margin-bottom: 20px;
+    }
+
+    .close-btn {
+      width: 35px;
+      height: 35px;
+      border-radius: 50%;
+      border: 1px solid rgba(255,255,255,.1);
+      background: #0c1116;
+      color: white;
+    }
+
+    .modal-content {
+      color: #aebbc3;
+      font-size: .82rem;
+      line-height: 1.8;
+    }
+
+    /* =========================
+       MOBILE
+    ========================= */
+
+    @media (max-width: 1000px) {
+      .nav-links {
+        display: none;
+      }
+
+      .stats-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+
+      .project-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .lab-panel,
+      .dev-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @media (max-width: 600px) {
+      .auth-card {
+        padding: 25px 20px;
+      }
+
+      .navbar {
+        padding: 0 18px;
+      }
+
+      .nav-tag {
+        display: none;
+      }
+
+      .main {
+        width: 94%;
+      }
+
+      .hero-banner {
+        padding: 30px 22px;
+        min-height: 430px;
+      }
+
+      .stats-grid {
+        grid-template-<div style="text-align:center;margin:16px 0;color:#697780;font-size:.75rem;">
+  — OR PHONE OTP —
+</div>
+
+<div class="input-group">
+  <label>Mobile Number</label>
+
+  <div class="input-wrap">
+    <span>📱</span>
+    <input
+      id="phoneNumber"
+      type="tel"
+      inputmode="tel"
+      placeholder="+91 9876543210"
+    />
+  </div>
+
+  <div id="phoneError" class="field-error"></div>
+</div>
+
+<div id="recaptcha-container"></div>
+
+<button
+  id="sendOtpBtn"
+  class="secondary-btn"
+  type="button"
+>
+  📱 SEND OTP
+</button>
+
+<div id="otpSection" class="hidden">
+
+  <div class="input-group" style="margin-top:14px;">
+    <label>Verification OTP</label>
+
+    <div class="input-wrap">
+      <span>🔐</span>
+      <input
+        id="phoneOtp"
+        type="text"
+        inputmode="numeric"
+        maxlength="6"
+        placeholder="Enter 6-digit OTP"
+      />
     </div>
 
-    <!-- 2. SIGN UP SCREEN -->
-    <div id="signup-screen" class="card-container" style="display:none;">
-        <div class="auth-card">
-            <h2>SIGN UP VERIFICATION</h2>
-            <input type="email" id="signup-email" placeholder="Email Address">
-            <button class="btn-primary" id="btn-email-signup">Verify Email</button>
-            <div class="divider"></div>
-            <input type="tel" id="signup-phone" placeholder="+91XXXXXXXXXX">
-            <button class="btn-secondary" id="btn-send-otp">Send Phone OTP</button>
-            <input type="text" id="otp-input" placeholder="Enter OTP" style="display:none;">
-            <button class="btn-secondary" id="btn-verify-otp" style="display:none;">Verify OTP</button>
-            <div id="recaptcha-container"></div>
-            <div class="divider"></div>
-            <button class="btn-google" id="btn-google-signup">Sign Up with Google</button>
-            <button class="btn-apple" id="btn-apple-signup">Sign Up with Apple</button>
-            <div id="signup-error" class="live-error"></div>
-            <span class="toggle-link" id="go-to-login">Already Have Account? Login</span>
-        </div>
-    </div>
+    <div id="otpError" class="field-error"></div>
+  </div>
 
-    <!-- 3. PROFILE SETUP FORM -->
-    <div id="setup-screen" class="card-container" style="display:none;">
-        <div class="auth-card">
-            <h2>CREATE PROFILE</h2>
-            <input type="text" id="setup-name" placeholder="Full ID Name (e.g. Naitik Pandey)">
-            <input type="text" id="setup-handle" placeholder="Unique Handle (e.g. mysteryhero_01_official)">
-            <input type="password" id="setup-password" placeholder="Set Password (Min 6 Chars)">
-            <div id="setup-error" class="live-error"></div>
-            <button class="btn-primary" id="btn-save-profile">Complete & Save Account</button>
-        </div>
-    </div>
+  <button
+    id="verifyOtpBtn"
+    class="primary-btn"
+    type="button"
+  >
+    ✅ VERIFY & ENTER
+  </button>
 
-    <!-- 4. HOME DASHBOARD -->
-    <div id="home-screen">
-        <navbar>
-            <div class="logo">⚡ HERO-VERSE STUDIO</div>
-            <div class="profile-container">
-                <div class="profile-avatar" id="avatar-icon">N</div>
-                <div class="profile-menu" id="profile-dropdown">
-                    <p id="profile-name" style="color:#fff; font-weight:bold;"></p>
-                    <p id="profile-handle" style="color:#66fcf1;"></p>
-                    <p id="profile-email"></p>
-                    <div id="owner-tag" style="display:none;" class="owner-badge">👑 PROJECT OWNER</div>
-                    <button class="btn-logout" id="btn-logout">Logout</button>
-                </div>
-            </div>
-        </navbar>
+</div>import {
+  getAuth,
+  onAuthStateChanged,
+  signInWithEmailAndPassword,
+  createUserWithEmailAndPassword,
+  sendEmailVerification,
+  signOut,
+  GoogleAuthProvider,
+  signInWithPopup,
+  RecaptchaVerifier,
+  signInWithPhoneNumber
+} from "https://www.gstatic.com/firebasejs/12.1.0/firebase-auth.js";/* ============================================
+   PHONE OTP LOGIN
+   ============================================ */
 
-        <div class="main-dashboard">
-            <h1 id="welcome-msg">Welcome to Hero-Verse!</h1>
-            <p style="margin-top:10px; color:#c5c6c7;">Voltage Hero & Desi GTA Engine Control Dashboard Active.</p>
-        </div>
-    </div>
+let phoneConfirmationResult = null;
+let recaptchaVerifier = null;
 
-    <!-- FIREBASE MODULES (FIXED IMPORTS) -->
-    <script type="module">
-        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
-        import { 
-            getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, 
-            GoogleAuthProvider, OAuthProvider, RecaptchaVerifier, signInWithPhoneNumber, signInWithPopup, signOut, onAuthStateChanged 
-        } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
-        import { getDatabase, ref, get, set } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-database.js";
+function setupPhoneRecaptcha() {
 
-        const firebaseConfig = {
-            apiKey: "AIzaSyBdcEn5eIA4-98ydaZ9LLM10sBDsGR4Mkw",
-            authDomain: "hero-verse-f53ee.firebaseapp.com",
-            projectId: "hero-verse-f53ee",
-            storageBucket: "hero-verse-f53ee.firebasestorage.app",
-            messagingSenderId: "385086115984",
-            appId: "1:385086115984:web:f9fed6cbd06fecd8d04815"
-        };
+  if (recaptchaVerifier) return;
 
-        const app = initializeApp(firebaseConfig);
-        const auth = getAuth(app);
-        const db = getDatabase(app);
+  recaptchaVerifier = new RecaptchaVerifier(
+    auth,
+    "recaptcha-container",
+    {
+      size: "invisible",
 
-        const OWNER_EMAIL = "rd8556532@gmail.com";
-        const OWNER_HANDLE = "mysteryhero_01_official";
-        let verifiedUser = null;
+      callback: () => {
+        console.log("reCAPTCHA verified.");
+      },
 
-        function showError(id, msg) {
-            const el = document.getElementById(id);
-            if(el) el.innerText = msg;
-        }
+      "expired-callback": () => {
+        recaptchaVerifier = null;
 
-        // Toggle Screens
-        document.getElementById('go-to-signup').onclick = () => {
-            document.getElementById('login-screen').style.display = 'none';
-            document.getElementById('signup-screen').style.display = 'flex';
-        };
-        document.getElementById('go-to-login').onclick = () => {
-            document.getElementById('signup-screen').style.display = 'none';
-            document.getElementById('login-screen').style.display = 'flex';
-        };
+        showError(
+          "phoneError",
+          "reCAPTCHA expired. Please try again."
+        );
+      }
+    }
+  );
+}
 
-        // Google Sign In
-        document.getElementById('btn-google-signup').onclick = async () => {
-            try {
-                const res = await signInWithPopup(auth, new GoogleAuthProvider());
-                verifiedUser = res.user;
-                openSetupScreen();
-            } catch (err) { showError('signup-error', err.message); }
-        };
 
-        // Email Verification Step
-        document.getElementById('btn-email-signup').onclick = async () => {
-            const email = document.getElementById('signup-email').value.trim();
-            if(!email) return showError('signup-error', "Email daalein.");
-            try {
-                const res = await createUserWithEmailAndPassword(auth, email, "TempPass123!");
-                verifiedUser = res.user;
-                openSetupScreen();
-            } catch(err) { showError('signup-error', err.message); }
-        };
+$("sendOtpBtn").addEventListener(
+  "click",
+  async () => {
 
-        function openSetupScreen() {
-            document.getElementById('signup-screen').style.display = 'none';
-            document.getElementById('setup-screen').style.display = 'flex';
-            if(verifiedUser && verifiedUser.email === OWNER_EMAIL) {
-                document.getElementById('setup-name').value = "Naitik Pandey";
-                document.getElementById('setup-handle').value = OWNER_HANDLE;
-            }
-        }
+    clearErrors();
 
-        // Complete Profile
-        document.getElementById('btn-save-profile').onclick = async () => {
-            const name = document.getElementById('setup-name').value.trim();
-            const rawHandle = document.getElementById('setup-handle').value.trim().toLowerCase();
-            const password = document.getElementById('setup-password').value;
+    const phone =
+      $("phoneNumber")
+        .value
+        .trim();
 
-            if (!name || !rawHandle || !password) return showError('setup-error', "Saare fields bharein.");
+    /*
+      Example:
+      +919876543210
+    */
 
-            const handleRef = ref(db, 'handles/' + rawHandle);
-            const snapshot = await get(handleRef);
-            if (snapshot.exists()) return showError('setup-error', "Handle pehle se kisi ke paas hai.");
+    if (!/^\+[1-9]\d{7,14}$/.test(phone)) {
 
-            try {
-                await set(handleRef, { uid: verifiedUser.uid });
-                await set(ref(db, 'users/' + verifiedUser.uid), {
-                    name: name,
-                    handle: rawHandle,
-                    email: verifiedUser.email || "",
-                    password: password,
-                    role: (verifiedUser.email === OWNER_EMAIL || rawHandle === OWNER_HANDLE) ? "owner" : "user"
-                });
-                location.reload();
-            } catch (err) { showError('setup-error', err.message); }
-        };
+      showError(
+        "phoneError",
+        "Enter your number with country code, e.g. +91XXXXXXXXXX."
+      );
 
-        // Login
-        document.getElementById('btn-login').onclick = async () => {
-            const id = document.getElementById('login-identifier').value.trim().toLowerCase();
-            const pass = document.getElementById('login-pass').value;
+      return;
+    }
 
-            if(!id || !pass) return showError('login-error', "Details bharein.");
+    const button =
+      $("sendOtpBtn");
 
-            try {
-                if (id.includes("@") && id.includes(".")) {
-                    await signInWithEmailAndPassword(auth, id, pass);
-                } else {
-                    const cleanHandle = id.replace("@", "");
-                    const handleSnap = await get(ref(db, 'handles/' + cleanHandle));
-                    if (handleSnap.exists()) {
-                        const uid = handleSnap.val().uid;
-                        const userSnap = await get(ref(db, 'users/' + uid));
-                        const userData = userSnap.val();
-                        if (userData && userData.email) {
-                            await signInWithEmailAndPassword(auth, userData.email, pass);
-                        } else { showError('login-error', "Email se login karein."); }
-                    } else { showError('login-error', "Handle nahi mila."); }
-                }
-            } catch (err) { showError('login-error', "Galat Password ya Login Details."); }
-        };
+    button.disabled = true;
+    button.textContent =
+      "SENDING OTP...";
 
-        // Auth Listener
-        onAuthStateChanged(auth, async (user) => {
-            if (user) {
-                const userSnap = await get(ref(db, 'users/' + user.uid));
-                if (!userSnap.exists()) {
-                    verifiedUser = user;
-                    openSetupScreen();
-                    return;
-                }
+    try {
 
-                const data = userSnap.val();
-                document.getElementById('login-screen').style.display = 'none';
-                document.getElementById('signup-screen').style.display = 'none';
-                document.getElementById('setup-screen').style.display = 'none';
-                document.getElementById('home-screen').style.display = 'block';
+      setupPhoneRecaptcha();
 
-                document.getElementById('profile-name').innerText = data.name;
-                document.getElementById('profile-handle').innerText = "@" + data.handle;
-                document.getElementById('profile-email').innerText = data.email || "";
-                document.getElementById('avatar-icon').innerText = data.name.charAt(0).toUpperCase();
-                document.getElementById('welcome-msg').innerText = "Welcome back, " + data.name + "! ⚡";
+      phoneConfirmationResult =
+        await signInWithPhoneNumber(
+          auth,
+          phone,
+          recaptchaVerifier
+        );
 
-                if (data.role === "owner" || data.email === OWNER_EMAIL) {
-                    document.getElementById('owner-tag').style.display = 'inline-block';
-                }
-            } else {
-                document.getElementById('login-screen').style.display = 'flex';
-                document.getElementById('home-screen').style.display = 'none';
-            }
-        });
+      $("otpSection")
+        .classList
+        .remove("hidden");
 
-        // Avatar Click Dropdown
-        document.getElementById('avatar-icon').onclick = () => {
-            const menu = document.getElementById('profile-dropdown');
-            menu.style.display = (menu.style.display === 'block') ? 'none' : 'block';
-        };
+      button.textContent =
+        "OTP SENT ✓";
 
-        // Logout
-        document.getElementById('btn-logout').onclick = () => {
-            signOut(auth).then(() => location.reload());
-        };
-    </script>
-</body>
-                </html>
-    
+    } catch (error) {
+
+      console.error(error);
+
+      if (recaptchaVerifier) {
+
+        try {
+          recaptchaVerifier.clear();
+        } catch (_) {}
+
+        recaptchaVerifier = null;
+      }
+
+      showError(
+        "phoneError",
+        friendlyFirebaseError(error)
+      );
+
+      button.disabled = false;
+      button.textContent =
+        "📱 SEND OTP";
+    }
+  }
+);
+
+
+/* ============================================
+   VERIFY PHONE OTP
+   ============================================ */
+
+$("verifyOtpBtn").addEventListener(
+  "click",
+  async () => {
+
+    clearErrors();
+
+    if (!phoneConfirmationResult) {
+
+      showError(
+        "otpError",
+        "Please request an OTP first."
+      );
+
+      return;
+    }
+
+    const otp =
+      $("phoneOtp")
+        .value
+        .trim();
+
+    if (!/^\d{6}$/.test(otp)) {
+
+      showError(
+        "otpError",
+        "Enter the 6-digit OTP."
+      );
+
+      return;
+    }
+
+    const button =
+      $("verifyOtpBtn");
+
+    button.disabled = true;
+    button.textContent =
+      "VERIFYING...";
+
+    try {
+
+      /*
+        Firebase verifies the OTP
+        and signs the user in.
+      */
+
+      const result =
+        await phoneConfirmationResult
+          .confirm(otp);
+
+      const user =
+        result.user;
+
+      /*
+        Check whether this phone user
+        already has a Hero-Verse profile.
+      */
+
+      const userRef =
+        doc(
+          db,
+          "users",
+          user.uid
+        );
+
+      const profileSnapshot =
+        await getDoc(userRef);
+
+
+      if (!profileSnapshot.exists()) {
+
+        /*
+          New phone user:
+          create a temporary profile.
+
+          Later we can replace this with
+          the full Profile Creation screen.
+        */
+
+        const generatedHandle =
+          "hero_" +
+          user.uid
+            .slice(0, 8)
+            .toLowerCase();
+
+        await setDoc(
+          userRef,
+          {
+            uid: user.uid,
+
+            fullName:
+              "Hero User",
+
+            handle:
+              generatedHandle,
+
+            phone:
+              user.phoneNumber || "",
+
+            role:
+              "user",
+
+            profileComplete:
+              false,
+
+            createdAt:
+              serverTimestamp()
+          }
+        );
+
+
+        /*
+          Reserve generated handle.
+        */
+
+        await setDoc(
+          doc(
+            db,
+            "handles",
+            generatedHandle
+          ),
+          {
+            uid: user.uid,
+            createdAt:
+              serverTimestamp()
+          }
+        );
+      }
+
+      /*
+        onAuthStateChanged()
+        will automatically take
+        the user to the dashboard.
+      */
+
+    } catch (error) {
+
+      console.error(error);
+
+      showError(
+        "otpError",
+        friendlyFirebaseError(error)
+      );
+
+      button.disabled = false;
+      button.textContent =
+        "✅ VERIFY & ENTER";
+    }
+  }
+);"auth/invalid-phone-number":
+  "The mobile number is invalid.",
+
+"auth/missing-phone-number":
+  "Please enter a mobile number.",
+
+"auth/quota-exceeded":
+  "SMS limit reached. Please try again later.",
+
+"auth/code-expired":
+  "This OTP has expired. Request a new OTP.",
+
+"auth/invalid-verification-code":
+  "Incorrect OTP. Please check and try again.",
+
+"auth/captcha-check-failed":
+  "reCAPTCHA verification failed. Please try again."
