@@ -1,1009 +1,460 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-
-  <title>Hero-Verse Studio | Official Creative & Game Dev Hub</title>
-  <meta
-    name="description"
-    content="Hero-Verse Studio — Voltage Hero, Desi GTA and Neural Core."
-  />
-
-  <style>
-    :root {
-      --bg: #0b0c10;
-      --bg2: #0f141a;
-      --card: #1f2833;
-      --card2: #18212b;
-      --cyan: #66fcf1;
-      --teal: #45a29e;
-      --white: #f4f7f8;
-      --muted: #9caab5;
-      --red: #ff4d4d;
-      --green: #39ff88;
-      --gold: #ffd166;
-      --border: rgba(102, 252, 241, .16);
-      --shadow: 0 0 30px rgba(102, 252, 241, .08);
-    }
-
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-    }
-
-    html {
-      scroll-behavior: smooth;
-    }
-
-    body {
-      min-height: 100vh;
-      font-family: Inter, system-ui, -apple-system, BlinkMacSystemFont,
-        "Segoe UI", sans-serif;
-      background:
-        radial-gradient(circle at 20% 10%, rgba(69,162,158,.13), transparent 30%),
-        radial-gradient(circle at 85% 20%, rgba(102,252,241,.08), transparent 28%),
-        var(--bg);
-      color: var(--white);
-      overflow-x: hidden;
-    }
-
-    button,
-    input {
-      font: inherit;
-    }
-
-    button {
-      cursor: pointer;
-    }
-
-    a {
-      color: inherit;
-      text-decoration: none;
-    }
-
-    .hidden {
-      display: none !important;
-    }
-
-    .cyan {
-      color: var(--cyan);
-    }
-
-    /* =========================
-       LOADING
-    ========================= */
-
-    #loadingScreen {
-      position: fixed;
-      inset: 0;
-      z-index: 9999;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      background: #08090d;
-    }
-
-    .loader-wrap {
-      text-align: center;
-    }
-
-    .loader-logo {
-      font-size: 2rem;
-      font-weight: 900;
-      letter-spacing: 2px;
-      color: var(--cyan);
-      text-shadow: 0 0 20px rgba(102,252,241,.55);
-      animation: pulse 1.5s infinite;
-    }
-
-    .loader-line {
-      width: 220px;
-      height: 3px;
-      margin: 20px auto 0;
-      background: rgba(255,255,255,.08);
-      overflow: hidden;
-      border-radius: 99px;
-    }
-
-    .loader-line::after {
-      content: "";
-      display: block;
-      width: 45%;
-      height: 100%;
-      background: var(--cyan);
-      box-shadow: 0 0 12px var(--cyan);
-      animation: loading 1.2s infinite;
-    }
-
-    @keyframes loading {
-      0% { transform: translateX(-120%); }
-      100% { transform: translateX(330%); }
-    }
-
-    @keyframes pulse {
-      50% { opacity: .55; }
-    }
-
-    /* =========================
-       AUTH
-    ========================= */
-
-    #authView {
-      min-height: 100vh;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      padding: 25px;
-      position: relative;
-      overflow: hidden;
-    }
-
-    .grid-bg {
-      position: absolute;
-      inset: 0;
-      opacity: .12;
-      background-image:
-        linear-gradient(rgba(102,252,241,.15) 1px, transparent 1px),
-        linear-gradient(90deg, rgba(102,252,241,.15) 1px, transparent 1px);
-      background-size: 45px 45px;
-      mask-image: linear-gradient(to bottom, black, transparent);
-    }
-
-    .auth-orb {
-      position: absolute;
-      width: 350px;
-      height: 350px;
-      border-radius: 50%;
-      border: 1px solid rgba(102,252,241,.12);
-      box-shadow:
-        0 0 100px rgba(102,252,241,.08),
-        inset 0 0 80px rgba(69,162,158,.08);
-    }
-
-    .auth-card {
-      width: min(460px, 100%);
-      position: relative;
-      z-index: 2;
-      background: rgba(31,40,51,.88);
-      border: 1px solid var(--border);
-      border-radius: 25px;
-      padding: 34px;
-      backdrop-filter: blur(20px);
-      box-shadow: 0 30px 100px rgba(0,0,0,.5);
-    }
-
-    .brand {
-      text-align: center;
-      margin-bottom: 28px;
-    }
-
-    .brand-icon {
-      font-size: 3rem;
-      filter: drop-shadow(0 0 12px rgba(102,252,241,.7));
-    }
-
-    .brand h1 {
-      margin-top: 8px;
-      font-size: 1.65rem;
-      font-weight: 900;
-      letter-spacing: 1.5px;
-    }
-
-    .brand p {
-      margin-top: 7px;
-      color: var(--muted);
-      font-size: .88rem;
-    }
-
-    .auth-title {
-      margin-bottom: 20px;
-    }
-
-    .auth-title h2 {
-      font-size: 1.35rem;
-    }
-
-    .auth-title p {
-      margin-top: 5px;
-      color: var(--muted);
-      font-size: .85rem;
-    }
-
-    .input-group {
-      margin-bottom: 16px;
-    }
-
-    .input-group label {
-      display: block;
-      margin-bottom: 7px;
-      font-size: .82rem;
-      color: #c9d3da;
-    }
-
-    .input-wrap {
-      position: relative;
-    }
-
-    .input-wrap span {
-      position: absolute;
-      left: 14px;
-      top: 50%;
-      transform: translateY(-50%);
-      opacity: .65;
-    }
-
-    .input-wrap input {
-      width: 100%;
-      padding: 13px 14px 13px 42px;
-      border-radius: 12px;
-      border: 1px solid rgba(255,255,255,.08);
-      outline: none;
-      background: #10161c;
-      color: white;
-      transition: .2s;
-    }
-
-    .input-wrap input:focus {
-      border-color: var(--cyan);
-      box-shadow: 0 0 0 3px rgba(102,252,241,.07);
-    }
-
-    .field-error {
-      min-height: 17px;
-      margin-top: 5px;
-      color: var(--red);
-      font-size: .76rem;
-    }
-
-    .auth-error {
-      min-height: 20px;
-      margin: 8px 0;
-      color: var(--red);
-      font-size: .82rem;
-      text-align: center;
-    }
-
-    .primary-btn {
-      width: 100%;
-      padding: 13px;
-      border: 0;
-      border-radius: 12px;
-      background: var(--cyan);
-      color: #061012;
-      font-weight: 900;
-      transition: .2s;
-    }
-
-    .primary-btn:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 0 25px rgba(102,252,241,.28);
-    }
-
-    .secondary-btn {
-      width: 100%;
-      padding: 12px;
-      border-radius: 12px;
-      border: 1px solid var(--teal);
-      background: transparent;
-      color: white;
-      margin-top: 10px;
-    }
-
-    .auth-switch {
-      text-align: center;
-      margin-top: 18px;
-      color: var(--muted);
-      font-size: .85rem;
-    }
-
-    .auth-switch button {
-      border: 0;
-      background: none;
-      color: var(--cyan);
-      font-weight: 800;
-    }
-
-    .security-note {
-      margin-top: 20px;
-      padding: 10px 12px;
-      border-radius: 10px;
-      background: rgba(69,162,158,.07);
-      border: 1px solid rgba(69,162,158,.12);
-      color: #9db8b6;
-      font-size: .72rem;
-      line-height: 1.5;
-    }
-
-    /* =========================
-       DASHBOARD
-    ========================= */
-
-    #appView {
-      min-height: 100vh;
-    }
-
-    .navbar {
-      position: sticky;
-      top: 0;
-      z-index: 100;
-      height: 74px;
-      padding: 0 4%;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      background: rgba(11,12,16,.84);
-      border-bottom: 1px solid rgba(102,252,241,.1);
-      backdrop-filter: blur(18px);
-    }
-
-    .nav-brand {
-      display: flex;
-      align-items: center;
-      gap: 9px;
-      font-weight: 950;
-      letter-spacing: 1px;
-    }
-
-    .nav-brand .bolt {
-      font-size: 1.35rem;
-      color: var(--cyan);
-    }
-
-    .nav-tag {
-      display: block;
-      font-size: .58rem;
-      color: var(--muted);
-      letter-spacing: .8px;
-      margin-top: 3px;
-    }
-
-    .nav-links {
-      display: flex;
-      gap: 22px;
-      align-items: center;
-    }
-
-    .nav-links button {
-      border: 0;
-      background: none;
-      color: #aeb8c0;
-      font-size: .8rem;
-      transition: .2s;
-    }
-
-    .nav-links button:hover {
-      color: var(--cyan);
-    }
-
-    .profile-area {
-      position: relative;
-    }
-
-    .avatar-btn {
-      width: 42px;
-      height: 42px;
-      border-radius: 50%;
-      border: 1px solid var(--cyan);
-      background: #172028;
-      color: var(--cyan);
-      font-weight: 900;
-      box-shadow: 0 0 16px rgba(102,252,241,.12);
-    }
-
-    .profile-menu {
-      position: absolute;
-      right: 0;
-      top: 55px;
-      width: 285px;
-      padding: 16px;
-      border-radius: 16px;
-      background: #131a21;
-      border: 1px solid rgba(102,252,241,.17);
-      box-shadow: 0 25px 60px rgba(0,0,0,.45);
-    }
-
-    .profile-header {
-      display: flex;
-      gap: 11px;
-      align-items: center;
-      padding-bottom: 13px;
-      border-bottom: 1px solid rgba(255,255,255,.07);
-    }
-
-    .profile-big-avatar {
-      width: 48px;
-      height: 48px;
-      border-radius: 50%;
-      display: grid;
-      place-items: center;
-      background: rgba(102,252,241,.1);
-      color: var(--cyan);
-      font-weight: 900;
-      font-size: 1.2rem;
-    }
-
-    .profile-name {
-      font-weight: 800;
-    }
-
-    .profile-handle {
-      color: var(--cyan);
-      font-size: .76rem;
-      margin-top: 2px;
-    }
-
-    .profile-details {
-      padding: 13px 0;
-      font-size: .76rem;
-      color: #9eabb4;
-      line-height: 1.9;
-    }
-
-    .owner-badge {
-      display: inline-block;
-      margin-top: 5px;
-      padding: 4px 8px;
-      border-radius: 6px;
-      background: var(--gold);
-      color: #17120a;
-      font-size: .66rem;
-      font-weight: 950;
-    }
-
-    .logout-btn {
-      width: 100%;
-      padding: 10px;
-      border-radius: 9px;
-      border: 1px solid rgba(255,77,77,.35);
-      background: rgba(255,77,77,.06);
-      color: #ff7777;
-    }
-
-    /* =========================
-       MAIN
-    ========================= */
-
-    .main {
-      width: min(1400px, 92%);
-      margin: auto;
-      padding: 35px 0 50px;
-    }
-
-    .hero-banner {
-      min-height: 360px;
-      position: relative;
-      overflow: hidden;
-      display: flex;
-      align-items: center;
-      padding: 50px;
-      border-radius: 28px;
-      border: 1px solid rgba(102,252,241,.13);
-      background:
-        linear-gradient(90deg, rgba(10,12,15,.97), rgba(10,12,15,.66), rgba(10,12,15,.88)),
-        radial-gradient(circle at 80% 50%, rgba(102,252,241,.2), transparent 35%),
-        #101820;
-      box-shadow: var(--shadow);
-    }
-
-    .hero-banner::after {
-      content: "⚡";
-      position: absolute;
-      right: 8%;
-      top: 50%;
-      transform: translateY(-50%);
-      font-size: 15rem;
-      opacity: .035;
-    }
-
-    .hero-content {
-      position: relative;
-      z-index: 2;
-      max-width: 720px;
-    }
-
-    .eyebrow {
-      display: inline-flex;
-      align-items: center;
-      gap: 7px;
-      color: var(--cyan);
-      font-size: .72rem;
-      font-weight: 900;
-      letter-spacing: 2px;
-      margin-bottom: 14px;
-    }
-
-    .hero-content h1 {
-      font-size: clamp(2.1rem, 5vw, 4rem);
-      line-height: 1.02;
-      font-weight: 950;
-      letter-spacing: -1.5px;
-    }
-
-    .hero-content h1 span {
-      color: var(--cyan);
-      text-shadow: 0 0 22px rgba(102,252,241,.25);
-    }
-
-    .hero-content p {
-      max-width: 670px;
-      margin-top: 17px;
-      color: #aeb9c1;
-      line-height: 1.7;
-    }
-
-    .hero-actions {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 10px;
-      margin-top: 25px;
-    }
-
-    .hero-btn {
-      border: 0;
-      padding: 12px 18px;
-      border-radius: 10px;
-      font-weight: 900;
-      background: var(--cyan);
-      color: #071011;
-    }
-
-    .outline-btn {
-      border: 1px solid var(--teal);
-      padding: 11px 17px;
-      border-radius: 10px;
-      background: transparent;
-      color: white;
-      font-weight: 800;
-    }
-
-    /* =========================
-       STATS
-    ========================= */
-
-    .section {
-      margin-top: 40px;
-      scroll-margin-top: 95px;
-    }
-
-    .section-heading {
-      display: flex;
-      justify-content: space-between;
-      align-items: end;
-      gap: 15px;
-      margin-bottom: 17px;
-    }
-
-    .section-heading h2 {
-      font-size: 1.25rem;
-      letter-spacing: .4px;
-    }
-
-    .section-heading p {
-      color: var(--muted);
-      font-size: .78rem;
-      margin-top: 5px;
-    }
-
-    .status-online {
-      color: var(--green);
-      font-size: .72rem;
-      font-weight: 800;
-    }
-
-    .stats-grid {
-      display: grid;
-      grid-template-columns: repeat(4, 1fr);
-      gap: 13px;
-    }
-
-    .stat-card {
-      padding: 20px;
-      border-radius: 15px;
-      background: linear-gradient(145deg, #1f2833, #151c24);
-      border: 1px solid rgba(255,255,255,.05);
-    }
-
-    .stat-icon {
-      font-size: 1.5rem;
-    }
-
-    .stat-label {
-      color: var(--muted);
-      font-size: .72rem;
-      margin-top: 12px;
-    }
-
-    .stat-value {
-      margin-top: 5px;
-      font-weight: 850;
-      font-size: .9rem;
-    }
-
-    /* =========================
-       PROJECT CARDS
-    ========================= */
-
-    .project-grid {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 17px;
-    }
-
-    .project-card {
-      position: relative;
-      min-height: 400px;
-      padding: 25px;
-      overflow: hidden;
-      border-radius: 20px;
-      border: 1px solid rgba(102,252,241,.11);
-      background:
-        radial-gradient(circle at 90% 10%, rgba(102,252,241,.1), transparent 30%),
-        #171e26;
-      transition: .25s;
-    }
-
-    .project-card:hover {
-      transform: translateY(-5px);
-      border-color: rgba(102,252,241,.3);
-      box-shadow: 0 15px 45px rgba(0,0,0,.3);
-    }
-
-    .project-number {
-      color: var(--teal);
-      font-size: .65rem;
-      font-weight: 900;
-      letter-spacing: 2px;
-    }
-
-    .project-icon {
-      margin-top: 25px;
-      font-size: 3rem;
-      filter: drop-shadow(0 0 12px rgba(102,252,241,.2));
-    }
-
-    .project-card h3 {
-      margin-top: 15px;
-      font-size: 1.35rem;
-    }
-
-    .project-card > p {
-      margin-top: 10px;
-      color: #a5b1b9;
-      line-height: 1.6;
-      font-size: .8rem;
-    }
-
-    .feature-list {
-      list-style: none;
-      margin-top: 17px;
-    }
-
-    .feature-list li {
-      margin-top: 8px;
-      color: #c3ccd2;
-      font-size: .75rem;
-    }
-
-    .feature-list li::before {
-      content: "▹";
-      color: var(--cyan);
-      margin-right: 7px;
-    }
-
-    .card-actions {
-      position: absolute;
-      bottom: 20px;
-      left: 20px;
-      right: 20px;
-      display: flex;
-      gap: 8px;
-    }
-
-    .card-actions button {
-      flex: 1;
-      padding: 10px 6px;
-      border-radius: 9px;
-      border: 1px solid var(--teal);
-      background: transparent;
-      color: white;
-      font-size: .72rem;
-      font-weight: 800;
-    }
-
-    .card-actions .main-action {
-      background: var(--cyan);
-      border-color: var(--cyan);
-      color: #071011;
-    }
-
-    /* =========================
-       SCRIPT LAB
-    ========================= */
-
-    .lab-panel {
-      display: grid;
-      grid-template-columns: 1fr 1.25fr;
-      gap: 17px;
-    }
-
-    .panel {
-      padding: 22px;
-      border-radius: 18px;
-      background: #151d25;
-      border: 1px solid rgba(255,255,255,.06);
-    }
-
-    .panel h3 {
-      font-size: .95rem;
-      margin-bottom: 14px;
-    }
-
-    .lab-input,
-    .lab-select,
-    .terminal-input {
-      width: 100%;
-      padding: 12px;
-      background: #0c1116;
-      border: 1px solid rgba(255,255,255,.08);
-      color: white;
-      border-radius: 9px;
-      outline: none;
-      margin-bottom: 10px;
-    }
-
-    textarea.lab-input {
-      min-height: 130px;
-      resize: vertical;
-    }
-
-    .lab-output {
-      min-height: 300px;
-      max-height: 420px;
-      overflow-y: auto;
-      padding: 16px;
-      background: #080b0e;
-      border-radius: 10px;
-      border: 1px solid rgba(102,252,241,.08);
-      color: #b9c6cd;
-      font-family: "Courier New", monospace;
-      font-size: .75rem;
-      line-height: 1.7;
-      white-space: pre-wrap;
-    }
-
-    /* =========================
-       DEV LOG
-    ========================= */
-
-    .dev-grid {
-      display: grid;
-      grid-template-columns: 1.3fr .7fr;
-      gap: 17px;
-    }
-
-    .log-row {
-      padding: 14px 0;
-      border-bottom: 1px solid rgba(255,255,255,.06);
-    }
-
-    .log-row:last-child {
-      border-bottom: 0;
-    }
-
-    .log-row strong {
-      font-size: .82rem;
-    }
-
-    .log-row p {
-      margin-top: 5px;
-      color: var(--muted);
-      font-size: .74rem;
-      line-height: 1.5;
-    }
-
-    .progress {
-      height: 7px;
-      margin-top: 9px;
-      border-radius: 99px;
-      overflow: hidden;
-      background: #0a0d11;
-    }
-
-    .progress div {
-      height: 100%;
-      background: var(--cyan);
-      box-shadow: 0 0 10px rgba(102,252,241,.4);
-    }
-
-    /* =========================
-       TERMINAL
-    ========================= */
-
-    .terminal {
-      background: #07090c;
-      border: 1px solid rgba(102,252,241,.13);
-      border-radius: 15px;
-      overflow: hidden;
-    }
-
-    .terminal-top {
-      display: flex;
-      gap: 7px;
-      align-items: center;
-      padding: 10px 13px;
-      background: #10151b;
-      border-bottom: 1px solid rgba(255,255,255,.06);
-    }
-
-    .dot {
-      width: 8px;
-      height: 8px;
-      border-radius: 50%;
-      background: #59636b;
-    }
-
-    .terminal-title {
-      margin-left: 5px;
-      color: #87939b;
-      font-family: monospace;
-      font-size: .7rem;
-    }
-
-    .terminal-body {
-      min-height: 280px;
-      max-height: 350px;
-      padding: 16px;
-      overflow-y: auto;
-      color: #b7d1d0;
-      font-family: "Courier New", monospace;
-      font-size: .76rem;
-      line-height: 1.7;
-    }
-
-    .terminal-line {
-      margin-bottom: 10px;
-    }
-
-    .prompt {
-      color: var(--cyan);
-    }
-
-    .terminal-form {
-      display: flex;
-      gap: 8px;
-      padding: 12px;
-      border-top: 1px solid rgba(255,255,255,.06);
-    }
-
-    .terminal-form input {
-      flex: 1;
-      background: #0d1217;
-      color: white;
-      border: 1px solid rgba(255,255,255,.08);
-      border-radius: 8px;
-      padding: 10px;
-      outline: none;
-    }
-
-    .terminal-form button {
-      border: 0;
-      padding: 0 16px;
-      border-radius: 8px;
-      background: var(--cyan);
-      color: #061012;
-      font-weight: 900;
-    }
-
-    /* =========================
-       FOOTER
-    ========================= */
-
-    footer {
-      margin-top: 60px;
-      padding: 25px 4%;
-      border-top: 1px solid rgba(255,255,255,.06);
-      color: #75818a;
-      font-size: .7rem;
-      display: flex;
-      justify-content: space-between;
-      gap: 15px;
-    }
-
-    /* =========================
-       MODAL
-    ========================= */
-
-    .modal {
-      position: fixed;
-      inset: 0;
-      z-index: 500;
-      display: grid;
-      place-items: center;
-      padding: 20px;
-      background: rgba(0,0,0,.75);
-      backdrop-filter: blur(8px);
-    }
-
-    .modal-card {
-      width: min(760px, 100%);
-      max-height: 90vh;
-      overflow-y: auto;
-      padding: 25px;
-      border-radius: 20px;
-      background: #151d25;
-      border: 1px solid rgba(102,252,241,.18);
-      box-shadow: 0 30px 100px rgba(0,0,0,.55);
-    }
-
-    .modal-head {
-      display: flex;
-      justify-content: space-between;
-      gap: 15px;
-      align-items: center;
-      margin-bottom: 20px;
-    }
-
-    .close-btn {
-      width: 35px;
-      height: 35px;
-      border-radius: 50%;
-      border: 1px solid rgba(255,255,255,.1);
-      background: #0c1116;
-      color: white;
-    }
-
-    .modal-content {
-      color: #aebbc3;
-      font-size: .82rem;
-      line-height: 1.8;
-    }
-
-    /* =========================
-       MOBILE
-    ========================= */
-
-    @media (max-width: 1000px) {
-      .nav-links {
-        display: none;
-      }
-
-      .stats-grid {
-        grid-template-columns: repeat(2, 1fr);
-      }
-
-      .project-grid {
-        grid-template-columns: 1fr;
-      }
-
-      .lab-panel,
-      .dev-grid {
-        grid-template-columns: 1fr;
-      }
-    }
-
-    @media (max-width: 600px) {
-      .auth-card {
-        padding: 25px 20px;
-      }
-
-      .navbar {
-        padding: 0 18px;
-      }
-
-      .nav-tag {
-        display: none;
-      }
-
-      .main {
-        width: 94%;
-      }
-
-      .hero-banner {
-        padding: 30px 22px;
-        min-height: 430px;
-      }
-
-      .stats-grid {
-        grid-template-
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="theme-color" content="#0b0c10">
+<meta name="description" content="Hero-Verse Studio — Official Creative & Game Dev Hub">
+<title>⚡ HERO-VERSE STUDIO</title>
+
+<!-- =========================================================
+     HERO-VERSE STUDIO
+     PART 1 / 15
+     SINGLE-FILE ARCHITECTURE (HEAD & AUTH ENTRY)
+     ========================================================= -->
+
+</head>
+
+<body>
+
+<!-- =========================================================
+     1. APP LOADER & SPLASH
+     ========================================================= -->
+<div id="appLoader" class="app-loader">
+    <div class="loader-logo">⚡</div>
+    <div class="loader-title">HERO-VERSE</div>
+    <div class="loader-subtitle">INITIALIZING COMMAND CENTER...</div>
+    <div class="loader-bar"><span></span></div>
+</div>
+
+<!-- =========================================================
+     2. GLOBAL LIVE NOTIFICATION
+     ========================================================= -->
+<div id="globalNotification" class="global-notification" aria-live="polite"></div>
+
+<!-- =========================================================
+     3. AUTHENTICATION SCREEN (LOGIN / SIGNUP ROUTER)
+     ========================================================= -->
+<main id="authScreen" class="screen auth-screen">
+    <div class="auth-background-grid"></div>
+    <div class="auth-glow auth-glow-one"></div>
+    <div class="auth-glow auth-glow-two"></div>
+
+    <section class="auth-card">
+        <div class="brand-mark">⚡</div>
+        <div class="brand-name">HERO-VERSE</div>
+        <div class="brand-studio">STUDIO</div>
+        <p class="brand-tagline">Official Creative &amp; Game Dev Hub</p>
+
+        <!-- AUTH MODE SELECTOR TABS -->
+        <div class="auth-tabs">
+            <button type="button" id="emailModeButton" class="auth-tab active">
+                📧 Email
+            </button>
+            <button type="button" id="phoneModeButton" class="auth-tab">
+                📱 Mobile
+            </button>
+        </div>
+
+        <!-- EMAIL LOGIN FORM -->
+        <form id="emailLoginForm" class="auth-form" novalidate>
+            <div class="field-group">
+                <label for="loginEmail">Email Address</label>
+                <input id="loginEmail" name="email" type="email" autocomplete="email" placeholder="Enter your email">
+                <div id="loginEmailError" class="live-error" aria-live="polite"></div>
+            </div>
+
+            <div class="field-group">
+                <label for="loginPassword">Password</label>
+                <div class="password-wrapper">
+                    <input id="loginPassword" name="password" type="password" autocomplete="current-password" placeholder="Enter your password">
+                    <button type="button" id="toggleLoginPassword" class="password-toggle" aria-label="Show password">👁️</button>
+                </div>
+                <div id="loginPasswordError" class="live-error" aria-live="polite"></div>
+            </div>
+
+            <button type="submit" id="emailLoginButton" class="primary-action">
+                <span>🔐</span>
+                <span>LOGIN WITH EMAIL</span>
+            </button>
+        </form>
+        <!-- =========================================================
+     HERO-VERSE STUDIO
+     PART 2 / 15
+     PHONE LOGIN, AUTH ROUTERS & SIGNUP STRUCTURE
+     ========================================================= -->
+
+        <!-- PHONE LOGIN FORM -->
+        <form id="phoneLoginForm" class="auth-form hidden" novalidate>
+            <div class="field-group">
+                <label for="loginPhone">Indian Mobile Number</label>
+                <input id="loginPhone" name="phone" type="tel" inputmode="tel" autocomplete="tel" placeholder="+91 9876543210">
+                <div id="loginPhoneError" class="live-error" aria-live="polite"></div>
+            </div>
+
+            <!-- Firebase Phone Auth reCAPTCHA Container -->
+            <div id="recaptcha-container" class="recaptcha-container"></div>
+
+            <button type="button" id="sendOtpButton" class="primary-action">
+                <span>📲</span>
+                <span>SEND OTP</span>
+            </button>
+
+            <!-- OTP SECTION -->
+            <div id="otpSection" class="otp-section hidden">
+                <div class="field-group">
+                    <label for="loginOtp">Verification Code</label>
+                    <input id="loginOtp" name="otp" type="text" inputmode="numeric" autocomplete="one-time-code" maxlength="6" placeholder="Enter 6-digit OTP">
+                    <div id="loginOtpError" class="live-error" aria-live="polite"></div>
+                </div>
+
+                <button type="button" id="verifyOtpButton" class="primary-action">
+                    <span>✅</span>
+                    <span>VERIFY OTP</span>
+                </button>
+            </div>
+        </form>
+
+        <!-- AUTH STATUS MESSAGE -->
+        <div id="authStatus" class="auth-status" aria-live="polite"></div>
+
+        <!-- DIVIDER -->
+        <div class="auth-divider">
+            <span></span>
+            <small>OR</small>
+            <span></span>
+        </div>
+
+        <!-- GOOGLE LOGIN -->
+        <button type="button" id="googleSignInButton" class="google-action">
+            <span class="google-logo">G</span>
+            <span>Continue with Google</span>
+        </button>
+
+        <!-- SIGNUP ROUTE TOGGLE -->
+        <div class="signup-line">
+            <span>New User?</span>
+            <button type="button" id="openSignupButton" class="text-action">
+                Create Account
+            </button>
+        </div>
+
+        <div class="security-note">
+            🔒 Secured by Firebase Authentication &amp; App Check
+        </div>
+    </section>
+</main>
+<!-- =========================================================
+     HERO-VERSE STUDIO
+     PART 3 / 15
+     SIGNUP FORM & PROFILE INITIALIZATION SCREEN
+     ========================================================= -->
+
+<!-- =========================================================
+     SIGNUP SCREEN
+     ========================================================= -->
+<main id="signupScreen" class="screen signup-screen hidden">
+    <section class="signup-card">
+        <button type="button" id="backToLoginButton" class="back-button">
+            ← Back to Login
+        </button>
+
+        <div class="section-symbol">⚡</div>
+        <h1>Create Your Hero-Verse ID</h1>
+        <p>Build your identity inside the Hero-Verse Studio ecosystem.</p>
+
+        <form id="signupForm" novalidate>
+            <div class="field-group">
+                <label for="signupName">Full ID Name</label>
+                <input id="signupName" type="text" autocomplete="name" placeholder="Enter your full name">
+                <div id="signupNameError" class="live-error"></div>
+            </div>
+
+            <div class="field-group">
+                <label for="signupHandle">Unique Handle</label>
+                <input id="signupHandle" type="text" autocomplete="username" placeholder="@your_handle">
+                <div id="signupHandleError" class="live-error"></div>
+            </div>
+
+            <div class="field-group">
+                <label for="signupEmail">Email Address</label>
+                <input id="signupEmail" type="email" autocomplete="email" placeholder="your@email.com">
+                <div id="signupEmailError" class="live-error"></div>
+            </div>
+
+            <div class="field-group">
+                <label for="signupPhone">Mobile Number (India Only)</label>
+                <input id="signupPhone" type="tel" inputmode="tel" autocomplete="tel" placeholder="+91 9876543210">
+                <div id="signupPhoneError" class="live-error"></div>
+            </div>
+
+            <div class="field-group">
+                <label for="signupPassword">Set Password</label>
+                <div class="password-wrapper">
+                    <input id="signupPassword" type="password" autocomplete="new-password" placeholder="Minimum 8 characters">
+                    <button type="button" id="toggleSignupPassword" class="password-toggle">👁️</button>
+                </div>
+                <div id="signupPasswordError" class="live-error"></div>
+                <div class="password-hint">
+                    🔒 Strict Security: Min 8 chars • Uppercase + Special character required
+                </div>
+            </div>
+
+            <button type="submit" id="createAccountButton" class="primary-action">
+                <span>🚀</span>
+                <span>CREATE ACCOUNT</span>
+            </button>
+        </form>
+    </section>
+</main>
+
+<!-- =========================================================
+     PROFILE SETUP (POST-VERIFICATION ROUTE)
+     ========================================================= -->
+<main id="profileSetupScreen" class="screen profile-screen hidden">
+    <section class="profile-card">
+        <div class="section-symbol">👤</div>
+        <h1>Complete Your Profile</h1>
+        <p>Your account has been verified. Finish your Hero-Verse identity setup.</p>
+
+        <form id="profileForm" novalidate>
+            <div class="field-group">
+                <label for="profileFullName">Full ID Name</label>
+                <input id="profileFullName" type="text" placeholder="Your full name">
+                <div id="profileFullNameError" class="live-error"></div>
+            </div>
+
+            <div class="field-group">
+                <label for="profileHandle">Unique Handle</label>
+                <input id="profileHandle" type="text" placeholder="@your_handle">
+                <div id="profileHandleError" class="live-error"></div>
+            </div>
+
+            <button type="submit" id="saveProfileButton" class="primary-action">
+                💾 SAVE &amp; ENTER STUDIO
+            </button>
+        </form>
+    </section>
+                  </main>
+  <!-- =========================================================
+     HERO-VERSE STUDIO
+     PART 4 / 15
+     MAIN DASHBOARD HEADER, PROFILE HUD & OVERVIEW STATS
+     ========================================================= -->
+
+<!-- =========================================================
+     MAIN DASHBOARD SCREEN
+     ========================================================= -->
+<main id="dashboardScreen" class="screen dashboard-screen hidden">
+
+    <!-- =======================================================
+         TOP NAVIGATION BAR
+         ======================================================= -->
+    <header class="main-header">
+        <div class="header-brand">
+            <div class="header-logo">⚡</div>
+            <div>
+                <div class="header-title">HERO-VERSE STUDIO</div>
+                <div class="header-subtitle">Official Creative &amp; Game Dev Hub</div>
+            </div>
+        </div>
+
+        <nav class="main-nav">
+            <button type="button" class="nav-btn active" data-section="overview">Overview</button>
+            <button type="button" class="nav-btn" data-section="voltageHero">Voltage Hero</button>
+            <button type="button" class="nav-btn" data-section="desiGta">Desi GTA</button>
+            <button type="button" class="nav-btn" data-section="neuralCore">Neural Core</button>
+            <button type="button" class="nav-btn" data-section="updates">Dev Updates</button>
+        </nav>
+
+        <!-- TOP RIGHT PROFILE DROPDOWN HUD -->
+        <div class="profile-area">
+            <button type="button" id="profileButton" class="avatar-button" aria-label="Open profile">
+                <span id="avatarLetter">N</span>
+            </button>
+
+            <div id="profileDropdown" class="profile-dropdown hidden">
+                <div class="profile-dropdown-header">
+                    <div id="profileDropdownName" class="profile-name">Naitik Pandey</div>
+                    <div id="profileDropdownHandle" class="profile-handle">@mysteryhero_01_official</div>
+                </div>
+
+                <div class="profile-info">
+                    <div id="profileDropdownEmail">rd8556532@gmail.com</div>
+                    <div id="profileDropdownPhone">+91 9956418589</div>
+                </div>
+
+                <!-- OWNER / VIP MASTER BADGE -->
+                <div id="ownerBadge" class="owner-badge hidden">
+                    👑 VIP PROJECT OWNER
+                </div>
+
+                <button type="button" id="profileSettingsButton" class="dropdown-action">
+                    ⚙️ Profile Settings
+                </button>
+
+                <button type="button" id="logoutButton" class="dropdown-action logout-action">
+                    🚪 Logout
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- =======================================================
+         DASHBOARD CONTENT SECTIONS
+         ======================================================= -->
+    <div class="dashboard-content">
+
+        <!-- SECTION 1: OVERVIEW & STATS -->
+        <section id="overviewSection" class="dashboard-section active-section">
+            <div class="hero-welcome">
+                <div>
+                    <div class="eyebrow">COMMAND CENTER • 2026</div>
+                    <h1>Welcome to Hero-Verse Headquarters ⚡</h1>
+                    <p>
+                        Central control dashboard for the Voltage Hero cinematic storytelling universe and Desi GTA open-world Android gaming engine.
+                    </p>
+                </div>
+                <div class="hero-electric">⚡</div>
+            </div>
+
+            <!-- QUICK STATS TILES -->
+            <div class="stats-grid">
+                <article class="stat-card">
+                    <div class="stat-icon">⚡</div>
+                    <div class="stat-title">Active Franchise</div>
+                    <div class="stat-value">Voltage Hero</div>
+                    <div class="stat-description">Season 1 Production</div>
+                </article>
+
+                <article class="stat-card">
+                    <div class="stat-icon">🎮</div>
+                    <div class="stat-title">Target Game Size</div>
+                    <div class="stat-value">300 MB</div>
+                    <div class="stat-description">Scalable up to 1 GB</div>
+                </article>
+
+                <article class="stat-card">
+                    <div class="stat-icon">👥</div>
+                    <div class="stat-title">Character Roster</div>
+                    <div class="stat-value">100+</div>
+                    <div class="stat-description">Characters &amp; Indian Vehicles</div>
+                </article>
+
+                <article class="stat-card">
+                    <div class="stat-icon">🟢</div>
+                    <div class="stat-title">System Status</div>
+                    <div class="stat-value">Online</div>
+                    <div class="stat-description">Firebase AI Core Active</div>
+                </article>
+            </div>
+            <!-- =========================================================
+     HERO-VERSE STUDIO
+     PART 5 / 15
+     PROJECT CARDS & VOLTAGE HERO SCRIPT ENGINE
+     ========================================================= -->
+
+            <!-- PROJECT LAUNCHPAD CARDS -->
+            <div class="project-grid">
+
+                <!-- VOLTAGE HERO CARD -->
+                <article class="project-card voltage-card">
+                    <div class="card-glow"></div>
+                    <div class="card-badge">CINEMATIC UNIVERSE</div>
+                    <div class="project-icon">⚡</div>
+                    <h2>Voltage Hero</h2>
+                    <p class="project-desc">
+                        High-voltage superhero cinematic storyline featuring real-time episode breakdowns, high-octane action cues, and dynamic visual storyboards.
+                    </p>
+                    <div class="feature-tags">
+                        <span>10-Min Episodes</span>
+                        <span>Cinematic VFX</span>
+                        <span>Hindi Audio Lore</span>
+                    </div>
+                    <div class="card-actions">
+                        <button type="button" id="watchVoltageButton" class="action-btn cyan-glow">
+                            <span>▶</span> Watch Storyboard
+                        </button>
+                        <button type="button" id="readScriptButton" class="action-btn outline-btn">
+                            <span>📄</span> Read Full Script
+                        </button>
+                        <button type="button" id="knowVoltageButton" class="action-btn text-btn">
+                            <span>ℹ</span> Know More
+                        </button>
+                    </div>
+                </article>
+
+                <!-- DESI GTA CARD -->
+                <article class="project-card desi-card">
+                    <div class="card-glow"></div>
+                    <div class="card-badge">OPEN-WORLD GAME</div>
+                    <div class="project-icon">🎮</div>
+                    <h2>Desi GTA Engine</h2>
+                    <p class="project-desc">
+                        Open-world Android gaming experience blending authentic Indian street culture with high-speed Los Santos style urban freeway systems.
+                    </p>
+                    <div class="feature-tags">
+                        <span>300MB Base Build</span>
+                        <span>100+ Characters</span>
+                        <span>Dual UI (HI/EN)</span>
+                    </div>
+                    <div class="card-actions">
+                        <button type="button" id="playDesiGtaButton" class="action-btn green-glow">
+                            <span>🎮</span> Download / Play APK
+                        </button>
+                        <button type="button" id="exploreMapButton" class="action-btn outline-btn">
+                            <span>🗺</span> Explore Map &amp; Vehicles
+                        </button>
+                        <button type="button" id="knowDesiGtaButton" class="action-btn text-btn">
+                            <span>ℹ</span> Know More
+                        </button>
+                    </div>
+                </article>
+
+            </div>
+
+        </section>
+
+        <!-- SECTION 2: VOLTAGE HERO FULL LAB -->
+        <section id="voltageHeroSection" class="dashboard-section hidden-section">
+            <div class="section-header-banner">
+                <div class="badge-tag">SEASON 1 LAB</div>
+                <h2>⚡ Voltage Hero: Episode &amp; Script Engine</h2>
+                <p>10-Minute episodic second-by-second cinematic action breakdown.</p>
+            </div>
+
+            <div class="script-timeline-box">
+                <div class="timeline-block">
+                    <span class="timestamp">[00:00 - 01:15]</span>
+                    <div class="timeline-content">
+                        <h4>Opening Cinematic &amp; Lightning Awakening</h4>
+                        <p>High-voltage electric sparks surge across the city grid. Main hero transformation sequence initiated with heavy bass Foley audio.</p>
+                    </div>
+                </div>
+
+                <div class="timeline-block">
+                    <span class="timestamp">[01:15 - 04:30]</span>
+                    <div class="timeline-content">
+                        <h4>Urban Confrontation &amp; Street Dialogue</h4>
+                        <p>Hero encounters the syndicate forces. Fast-paced Hindi dialogues paired with high-speed agility combat mechanics.</p>
+                    </div>
+                </div>
+
+                <div class="timeline-block">
+                    <span class="timestamp">[04:30 - 08:45]</span>
+                    <div class="timeline-content">
+                        <h4>Climax Voltage Overload</h4>
+                        <p>Full power unleashed. Cinematic camera tracking shots capturing explosive energy blasts and core narrative resolution.</p>
+                    </div>
+                </div>
+
+                <div class="timeline-block">
+                    <span class="timestamp">[08:45 - 10:00]</span>
+                    <div class="timeline-content">
+                        <h4>Post-Credit Lore Hook</h4>
+                        <p>Mysterious silhouette teased on top of the downtown tower. Setup for Episode 2 production pipeline.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
