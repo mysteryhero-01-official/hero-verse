@@ -821,27 +821,54 @@
         function openAiTerminal() { document.getElementById('aiModalWindow').classList.add('active'); }
         function closeAiTerminal() { document.getElementById('aiModalWindow').classList.remove('active'); }
 
-        function triggerAiCore() {
-            const prompt = document.getElementById('aiInputPrompt').value.trim();
-            const feed = document.getElementById('aiChatFeed');
-            if (!prompt) return;
+        // REAL GEMINI REST API ENGINE (Live Brain Connection)
+async function triggerAiCore() {
+    const promptInput = document.getElementById('aiInputPrompt');
+    const prompt = promptInput.value.trim();
+    const feed = document.getElementById('aiChatFeed');
 
-            feed.innerHTML += `<div style="color:#fff; margin-top:10px;"><strong>Agent:</strong> ${prompt}</div>`;
-            document.getElementById('aiInputPrompt').value = '';
-            feed.scrollTop = feed.scrollHeight;
+    if (!prompt) return;
 
-            setTimeout(() => {
-                let reply = "";
-                const p = prompt.toLowerCase();
-                if (p.includes("voltage")) reply = "⚡ [Voltage Core]: Episode 1 storyboard synchronized. Lightning FX sequence at [04:30] ready for timeline rendering.";
-                else if (p.includes("gta") || p.includes("game")) reply = "🎮 [Desi GTA Engine]: 300MB Android compression verified. Indian street physics and in-game phone AI active.";
-                else if (p.includes("song") || p.includes("music")) reply = "🎵 [16D Audio Studio]: Earbud spatial audio matrix online. New Hindi tracks in render queue.";
-                else reply = "🤖 [Neural Core]: Telemetry validated. Standing by for Naitik Pandey's creative commands.";
-                
-                feed.innerHTML += `<div style="color:var(--neon-cyan); margin-top:8px;"><strong>Neural AI:</strong> ${reply}</div>`;
-                feed.scrollTop = feed.scrollHeight;
-            }, 600);
-        }
+    // User ka message chat me show karega
+    feed.innerHTML += `<div style="color:#fff; margin-top:10px;"><strong>Agent:</strong> ${prompt}</div>`;
+    promptInput.value = '';
+    feed.scrollTop = feed.scrollHeight;
+
+    // AI thinking status display
+    const loadingId = "load_" + Date.now();
+    feed.innerHTML += `<div id="${loadingId}" style="color:var(--neon-cyan); margin-top:8px;"><strong>Neural AI:</strong> Thinking... ⚡</div>`;
+    feed.scrollTop = feed.scrollHeight;
+
+    const GEMINI_KEY = "AIzaSyBSbwx9kKdEMYTpYuqPjXGE4DdLn0aI80w";
+    const endpoint = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${GEMINI_KEY}`;
+
+    try {
+        const response = await fetch(endpoint, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+                contents: [{
+                    parts: [{ text: prompt }]
+                }],
+                systemInstruction: {
+                    parts: [{ text: "You are Hero-Verse Neural AI, built for Naitik Pandey's universe. You are an expert in Voltage Hero story scripts, Desi GTA 300MB game mechanics, and futuristic cyberpunk technologies. Reply with energy, wit, and high technical accuracy." }]
+                }
+            })
+        });
+
+        const data = await response.json();
+        const replyText = data.candidates[0].content.parts[0].text;
+
+        // Asli Gemini ka live answer screen par dikhega
+        document.getElementById(loadingId).innerHTML = `<strong>Neural AI:</strong> ${replyText}`;
+        feed.scrollTop = feed.scrollHeight;
+
+    } catch (err) {
+        document.getElementById(loadingId).innerHTML = `<strong style="color:var(--neon-red);">AI Error:</strong> Connection failed. Check network or key setup.`;
+    }
+}
 
         function openProfileModal() {
             showPopup(
