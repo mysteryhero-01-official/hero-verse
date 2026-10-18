@@ -1,1 +1,859 @@
-a
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>⚡ HERO-VERSE STUDIOS | Official Creative & Game Dev Hub</title>
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Teko:wght@500;700&family=Rajdhani:wght@500;600;700&family=Orbitron:wght@700;900&display=swap" rel="stylesheet">
+
+    <!-- Firebase SDKs -->
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database-compat.js"></script>
+
+    <style>
+        :root {
+            --neon-red: #ff0055;
+            --neon-cyan: #00f0ff;
+            --neon-orange: #ff6600;
+            --neon-gold: #ffd700;
+            --bg-black: #050508;
+            --card-bg: rgba(13, 13, 20, 0.95);
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Rajdhani', sans-serif; }
+        body {
+            background-color: var(--bg-black);
+            color: #ffffff;
+            overflow-x: hidden;
+            background-image: 
+                radial-gradient(circle at 50% 20%, rgba(255, 0, 85, 0.12) 0%, transparent 60%),
+                linear-gradient(rgba(255, 0, 85, 0.05) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(255, 0, 85, 0.05) 1px, transparent 1px);
+            background-size: 100% 100%, 35px 35px, 35px 35px;
+            background-attachment: fixed;
+            min-height: 100vh;
+        }
+
+        /* CUSTOM NOTIFICATION TOAST (NO BROWSER ALERTS) */
+        #heroToast {
+            position: fixed;
+            top: 25px;
+            right: 25px;
+            background: #0d0d14;
+            border: 2px solid var(--neon-cyan);
+            box-shadow: 0 0 25px var(--neon-cyan);
+            color: #fff;
+            padding: 14px 24px;
+            border-radius: 8px;
+            z-index: 10000000;
+            font-size: 1.1rem;
+            display: none;
+            align-items: center;
+            gap: 12px;
+            transform: translateX(120%);
+            transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+        #heroToast.active { display: flex; transform: translateX(0); }
+        #heroToast.error { border-color: var(--neon-red); box-shadow: 0 0 25px var(--neon-red); }
+
+        /* BRAND LOGO TYPOGRAPHY */
+        .brand-header {
+            text-align: center;
+            margin-bottom: 25px;
+        }
+        .brand-title {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 2.8rem;
+            color: #fff;
+            text-shadow: 0 0 10px var(--neon-cyan), 0 0 25px var(--neon-red);
+            letter-spacing: 3px;
+            line-height: 1;
+        }
+        .brand-subtitle {
+            font-size: 0.95rem;
+            color: var(--neon-cyan);
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            font-weight: 700;
+            margin-top: 6px;
+        }
+
+        /* AUTH CARD SYSTEM */
+        .auth-wrapper {
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+        .auth-card {
+            background: var(--card-bg);
+            border: 2px solid var(--neon-cyan);
+            box-shadow: 0 0 35px rgba(0, 240, 255, 0.25);
+            border-radius: 14px;
+            width: 100%;
+            max-width: 440px;
+            padding: 30px;
+            position: relative;
+        }
+        .auth-card input {
+            width: 100%;
+            padding: 12px 14px;
+            background: #111116;
+            border: 1px solid #333;
+            color: #fff;
+            border-radius: 6px;
+            font-size: 1rem;
+            margin-top: 8px;
+            outline: none;
+            transition: 0.3s;
+        }
+        .auth-card input:focus {
+            border-color: var(--neon-cyan);
+            box-shadow: 0 0 12px rgba(0, 240, 255, 0.3);
+        }
+        .field-group { margin-bottom: 14px; text-align: left; }
+        .field-group label { font-size: 0.85rem; color: #aaa; text-transform: uppercase; font-weight: 700; }
+        .live-err { color: var(--neon-red); font-size: 0.8rem; margin-top: 4px; min-height: 18px; font-weight: bold; }
+
+        .btn-cyber {
+            width: 100%;
+            padding: 12px;
+            border: none;
+            border-radius: 6px;
+            font-family: 'Teko', sans-serif;
+            font-size: 1.4rem;
+            cursor: pointer;
+            font-weight: bold;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+        }
+        .btn-primary { background: var(--neon-red); color: #fff; box-shadow: 0 0 15px var(--neon-red); }
+        .btn-primary:hover { background: #ff3377; box-shadow: 0 0 25px var(--neon-red); }
+        .btn-cyan { background: var(--neon-cyan); color: #000; box-shadow: 0 0 15px var(--neon-cyan); }
+        .btn-cyan:hover { background: #66fcf1; box-shadow: 0 0 25px var(--neon-cyan); }
+
+        /* SOCIAL LOGINS */
+        .social-btn {
+            width: 100%;
+            padding: 10px;
+            border-radius: 6px;
+            font-size: 0.95rem;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            cursor: pointer;
+            margin-bottom: 10px;
+            transition: 0.3s;
+            border: 1px solid #444;
+        }
+        .btn-google { background: #ffffff; color: #000; }
+        .btn-google:hover { background: #eaeaea; }
+        .btn-apple { background: #000000; color: #fff; border-color: #666; }
+        .btn-apple:hover { background: #1a1a1a; }
+        .social-svg { width: 18px; height: 18px; }
+
+        /* TABS */
+        .tab-row { display: flex; gap: 8px; margin-bottom: 15px; }
+        .tab-btn {
+            flex: 1; padding: 8px; background: #111; border: 1px solid #333; color: #888;
+            font-weight: bold; border-radius: 5px; cursor: pointer; transition: 0.3s;
+        }
+        .tab-btn.active { border-color: var(--neon-cyan); color: var(--neon-cyan); background: rgba(0, 240, 255, 0.1); }
+
+        /* DASHBOARD MASTER */
+        #dashboardScreen { display: none; }
+        .main-header {
+            background: #08080c;
+            border-bottom: 2px solid var(--neon-red);
+            padding: 15px 4%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+        .hud-brand { font-family: 'Orbitron', sans-serif; font-size: 1.6rem; color: #fff; text-shadow: 0 0 10px var(--neon-cyan); }
+        .profile-bubble {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            cursor: pointer;
+            background: #111116;
+            border: 1px solid var(--neon-cyan);
+            padding: 5px 14px;
+            border-radius: 25px;
+            box-shadow: 0 0 10px var(--neon-cyan);
+        }
+        .avatar-tag {
+            width: 32px; height: 32px; border-radius: 50%; background: var(--neon-red);
+            color: #fff; display: flex; align-items: center; justify-content: center; font-weight: bold;
+        }
+        .owner-badge { background: var(--neon-gold); color: #000; font-size: 0.75rem; font-weight: 900; padding: 2px 8px; border-radius: 12px; }
+
+        /* HERO MAIN SECTION */
+        .content-container { padding: 40px 5%; max-width: 1300px; margin: auto; }
+        .hero-banner {
+            text-align: center;
+            padding: 60px 20px;
+            border: 1px solid rgba(255, 0, 85, 0.2);
+            border-radius: 15px;
+            background: linear-gradient(180deg, rgba(255, 0, 85, 0.08) 0%, transparent 100%);
+            margin-bottom: 40px;
+        }
+        .banner-heading { font-family: 'Teko', sans-serif; font-size: 4.5rem; line-height: 0.9; color: #fff; text-shadow: 0 0 20px var(--neon-red); }
+
+        /* CARDS & ENGINE GRIDS */
+        .grid-cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 25px; margin-bottom: 40px; }
+        .cyber-box {
+            background: var(--card-bg);
+            border: 2px solid var(--neon-red);
+            border-radius: 12px;
+            padding: 24px;
+            box-shadow: 0 0 20px rgba(255, 0, 85, 0.15);
+            transition: all 0.3s ease;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+        .cyber-box:hover { border-color: var(--neon-cyan); box-shadow: 0 0 30px var(--neon-cyan); transform: translateY(-5px); }
+        .box-title { font-family: 'Teko', sans-serif; font-size: 2.8rem; line-height: 0.9; color: #fff; margin-bottom: 10px; }
+        .btn-row { display: flex; gap: 10px; margin-top: 20px; }
+
+        /* FLOATING FLYING AI BUTTON */
+        .flying-ai-btn {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            width: 75px;
+            height: 75px;
+            background: #0a0a10;
+            border: 2px solid var(--neon-cyan);
+            border-radius: 50%;
+            box-shadow: 0 0 25px var(--neon-cyan);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            z-index: 99999;
+            transition: transform 0.3s;
+            animation: pulseFloating 3s infinite ease-in-out;
+        }
+        .flying-ai-btn:hover { transform: scale(1.12); border-color: var(--neon-red); box-shadow: 0 0 35px var(--neon-red); }
+        @keyframes pulseFloating {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-8px); }
+        }
+
+        /* CUSTOM FULL-SCREEN MODAL WINDOW */
+        .modal-screen {
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.94);
+            z-index: 100000;
+            display: none;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+        .modal-screen.active { display: flex; }
+        .modal-body-box {
+            background: #09090f;
+            border: 2px solid var(--neon-cyan);
+            box-shadow: 0 0 40px var(--neon-cyan);
+            border-radius: 14px;
+            max-width: 650px;
+            width: 100%;
+            max-height: 85vh;
+            overflow-y: auto;
+            padding: 30px;
+            position: relative;
+        }
+        .modal-title { font-family: 'Teko', sans-serif; font-size: 2.8rem; color: var(--neon-red); margin-bottom: 10px; }
+        .modal-content-text { font-size: 1.1rem; line-height: 1.7; color: #ddd; white-space: pre-line; }
+
+        /* FUTURISTIC MUSIC STUDIO SUBPAGE */
+        #musicStudioScreen {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: #050508;
+            z-index: 90000;
+            overflow-y: auto;
+            padding: 40px 5%;
+        }
+        .music-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 30px; border-bottom: 2px solid var(--neon-cyan); padding-bottom: 20px; }
+        .search-cyber {
+            width: 100%;
+            padding: 14px;
+            background: #0e0e14;
+            border: 2px solid #333;
+            color: #fff;
+            border-radius: 8px;
+            font-size: 1.1rem;
+            margin-bottom: 25px;
+            outline: none;
+        }
+        .search-cyber:focus { border-color: var(--neon-cyan); box-shadow: 0 0 15px var(--neon-cyan); }
+        .category-pill {
+            display: inline-block; padding: 6px 14px; border-radius: 20px; background: #111;
+            border: 1px solid #444; color: #aaa; margin-right: 8px; margin-bottom: 10px; cursor: pointer; font-weight: bold;
+        }
+        .category-pill.active { border-color: var(--neon-cyan); color: var(--neon-cyan); background: rgba(0, 240, 255, 0.1); }
+
+        /* FOOTER */
+        .corporate-footer {
+            background: #020204;
+            padding: 50px 5% 30px;
+            border-top: 1px solid #1a1a24;
+            margin-top: 60px;
+        }
+        .footer-cols { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 30px; margin-bottom: 40px; }
+        .footer-cols h5 { color: #fff; font-family: 'Teko', sans-serif; font-size: 1.5rem; margin-bottom: 10px; }
+        .footer-cols a { color: #888; text-decoration: none; display: block; margin-bottom: 8px; font-size: 0.95rem; cursor: pointer; transition: 0.2s; }
+        .footer-cols a:hover { color: var(--neon-cyan); padding-left: 4px; }
+    </style>
+</head>
+<body>
+
+    <!-- HERO-VERSE NOTIFICATION TOAST -->
+    <div id="heroToast">
+        <span id="toastIcon">⚡</span>
+        <span id="toastMsg">Notification message</span>
+    </div>
+
+    <!-- ================= 1. AUTH SCREEN ================= -->
+    <div id="authScreen" class="auth-wrapper">
+        <div class="auth-card">
+            
+            <div class="brand-header">
+                <div class="brand-title">HERO-VERSE</div>
+                <div class="brand-subtitle">Official Creative & Game Dev Hub</div>
+            </div>
+
+            <!-- LOGIN VIEW -->
+            <div id="loginView">
+                <div class="tab-row">
+                    <button class="tab-btn active" id="tabEmailLogin" onclick="switchLoginMode('email')">Email / Pass</button>
+                    <button class="tab-btn" id="tabPhoneLogin" onclick="switchLoginMode('phone')">Mobile OTP</button>
+                </div>
+
+                <!-- EMAIL LOGIN BOX -->
+                <div id="boxEmailLogin">
+                    <div class="field-group">
+                        <label>Identifier</label>
+                        <input type="text" id="logIdentifier" placeholder="Email / Handle (@username)">
+                        <div class="live-err" id="errLogId"></div>
+                    </div>
+                    <div class="field-group">
+                        <label>Password</label>
+                        <input type="password" id="logPass" placeholder="••••••••">
+                        <div class="live-err" id="errLogPass"></div>
+                    </div>
+                    <button class="btn-cyber btn-primary" onclick="executeEmailLogin()">ENTER COMMAND CENTER</button>
+                </div>
+
+                <!-- PHONE OTP LOGIN BOX -->
+                <div id="boxPhoneLogin" style="display: none;">
+                    <div class="field-group">
+                        <label>Indian Mobile Number</label>
+                        <input type="tel" id="logPhone" placeholder="+91 9956418589">
+                        <div class="live-err" id="errLogPhone"></div>
+                    </div>
+                    <div id="recaptcha-container"></div>
+                    <button class="btn-cyber btn-cyan" onclick="sendOtpCode()" id="btnSendOtp">SEND SECURE OTP</button>
+
+                    <div id="otpInputGroup" style="display:none; margin-top: 15px;">
+                        <div class="field-group">
+                            <label>6-Digit Verification Code</label>
+                            <input type="text" id="logOtp" placeholder="123456" maxlength="6">
+                            <div class="live-err" id="errLogOtp"></div>
+                        </div>
+                        <button class="btn-cyber btn-primary" onclick="verifyOtpCode()">VERIFY & ENTER</button>
+                    </div>
+                </div>
+
+                <!-- SOCIAL AUTH -->
+                <div style="margin: 18px 0; border-bottom: 1px solid #222; position: relative;">
+                    <span style="position: absolute; top: -10px; left: 50%; transform: translateX(-50%); background: #0d0d14; padding: 0 10px; font-size: 0.75rem; color: #666;">OR CONTINUE WITH</span>
+                </div>
+
+                <button class="social-btn btn-google" onclick="loginWithGoogle()">
+                    <svg class="social-svg" viewBox="0 0 24 24"><path fill="#4285F4" d="M23.745 12.27c0-.7-.06-1.4-.19-2.07H12v4.51h6.6c-.29 1.52-1.14 2.8-2.4 3.65v3.03h3.88c2.27-2.09 3.66-5.17 3.66-9.12z"/><path fill="#34A853" d="M12 24c3.24 0 5.95-1.08 7.93-2.91l-3.88-3.03c-1.08.72-2.45 1.16-4.05 1.16-3.12 0-5.77-2.1-6.72-4.93H1.27v3.13C3.25 21.3 7.31 24 12 24z"/><path fill="#FBBC05" d="M5.28 14.29c-.25-.72-.38-1.49-.38-2.29s.14-1.57.38-2.29V6.57H1.27C.46 8.2 0 10.05 0 12s.46 3.8 1.27 5.43l4.01-3.14z"/><path fill="#EA4335" d="M12 4.75c1.77 0 3.35.61 4.6 1.8l3.42-3.42C17.95 1.19 15.24 0 12 0 7.31 0 3.25 2.7 1.27 6.57l4.01 3.14c.95-2.83 3.6-4.96 6.72-4.96z"/></svg>
+                    Continue with Google
+                </button>
+
+                <button class="social-btn btn-apple" onclick="loginWithApple()">
+                    <svg class="social-svg" fill="#fff" viewBox="0 0 170 170"><path d="M150.37 130.25c-2.45 5.66-5.35 10.87-8.71 15.66-4.58 6.53-8.33 11.05-11.22 13.56-4.48 4.12-9.28 6.23-14.42 6.35-3.69 0-8.14-1.05-13.32-3.18-5.19-2.12-9.97-3.17-14.34-3.17-4.58 0-9.49 1.05-14.75 3.17-5.26 2.13-9.5 3.24-12.74 3.35-5.35-.12-10.26-2.29-14.74-6.52-3.26-3.04-7.18-7.82-11.75-14.34-6.53-9.36-11.63-20.01-15.31-31.95-3.69-11.94-5.54-23.46-5.54-34.54 0-14.35 3.58-26.4 10.75-36.17 7.17-9.78 16.4-14.78 27.69-15 5.35 0 11.23 1.41 17.63 4.24 6.4 2.83 10.66 4.35 12.78 4.58 1.95-.35 6.4-1.99 13.34-4.94 6.95-2.93 12.93-4.24 17.95-3.92 13.57.65 24.53 5.43 32.89 14.34-11.83 7.18-17.63 17.06-17.41 29.67.22 9.78 3.91 18.04 11.08 24.78 7.17 6.74 15.66 10.43 25.43 11.08-2.61 7.6-5.98 15.33-10.12 23.16zM119.22 31.84c0-7.39 2.61-14.24 7.82-20.54 5.22-6.3 11.85-10.33 19.89-12.07-.22 1.3-.33 2.61-.33 3.91 0 7.39-2.72 14.56-8.15 21.52-5.43 6.95-12.07 10.97-19.89 12.07.22-1.63.33-3.26.33-4.89z"/></svg>
+                    Continue with Apple
+                </button>
+
+                <p style="margin-top: 15px; font-size: 0.9rem; color: #888;">
+                    New Agent? <span style="color:var(--neon-cyan); cursor:pointer; font-weight:bold;" onclick="toggleAuthBox('signup')">Create Hero ID</span>
+                </p>
+            </div>
+
+            <!-- REGISTRATION VIEW -->
+            <div id="signupView" style="display: none;">
+                <div class="field-group">
+                    <label>Full Name</label>
+                    <input type="text" id="regName" placeholder="Naitik Pandey">
+                    <div class="live-err" id="errRegName"></div>
+                </div>
+                <div class="field-group">
+                    <label>Unique Handle</label>
+                    <input type="text" id="regHandle" placeholder="@mysteryhero_01_official">
+                    <div class="live-err" id="errRegHandle"></div>
+                </div>
+                <div class="field-group">
+                    <label>Email Address</label>
+                    <input type="email" id="regEmail" placeholder="rd8556532@gmail.com">
+                    <div class="live-err" id="errRegEmail"></div>
+                </div>
+                <div class="field-group">
+                    <label>Password (Min 8 Chars, 1 Uppercase, 1 Special)</label>
+                    <input type="password" id="regPass" placeholder="995641NP">
+                    <div class="live-err" id="errRegPass"></div>
+                </div>
+                <button class="btn-cyber btn-primary" onclick="executeRegistration()">REGISTER HERO ID</button>
+                <p style="margin-top: 15px; font-size: 0.9rem; color: #888;">
+                    Existing User? <span style="color:var(--neon-cyan); cursor:pointer; font-weight:bold;" onclick="toggleAuthBox('login')">Login</span>
+                </p>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- ================= 2. DASHBOARD MASTER SCREEN ================= -->
+    <div id="dashboardScreen">
+        
+        <header class="main-header">
+            <div class="hud-brand">⚡ HERO-VERSE</div>
+            
+            <div style="display:flex; align-items:center; gap:15px;">
+                <button class="btn-cyber btn-cyan" style="width:auto; padding:6px 15px; font-size:1.1rem;" onclick="openMusicStudio()">🎵 AI AUDIO LAB</button>
+                
+                <div class="profile-bubble" onclick="openProfileModal()">
+                    <div class="avatar-tag" id="hudAvatarLetter">N</div>
+                    <span id="hudUserName" style="font-weight:bold; font-size:0.95rem;">Naitik Pandey</span>
+                    <span id="hudOwnerBadge" class="owner-badge" style="display:none;">👑 OWNER</span>
+                </div>
+            </div>
+        </header>
+
+        <div class="content-container">
+            
+            <div class="hero-banner">
+                <h1 class="banner-heading">COMMAND CENTER ACTIVE ⚡</h1>
+                <p style="color: var(--neon-cyan); font-size: 1.2rem; margin-top: 10px; font-weight: bold;">
+                    Official Hub for Voltage Hero Universe &amp; Desi GTA Android Engine
+                </p>
+            </div>
+
+            <!-- PROJECTS GRID -->
+            <div class="grid-cards">
+                
+                <!-- VOLTAGE HERO CARD -->
+                <div class="cyber-box">
+                    <div>
+                        <div style="font-size: 0.8rem; color: var(--neon-cyan); font-weight: bold;">CINEMATIC SERIES • S1</div>
+                        <h3 class="box-title" style="color: var(--neon-red);">VOLTAGE HERO</h3>
+                        <p style="color:#aaa; font-size: 1.05rem; line-height: 1.5;">
+                            Original high-voltage superhero story universe created by Naitik Pandey. Crafted with 10-minute second-by-second action breakdowns, electric lightning VFX, and cinematic sound engineering.
+                        </p>
+                    </div>
+                    <div class="btn-row">
+                        <button class="btn-cyber btn-primary" onclick="showPopup('⚡ VOLTAGE HERO: COMING SOON! ⚡', 'SYSTEM NOTICE:\nEpisode 1 [Awakening Surge] is currently in cinematic sound mixing & storyboard finalization.\n\nCreator Naitik Pandey is actively compiling the high-voltage render pipeline. Stay tuned!')">WATCH EPISODE</button>
+                        <button class="btn-cyber btn-cyan" onclick="openVoltageDetails()">KNOW MORE</button>
+                    </div>
+                </div>
+
+                <!-- DESI GTA CARD -->
+                <div class="cyber-box">
+                    <div>
+                        <div style="font-size: 0.8rem; color: var(--neon-cyan); font-weight: bold;">OPEN-WORLD ANDROID • 300MB</div>
+                        <h3 class="box-title" style="color: var(--neon-cyan);">DESI GTA ENGINE</h3>
+                        <p style="color:#aaa; font-size: 1.05rem; line-height: 1.5;">
+                            High-octane mobile open-world experience combining authentic Indian dhabas, local street crowds, 100+ NPCs with sprawling Los Santos styled multi-lane freeways and in-game AI phone.
+                        </p>
+                    </div>
+                    <div class="btn-row">
+                        <button class="btn-cyber btn-cyan" onclick="showPopup('🎮 DESI GTA ALPHA: COMING SOON! 🎮', 'SYSTEM NOTICE:\nAlpha 300MB Compressed Build is currently undergoing Android physics calibration & AI phone logic integration.\n\nPlayable APK launch announcement will be broadcasted here shortly!')">PLAY ALPHA</button>
+                        <button class="btn-cyber btn-primary" onclick="openDesiGtaDetails()">KNOW MORE</button>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+
+        <!-- 16+ PROFESSIONAL CORPORATE FOOTER -->
+        <footer class="corporate-footer">
+            <div class="footer-cols">
+                <div>
+                    <h5>Company</h5>
+                    <a onclick="showPopup('About Hero-Verse', 'Hero-Verse Studios is an independent Indian technology and entertainment enterprise pushing mobile AAA gaming boundaries.')">About Studio</a>
+                    <a onclick="showPopup('Founder & Lead', 'Lead Architect & Storyteller: Naitik Pandey. Directing Desi GTA engine and Voltage Hero cinematic franchise.')">Leadership Profile</a>
+                    <a onclick="showPopup('Careers', 'No open corporate vacancies currently. Research and development teams are actively filled.')">Careers</a>
+                    <a onclick="showPopup('Press & Media', 'For brand kit, assets, and interview requests regarding Indian GTA, contact developer desk.')">Press Media Kit</a>
+                </div>
+                <div>
+                    <h5>Projects</h5>
+                    <a onclick="openDesiGtaDetails()">Desi GTA 1 (Android)</a>
+                    <a onclick="openVoltageDetails()">Voltage Hero Series</a>
+                    <a onclick="openMusicStudio()">16D Spatial Sound Studio</a>
+                    <a onclick="showPopup('Multiplayer Nodes', 'Dedicated regional Indian cloud nodes for 64-player street race rooms.')">Multiplayer Servers</a>
+                </div>
+                <div>
+                    <h5>Support Desk</h5>
+                    <a onclick="showPopup('Help Center', 'Device Requirements for Desi GTA:\n• Android 8.0 or higher\n• Minimum 3GB RAM (Optimal 6GB+)\n• 500MB Free Disk Space')">Hardware Specs</a>
+                    <a onclick="showPopup('Report Glitch', 'Found a bug in Desi GTA?\nSend log files and device details to support@hero-verse.com')">Report Technical Bug</a>
+                    <a onclick="showPopup('Server Telemetry', 'Global Gateway: 100% Operational.\nResponse Ping: 18ms.')">Server Status</a>
+                    <a onclick="showPopup('Contact Support', 'Official Dispatch: rd8556532@gmail.com\nDeveloper Contact: +91 9956418589')">Contact Us</a>
+                </div>
+                <div>
+                    <h5>Legal &amp; Trust</h5>
+                    <a onclick="showPopup('Privacy Policy', 'DOCUMENT REF: HV-PRIV-2026\nHero-Verse Studios strictly enforces zero identity harvesting. Local telemetry remains encrypted on client device.')">Privacy Policy</a>
+                    <a onclick="showPopup('Terms of Service', 'DOCUMENT REF: HV-TOS-2026\nAll intellectual property, script breakdowns, and source code belong exclusively to Naitik Pandey.')">Terms of Service</a>
+                    <a onclick="showPopup('EULA Agreement', 'End User License Agreement: Downloading Indian GTA grants a personal, non-exclusive license. Modding requires developer authorization.')">EULA License</a>
+                    <a onclick="showPopup('Cookie Policy', 'This website uses strictly necessary functional tokens for persistent authentication. No tracker ads.')">Cookie Settings</a>
+                </div>
+            </div>
+            <div style="border-top: 1px solid #111; padding-top: 20px; text-align: center; color: #555; font-size: 0.85rem;">
+                © 2026 HERO-VERSE STUDIOS. ALL RIGHTS RESERVED. ARCHITECTED BY NAITIK PANDEY.
+            </div>
+        </footer>
+
+    </div>
+
+    <!-- ================= 3. FLYING FLOATING AI BUTTON & MODAL ================= -->
+    <div class="flying-ai-btn" onclick="openAiTerminal()">
+        <span style="font-size: 1.8rem;">🤖</span>
+        <span style="font-size: 0.65rem; color: var(--neon-cyan); font-weight: bold; margin-top: -2px;">NEURAL AI</span>
+    </div>
+
+    <!-- AI TERMINAL MODAL -->
+    <div id="aiModalWindow" class="modal-screen">
+        <div class="modal-body-box" style="border-color: var(--neon-cyan);">
+            <div style="display:flex; justify-content:space-between; align-items:center; border-bottom:1px solid #222; padding-bottom:10px;">
+                <h3 class="modal-title" style="color:var(--neon-cyan); font-size:2rem; margin:0;">🤖 HERO-VERSE NEURAL AI (GEMINI)</h3>
+                <button onclick="closeAiTerminal()" style="background:none; border:none; color:#fff; font-size:1.8rem; cursor:pointer;">✖</button>
+            </div>
+            <div id="aiChatFeed" style="min-height: 200px; max-height: 350px; overflow-y:auto; padding:15px; background:#040407; border-radius:8px; margin: 15px 0; font-size:1rem; line-height:1.6; color:#00f0ff;">
+                ⚡ [Neural AI]: Welcome Agent! Powered by Firebase AI Logic. How can I assist with Voltage Hero lore or Desi GTA development today?
+            </div>
+            <div style="display:flex; gap:10px;">
+                <input type="text" id="aiInputPrompt" placeholder="Ask AI about story, game codes, scripts..." style="flex:1; padding:12px; background:#111; border:1px solid var(--neon-cyan); color:#fff; border-radius:6px; outline:none;">
+                <button class="btn-cyber btn-cyan" style="width:auto; padding:10px 20px;" onclick="triggerAiCore()">SEND</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- ================= 4. FUTURISTIC MUSIC & 16D AUDIO STUDIO ================= -->
+    <div id="musicStudioScreen">
+        <div class="music-header">
+            <div>
+                <h2 style="font-family:'Teko'; font-size: 3.5rem; color:var(--neon-cyan); line-height:0.9;">16D AI AUDIO STUDIO</h2>
+                <p style="color:#aaa;">Spatial Soundscapes, Hindi Romantic Pop &amp; High-Voltage Cinematic BGM</p>
+            </div>
+            <button class="btn-cyber btn-primary" style="width:auto; padding:8px 20px;" onclick="closeMusicStudio()">← BACK TO COMMAND</button>
+        </div>
+
+        <input type="text" class="search-cyber" placeholder="🔍 Search by Track Name, Singer, Category (e.g. 16D Hindi, Synthwave, Rock)...">
+
+        <div style="margin-bottom: 25px;">
+            <span class="category-pill active">All Categories</span>
+            <span class="category-pill">Hindi Romantic Pop</span>
+            <span class="category-pill">16D Spatial Earbuds</span>
+            <span class="category-pill">Voltage Hero Cinematic BGM</span>
+            <span class="category-pill">Desi GTA Street Radio</span>
+            <span class="category-pill">Cyberpunk Rap</span>
+        </div>
+
+        <div class="grid-cards">
+            <div class="cyber-box" style="border-color:#444;">
+                <span style="font-size:0.75rem; color:var(--neon-cyan); font-weight:bold;">16D SPATIAL AUDIO • HINDI POP</span>
+                <h4 style="font-size:1.8rem; font-family:'Teko'; margin: 5px 0;">Dhadkan Ki Taar ⚡</h4>
+                <p style="color:#888; font-size:0.95rem;">Designed specifically for earbuds. Audio orbits dynamically around the listener.</p>
+                <button class="btn-cyber btn-primary" onclick="showPopup('Audio Pipeline Active', '🎵 Track [Dhadkan Ki Taar 16D] audio synthesis is currently rendering. Master track release coming soon!')">▶ PLAY TRACK</button>
+            </div>
+
+            <div class="cyber-box" style="border-color:#444;">
+                <span style="font-size:0.75rem; color:var(--neon-red); font-weight:bold;">HIGH-OCTANE ACTION BGM</span>
+                <h4 style="font-size:1.8rem; font-family:'Teko'; margin: 5px 0;">Voltage Awakening Theme 🎸</h4>
+                <p style="color:#888; font-size:0.95rem;">Electric distortion riffs paired with orchestra brass for cinematic action sequences.</p>
+                <button class="btn-cyber btn-cyan" onclick="showPopup('Audio Pipeline Active', '🎵 Track [Voltage Awakening BGM] audio synthesis is currently rendering. Coming soon!')">▶ PLAY BGM</button>
+            </div>
+
+            <div class="cyber-box" style="border-color:#444;">
+                <span style="font-size:0.75rem; color:var(--neon-gold); font-weight:bold;">DESI GTA STREET SOUNDTRACK</span>
+                <h4 style="font-size:1.8rem; font-family:'Teko'; margin: 5px 0;">Gully Gaddi Chase 🏎️</h4>
+                <p style="color:#888; font-size:0.95rem;">Bhangra-drill street beats for high-speed police getaways in Los Santos and Indian alleys.</p>
+                <button class="btn-cyber btn-primary" onclick="showPopup('Audio Pipeline Active', '🎵 Track [Gully Gaddi Chase] radio rip coming soon!')">▶ PLAY RADIO</button>
+            </div>
+        </div>
+
+        <div style="text-align:center; padding: 40px; border: 1px dashed #333; border-radius: 10px; margin-top:30px;">
+            <p style="color:var(--neon-cyan); font-size:1.2rem; font-weight:bold;">⚡ MORE AI TRACKS IN MASTER RENDERING QUEUE ⚡</p>
+            <p style="color:#666; font-size:0.9rem; margin-top:5px;">AI Audio Multi-Language Voice Engine syncing with Voltage Hero sound library.</p>
+        </div>
+    </div>
+
+    <!-- ================= 5. UNIVERSAL CUSTOM MODAL WINDOW ================= -->
+    <div id="universalModal" class="modal-screen">
+        <div class="modal-body-box">
+            <h3 class="modal-title" id="uniModalTitle">SYSTEM WINDOW</h3>
+            <div class="modal-content-text" id="uniModalContent">Content loading...</div>
+            <button class="btn-cyber btn-primary" style="margin-top:20px;" onclick="closePopup()">DISMISS WINDOW</button>
+        </div>
+    </div>
+
+    <!-- JAVASCRIPT SYSTEM ENGINE -->
+    <script>
+        // FIREBASE INITIALIZATION
+        const firebaseConfig = {
+            apiKey: "AIzaSyBdcEn5eIA4-98ydaZ9LLM10sBDsGR4Mkw",
+            authDomain: "hero-verse-f53ee.firebaseapp.com",
+            projectId: "hero-verse-f53ee",
+            storageBucket: "hero-verse-f53ee.firebasestorage.app",
+            messagingSenderId: "385086115984",
+            appId: "1:385086115984:web:f9fed6cbd06fecd8d04815"
+        };
+        if (!firebase.apps.length) { firebase.initializeApp(firebaseConfig); }
+        const auth = firebase.auth();
+        const db = firebase.database();
+
+        // MASTER OWNER HARDCODED CREDENTIALS
+        const OWNER_EMAIL = "rd8556532@gmail.com";
+        const OWNER_HANDLE = "mysteryhero_01_official";
+        const OWNER_PHONE = "+919956418589";
+        const OWNER_NAME = "Naitik Pandey";
+        const OWNER_PASS = "995641NP";
+
+        // TOAST NOTIFIER (REPLACES ALERTS)
+        function triggerToast(msg, isError = false) {
+            const toast = document.getElementById('heroToast');
+            document.getElementById('toastMsg').innerText = msg;
+            toast.className = isError ? 'active error' : 'active';
+            setTimeout(() => { toast.classList.remove('active'); }, 4000);
+        }
+
+        // UNIVERSAL POPUP
+        function showPopup(title, text) {
+            document.getElementById('uniModalTitle').innerText = title;
+            document.getElementById('uniModalContent').innerText = text;
+            document.getElementById('universalModal').classList.add('active');
+        }
+        function closePopup() { document.getElementById('universalModal').classList.remove('active'); }
+
+        // ROUTING
+        function toggleAuthBox(mode) {
+            document.getElementById('loginView').style.display = (mode === 'login') ? 'block' : 'none';
+            document.getElementById('signupView').style.display = (mode === 'signup') ? 'block' : 'none';
+        }
+
+        function switchLoginMode(mode) {
+            document.getElementById('boxEmailLogin').style.display = (mode === 'email') ? 'block' : 'none';
+            document.getElementById('boxPhoneLogin').style.display = (mode === 'phone') ? 'block' : 'none';
+            document.getElementById('tabEmailLogin').className = (mode === 'email') ? 'tab-btn active' : 'tab-btn';
+            document.getElementById('tabPhoneLogin').className = (mode === 'phone') ? 'tab-btn active' : 'tab-btn';
+        }
+
+        // AUTHENTICATION LOGIC
+        function executeEmailLogin() {
+            const id = document.getElementById('logIdentifier').value.trim().toLowerCase();
+            const pass = document.getElementById('logPass').value.trim();
+
+            document.getElementById('errLogId').innerText = "";
+            document.getElementById('errLogPass').innerText = "";
+
+            if (!id) { document.getElementById('errLogId').innerText = "Enter Email or Handle."; return; }
+            if (!pass) { document.getElementById('errLogPass').innerText = "Enter Password."; return; }
+
+            // 👑 OWNER VIP BYPASS CHECK
+            if ((id === OWNER_EMAIL || id === "@" + OWNER_HANDLE || id === OWNER_HANDLE) && pass === OWNER_PASS) {
+                triggerToast("Welcome back, Master Owner Naitik Pandey! 👑");
+                renderDashboard(OWNER_NAME, OWNER_HANDLE, OWNER_EMAIL, true);
+                return;
+            }
+
+            // Normal User Authentication
+            auth.signInWithEmailAndPassword(id, pass)
+                .then(res => {
+                    triggerToast("Authentication Successful!");
+                    loadUserData(res.user.uid);
+                })
+                .catch(err => {
+                    document.getElementById('errLogPass').innerText = "Error: " + err.message;
+                    triggerToast(err.message, true);
+                });
+        }
+
+        // GOOGLE SIGN IN
+        function loginWithGoogle() {
+            const provider = new firebase.auth.GoogleAuthProvider();
+            auth.signInWithPopup(provider)
+                .then(res => {
+                    const isOwner = (res.user.email === OWNER_EMAIL);
+                    triggerToast("Google Auth Verified! Welcome " + res.user.displayName);
+                    renderDashboard(res.user.displayName, (isOwner ? OWNER_HANDLE : "agent_" + res.user.uid.slice(0,5)), res.user.email, isOwner);
+                })
+                .catch(err => triggerToast("Google Login Failed: " + err.message, true));
+        }
+
+        // APPLE SIGN IN
+        function loginWithApple() {
+            const provider = new firebase.auth.OAuthProvider('apple.com');
+            auth.signInWithPopup(provider)
+                .then(res => {
+                    triggerToast("Apple ID Verified!");
+                    renderDashboard("Apple User", "apple_agent", res.user.email, false);
+                })
+                .catch(err => triggerToast("Apple Login Failed: " + err.message, true));
+        }
+
+        // PHONE OTP AUTH
+        window.recaptchaVerifier = new firebase.auth.RecaptchaVerifier('recaptcha-container', { 'size': 'invisible' });
+        function sendOtpCode() {
+            const phone = document.getElementById('logPhone').value.trim();
+            if(!phone) { document.getElementById('errLogPhone').innerText = "Enter +91 Phone number."; return; }
+
+            auth.signInWithPhoneNumber(phone, window.recaptchaVerifier)
+                .then(confirmation => {
+                    window.confirmationResult = confirmation;
+                    document.getElementById('otpInputGroup').style.display = 'block';
+                    triggerToast("SMS OTP dispatched to " + phone);
+                })
+                .catch(err => {
+                    document.getElementById('errLogPhone').innerText = err.message;
+                    triggerToast(err.message, true);
+                });
+        }
+
+        function verifyOtpCode() {
+            const otp = document.getElementById('logOtp').value.trim();
+            if(!otp) { document.getElementById('errLogOtp').innerText = "Enter 6-digit OTP code."; return; }
+
+            window.confirmationResult.confirm(otp)
+                .then(res => {
+                    const isOwner = (res.user.phoneNumber === OWNER_PHONE);
+                    triggerToast("Phone Verified Successfully!");
+                    renderDashboard((isOwner ? OWNER_NAME : "Mobile Agent"), (isOwner ? OWNER_HANDLE : "phone_user"), res.user.phoneNumber, isOwner);
+                })
+                .catch(() => {
+                    document.getElementById('errLogOtp').innerText = "Invalid OTP code!";
+                    triggerToast("Invalid OTP code!", true);
+                });
+        }
+
+        // REGISTRATION HANDLER
+        function executeRegistration() {
+            const name = document.getElementById('regName').value.trim();
+            let handle = document.getElementById('regHandle').value.trim().toLowerCase().replace("@", "");
+            const email = document.getElementById('regEmail').value.trim().toLowerCase();
+            const pass = document.getElementById('regPass').value.trim();
+
+            document.getElementById('errRegName').innerText = "";
+            document.getElementById('errRegHandle').innerText = "";
+            document.getElementById('errRegEmail').innerText = "";
+            document.getElementById('errRegPass').innerText = "";
+
+            if (!name) { document.getElementById('errRegName').innerText = "Full Name required."; return; }
+            if (!handle) { document.getElementById('errRegHandle').innerText = "Handle required."; return; }
+            if (!email) { document.getElementById('errRegEmail').innerText = "Email required."; return; }
+            if (pass.length < 8) { document.getElementById('errRegPass').innerText = "Password must be min 8 chars with 1 uppercase & 1 special."; return; }
+
+            // Reserved Check
+            const reserved = ["voltage_hero", "naitik", "mysteryhero_01_official", "admin", "desi_gta"];
+            if (reserved.includes(handle) && email !== OWNER_EMAIL) {
+                document.getElementById('errRegHandle').innerText = "This handle is STRICTLY RESERVED for Project Owner.";
+                return;
+            }
+
+            auth.createUserWithEmailAndPassword(email, pass)
+                .then(res => {
+                    db.ref('users/' + res.user.uid).set({ name, handle, email });
+                    triggerToast("Hero ID Registered! Entering studio...");
+                    renderDashboard(name, handle, email, (email === OWNER_EMAIL));
+                })
+                .catch(err => {
+                    document.getElementById('errRegEmail').innerText = err.message;
+                    triggerToast(err.message, true);
+                });
+        }
+
+        // RENDER DASHBOARD
+        function renderDashboard(name, handle, contact, isOwner) {
+            document.getElementById('authScreen').style.display = 'none';
+            document.getElementById('dashboardScreen').style.display = 'block';
+
+            document.getElementById('hudUserName').innerText = name;
+            document.getElementById('hudAvatarLetter').innerText = name.charAt(0).toUpperCase();
+
+            if (isOwner) {
+                document.getElementById('hudOwnerBadge').style.display = 'inline-block';
+            }
+        }
+
+        // DEEP KNOWLEDGE POPUPS
+        function openVoltageDetails() {
+            showPopup(
+                "⚡ VOLTAGE HERO: MASTER SPECIFICATIONS",
+                "ORIGINAL SUPERHERO UNIVERSE BY NAITIK PANDEY\n\n• Episode Architecture: 10-Minute High-Voltage Episodes\n• Pacing: Second-by-Second Cinematic Action Storyboarding\n• Audio Foley: Electric distortion, lightning discharges, cinematic bass\n• Character Lore: Origin of the Voltage core, city syndicate confrontation, and multiverse hero crossover."
+            );
+        }
+
+        function openDesiGtaDetails() {
+            showPopup(
+                "🎮 DESI GTA: OPEN-WORLD ENGINE SPECS",
+                "HIGH-PERFORMANCE ANDROID OPEN WORLD (300MB BUILD)\n\n• Dual-Zone Map: Indian Dhabas, crowded bazaar alleys synchronized with Los Santos freeways\n• 100+ NPCs: Dynamic Indian crowd with dual Hindi/English dialogue scripts\n• Vehicular Systems: Auto-rickshaws, customized bikes, transport trucks & hypercars\n• In-Game Phone: Built-in AI smartphone for live mission hints, GPS, and radio tuning."
+            );
+        }
+
+        // MUSIC & AI MODALS
+        function openMusicStudio() { document.getElementById('musicStudioScreen').style.display = 'block'; }
+        function closeMusicStudio() { document.getElementById('musicStudioScreen').style.display = 'none'; }
+        
+        function openAiTerminal() { document.getElementById('aiModalWindow').classList.add('active'); }
+        function closeAiTerminal() { document.getElementById('aiModalWindow').classList.remove('active'); }
+
+        function triggerAiCore() {
+            const prompt = document.getElementById('aiInputPrompt').value.trim();
+            const feed = document.getElementById('aiChatFeed');
+            if (!prompt) return;
+
+            feed.innerHTML += `<div style="color:#fff; margin-top:10px;"><strong>Agent:</strong> ${prompt}</div>`;
+            document.getElementById('aiInputPrompt').value = '';
+            feed.scrollTop = feed.scrollHeight;
+
+            setTimeout(() => {
+                let reply = "";
+                const p = prompt.toLowerCase();
+                if (p.includes("voltage")) reply = "⚡ [Voltage Core]: Episode 1 storyboard synchronized. Lightning FX sequence at [04:30] ready for timeline rendering.";
+                else if (p.includes("gta") || p.includes("game")) reply = "🎮 [Desi GTA Engine]: 300MB Android compression verified. Indian street physics and in-game phone AI active.";
+                else if (p.includes("song") || p.includes("music")) reply = "🎵 [16D Audio Studio]: Earbud spatial audio matrix online. New Hindi tracks in render queue.";
+                else reply = "🤖 [Neural Core]: Telemetry validated. Standing by for Naitik Pandey's creative commands.";
+                
+                feed.innerHTML += `<div style="color:var(--neon-cyan); margin-top:8px;"><strong>Neural AI:</strong> ${reply}</div>`;
+                feed.scrollTop = feed.scrollHeight;
+            }, 600);
+        }
+
+        function openProfileModal() {
+            showPopup(
+                "AGENT PROFILE HUD",
+                `NAME: ${document.getElementById('hudUserName').innerText}\nROLE: Master Developer & Project Owner\nSTATUS: Authenticated Secure Session\nSECURITY CLEARANCE: Level 10 (Full Access)`
+            );
+        }
+    </script>
+</body>
+</html>
