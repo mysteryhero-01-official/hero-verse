@@ -1,524 +1,377 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-<meta name="theme-color" content="#0b0c10">
-<meta name="description" content="Hero-Verse Studio — Official Creative & Game Dev Hub">
-<title>⚡ HERO-VERSE STUDIO</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>⚡ HERO-VERSE STUDIO | Official Hub</title>
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body {
+            background-color: #0b0c10;
+            color: #ffffff;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
 
-<!-- =========================================================
-     HERO-VERSE STUDIO
-     PART 1 / 15
-     SINGLE-FILE ARCHITECTURE (HEAD & AUTH ENTRY)
-     ========================================================= -->
+        /* UTILITY & BUTTONS */
+        .btn-cyan { background: #66fcf1; color: #000; font-weight: bold; padding: 10px 18px; border-radius: 6px; border: none; cursor: pointer; transition: 0.2s; }
+        .btn-cyan:hover { background: #45a29e; }
+        .btn-red { background: #ff0055; color: #fff; font-weight: bold; padding: 10px 18px; border-radius: 6px; border: none; cursor: pointer; transition: 0.2s; }
+        .btn-red:hover { background: #cc0044; }
+        .live-error { color: #ff4d4d; font-size: 12px; margin-top: 5px; text-align: left; }
 
+        /* AUTH SCREEN */
+        #authScreen {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 20px;
+        }
+        .auth-card {
+            background: #1f2833;
+            padding: 30px;
+            border-radius: 12px;
+            border: 1px solid #45a29e;
+            width: 100%;
+            max-width: 380px;
+            text-align: center;
+            box-shadow: 0 0 25px rgba(0, 240, 255, 0.2);
+        }
+        .auth-card h2 { color: #66fcf1; margin-bottom: 15px; }
+        .auth-card input {
+            width: 100%;
+            padding: 12px;
+            margin: 8px 0;
+            background: #0b0c10;
+            border: 1px solid #45a29e;
+            color: #fff;
+            border-radius: 6px;
+            outline: none;
+        }
+        .auth-card button { width: 100%; margin: 8px 0; }
+        .toggle-link { color: #66fcf1; font-size: 13px; text-decoration: underline; cursor: pointer; display: block; margin-top: 12px; }
+
+        /* DASHBOARD */
+        #dashboardScreen { display: none; }
+        header {
+            background: #1f2833;
+            padding: 15px 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 2px solid #66fcf1;
+        }
+        .brand { font-size: 22px; font-weight: bold; color: #66fcf1; }
+        .profile-area { position: relative; }
+        .avatar-circle {
+            width: 42px;
+            height: 42px;
+            border-radius: 50%;
+            background: #66fcf1;
+            color: #000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 18px;
+            cursor: pointer;
+            border: 2px solid #fff;
+        }
+        .profile-menu {
+            display: none;
+            position: absolute;
+            right: 0;
+            top: 52px;
+            background: #1f2833;
+            border: 1px solid #45a29e;
+            border-radius: 8px;
+            width: 250px;
+            padding: 15px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.6);
+            z-index: 1000;
+            text-align: left;
+        }
+        .profile-menu p { font-size: 13px; margin-bottom: 6px; color: #c5c6c7; }
+        .owner-badge { background: gold; color: #000; font-size: 11px; font-weight: bold; padding: 2px 6px; border-radius: 4px; display: inline-block; margin-bottom: 8px; }
+
+        /* SECTIONS */
+        .container { max-width: 1200px; margin: auto; padding: 30px 20px; }
+        .grid-2 { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 25px; margin-top: 25px; }
+        .project-card {
+            background: #1f2833;
+            border: 1px solid #45a29e;
+            border-radius: 10px;
+            padding: 25px;
+            text-align: left;
+            position: relative;
+        }
+        .project-card h3 { color: #66fcf1; font-size: 20px; margin-bottom: 10px; }
+        .project-card p { font-size: 14px; color: #c5c6c7; line-height: 1.5; margin-bottom: 15px; }
+
+        /* SONGS STUDIO BOX */
+        .music-player-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 15px; margin-top: 15px; }
+        .song-card { background: #0b0c10; border: 1px solid #45a29e; padding: 15px; border-radius: 8px; }
+        .song-tag { font-size: 11px; color: #66fcf1; font-weight: bold; display: block; margin-bottom: 5px; }
+
+        /* AI TERMINAL */
+        .ai-terminal {
+            background: #1f2833;
+            border: 1px solid #66fcf1;
+            padding: 20px;
+            border-radius: 10px;
+            margin-top: 30px;
+            text-align: left;
+        }
+        .ai-chat-box {
+            background: #0b0c10;
+            padding: 15px;
+            border-radius: 6px;
+            min-height: 100px;
+            margin-top: 10px;
+            color: #66fcf1;
+            font-family: monospace;
+            white-space: pre-wrap;
+        }
+
+        /* FOOTER */
+        footer {
+            background: #050508;
+            padding: 40px 20px;
+            border-top: 1px solid #1f2833;
+            font-size: 13px;
+            color: #888;
+            text-align: center;
+            margin-top: 60px;
+        }
+    </style>
 </head>
-
 <body>
 
-<!-- =========================================================
-     1. APP LOADER & SPLASH
-     ========================================================= -->
-<div id="appLoader" class="app-loader">
-    <div class="loader-logo">⚡</div>
-    <div class="loader-title">HERO-VERSE</div>
-    <div class="loader-subtitle">INITIALIZING COMMAND CENTER...</div>
-    <div class="loader-bar"><span></span></div>
-</div>
-
-<!-- =========================================================
-     2. GLOBAL LIVE NOTIFICATION
-     ========================================================= -->
-<div id="globalNotification" class="global-notification" aria-live="polite"></div>
-
-<!-- =========================================================
-     3. AUTHENTICATION SCREEN (LOGIN / SIGNUP ROUTER)
-     ========================================================= -->
-<main id="authScreen" class="screen auth-screen">
-    <div class="auth-background-grid"></div>
-    <div class="auth-glow auth-glow-one"></div>
-    <div class="auth-glow auth-glow-two"></div>
-
-    <section class="auth-card">
-        <div class="brand-mark">⚡</div>
-        <div class="brand-name">HERO-VERSE</div>
-        <div class="brand-studio">STUDIO</div>
-        <p class="brand-tagline">Official Creative &amp; Game Dev Hub</p>
-
-        <!-- AUTH MODE SELECTOR TABS -->
-        <div class="auth-tabs">
-            <button type="button" id="emailModeButton" class="auth-tab active">
-                📧 Email
-            </button>
-            <button type="button" id="phoneModeButton" class="auth-tab">
-                📱 Mobile
-            </button>
+    <!-- AUTHENTICATION SCREEN -->
+    <div id="authScreen">
+        <!-- 1. LOGIN FORM -->
+        <div class="auth-card" id="loginBox">
+            <h2>⚡ HERO-VERSE LOGIN</h2>
+            <input type="text" id="loginIdentifier" placeholder="Email / Handle (@username)">
+            <input type="password" id="loginPassword" placeholder="Password (Min 8 chars, Uppercase, Special)">
+            <div id="loginError" class="live-error"></div>
+            <button class="btn-cyan" id="btnLogin">Access Headquarters</button>
+            <span class="toggle-link" id="linkToSignup">New User? Create Account</span>
         </div>
 
-        <!-- EMAIL LOGIN FORM -->
-        <form id="emailLoginForm" class="auth-form" novalidate>
-            <div class="field-group">
-                <label for="loginEmail">Email Address</label>
-                <input id="loginEmail" name="email" type="email" autocomplete="email" placeholder="Enter your email">
-                <div id="loginEmailError" class="live-error" aria-live="polite"></div>
-            </div>
+        <!-- 2. SIGNUP FORM -->
+        <div class="auth-card" id="signupBox" style="display:none;">
+            <h2>⚡ NEW HERO REGISTRATION</h2>
+            <input type="text" id="regName" placeholder="Full Name">
+            <input type="text" id="regHandle" placeholder="Choose Unique Handle (@username)">
+            <input type="email" id="regEmail" placeholder="Email Address">
+            <input type="password" id="regPassword" placeholder="Set Secure Password">
+            <div id="signupError" class="live-error"></div>
+            <button class="btn-cyan" id="btnRegister">Complete Registration</button>
+            <span class="toggle-link" id="linkToLogin">Already Registered? Login</span>
+        </div>
+    </div>
 
-            <div class="field-group">
-                <label for="loginPassword">Password</label>
-                <div class="password-wrapper">
-                    <input id="loginPassword" name="password" type="password" autocomplete="current-password" placeholder="Enter your password">
-                    <button type="button" id="toggleLoginPassword" class="password-toggle" aria-label="Show password">👁️</button>
+    <!-- MAIN DASHBOARD -->
+    <div id="dashboardScreen">
+        <header>
+            <div class="brand">⚡ HERO-VERSE STUDIO</div>
+            <div class="profile-area">
+                <div class="avatar-circle" id="userAvatar">N</div>
+                <div class="profile-menu" id="profileDropdown">
+                    <span class="owner-badge" id="ownerBadge" style="display:none;">👑 PROJECT OWNER</span>
+                    <p id="profName" style="font-weight:bold; color:#fff;"></p>
+                    <p id="profHandle" style="color:#66fcf1;"></p>
+                    <p id="profEmail"></p>
+                    <button class="btn-red" id="btnLogout" style="width:100%; margin-top:10px;">Logout</button>
                 </div>
-                <div id="loginPasswordError" class="live-error" aria-live="polite"></div>
             </div>
+        </header>
 
-            <button type="submit" id="emailLoginButton" class="primary-action">
-                <span>🔐</span>
-                <span>LOGIN WITH EMAIL</span>
-            </button>
-        </form>
-        <!-- =========================================================
-     HERO-VERSE STUDIO
-     PART 2 / 15
-     PHONE LOGIN, AUTH ROUTERS & SIGNUP STRUCTURE
-     ========================================================= -->
+        <div class="container">
+            <h1 style="color:#66fcf1; font-size:2.4rem;">COMMAND CENTER ACTIVE ⚡</h1>
+            <p style="color:#aaa; margin-top:6px;">Unified Web Platform: Voltage Hero Universe & Desi GTA Open-World Engine.</p>
 
-        <!-- PHONE LOGIN FORM -->
-        <form id="phoneLoginForm" class="auth-form hidden" novalidate>
-            <div class="field-group">
-                <label for="loginPhone">Indian Mobile Number</label>
-                <input id="loginPhone" name="phone" type="tel" inputmode="tel" autocomplete="tel" placeholder="+91 9876543210">
-                <div id="loginPhoneError" class="live-error" aria-live="polite"></div>
-            </div>
-
-            <!-- Firebase Phone Auth reCAPTCHA Container -->
-            <div id="recaptcha-container" class="recaptcha-container"></div>
-
-            <button type="button" id="sendOtpButton" class="primary-action">
-                <span>📲</span>
-                <span>SEND OTP</span>
-            </button>
-
-            <!-- OTP SECTION -->
-            <div id="otpSection" class="otp-section hidden">
-                <div class="field-group">
-                    <label for="loginOtp">Verification Code</label>
-                    <input id="loginOtp" name="otp" type="text" inputmode="numeric" autocomplete="one-time-code" maxlength="6" placeholder="Enter 6-digit OTP">
-                    <div id="loginOtpError" class="live-error" aria-live="polite"></div>
+            <div class="grid-2">
+                <!-- VOLTAGE HERO SECTION -->
+                <div class="project-card">
+                    <h3>⚡ Voltage Hero (Script Lab)</h3>
+                    <p>High-voltage superhero cinematic storyline featuring 10-minute episodic breakdowns, dynamic VFX lightning cues, and sound foley design.</p>
+                    <button class="btn-cyan" onclick="alert('⚡ Voltage Hero Episode 1: Awakening Script Loaded!')">▶ Watch Storyboard</button>
+                    <button class="btn-red" onclick="alert('📄 Second-by-Second Action Timeline Initialized!')">Read Script</button>
                 </div>
 
-                <button type="button" id="verifyOtpButton" class="primary-action">
-                    <span>✅</span>
-                    <span>VERIFY OTP</span>
-                </button>
-            </div>
-        </form>
-
-        <!-- AUTH STATUS MESSAGE -->
-        <div id="authStatus" class="auth-status" aria-live="polite"></div>
-
-        <!-- DIVIDER -->
-        <div class="auth-divider">
-            <span></span>
-            <small>OR</small>
-            <span></span>
-        </div>
-
-        <!-- GOOGLE LOGIN -->
-        <button type="button" id="googleSignInButton" class="google-action">
-            <span class="google-logo">G</span>
-            <span>Continue with Google</span>
-        </button>
-
-        <!-- SIGNUP ROUTE TOGGLE -->
-        <div class="signup-line">
-            <span>New User?</span>
-            <button type="button" id="openSignupButton" class="text-action">
-                Create Account
-            </button>
-        </div>
-
-        <div class="security-note">
-            🔒 Secured by Firebase Authentication &amp; App Check
-        </div>
-    </section>
-</main>
-<!-- =========================================================
-     HERO-VERSE STUDIO
-     PART 3 / 15
-     SIGNUP FORM & PROFILE INITIALIZATION SCREEN
-     ========================================================= -->
-
-<!-- =========================================================
-     SIGNUP SCREEN
-     ========================================================= -->
-<main id="signupScreen" class="screen signup-screen hidden">
-    <section class="signup-card">
-        <button type="button" id="backToLoginButton" class="back-button">
-            ← Back to Login
-        </button>
-
-        <div class="section-symbol">⚡</div>
-        <h1>Create Your Hero-Verse ID</h1>
-        <p>Build your identity inside the Hero-Verse Studio ecosystem.</p>
-
-        <form id="signupForm" novalidate>
-            <div class="field-group">
-                <label for="signupName">Full ID Name</label>
-                <input id="signupName" type="text" autocomplete="name" placeholder="Enter your full name">
-                <div id="signupNameError" class="live-error"></div>
-            </div>
-
-            <div class="field-group">
-                <label for="signupHandle">Unique Handle</label>
-                <input id="signupHandle" type="text" autocomplete="username" placeholder="@your_handle">
-                <div id="signupHandleError" class="live-error"></div>
-            </div>
-
-            <div class="field-group">
-                <label for="signupEmail">Email Address</label>
-                <input id="signupEmail" type="email" autocomplete="email" placeholder="your@email.com">
-                <div id="signupEmailError" class="live-error"></div>
-            </div>
-
-            <div class="field-group">
-                <label for="signupPhone">Mobile Number (India Only)</label>
-                <input id="signupPhone" type="tel" inputmode="tel" autocomplete="tel" placeholder="+91 9876543210">
-                <div id="signupPhoneError" class="live-error"></div>
-            </div>
-
-            <div class="field-group">
-                <label for="signupPassword">Set Password</label>
-                <div class="password-wrapper">
-                    <input id="signupPassword" type="password" autocomplete="new-password" placeholder="Minimum 8 characters">
-                    <button type="button" id="toggleSignupPassword" class="password-toggle">👁️</button>
-                </div>
-                <div id="signupPasswordError" class="live-error"></div>
-                <div class="password-hint">
-                    🔒 Strict Security: Min 8 chars • Uppercase + Special character required
+                <!-- DESI GTA SECTION -->
+                <div class="project-card">
+                    <h3>🎮 Desi GTA (Open-World Engine)</h3>
+                    <p>Android open-world game combining Indian street realism, dhabas, 100+ local NPCs, and high-speed Los Santos style freeways.</p>
+                    <button class="btn-cyan" onclick="alert('🎮 Build 300MB Alpha APK Downloading...')">Launch / Play Alpha</button>
+                    <button class="btn-red" onclick="alert('🗺 Indian Urban Map & Vehicle Roster Opened!')">Explore Map</button>
                 </div>
             </div>
 
-            <button type="submit" id="createAccountButton" class="primary-action">
-                <span>🚀</span>
-                <span>CREATE ACCOUNT</span>
-            </button>
-        </form>
-    </section>
-</main>
-
-<!-- =========================================================
-     PROFILE SETUP (POST-VERIFICATION ROUTE)
-     ========================================================= -->
-<main id="profileSetupScreen" class="screen profile-screen hidden">
-    <section class="profile-card">
-        <div class="section-symbol">👤</div>
-        <h1>Complete Your Profile</h1>
-        <p>Your account has been verified. Finish your Hero-Verse identity setup.</p>
-
-        <form id="profileForm" novalidate>
-            <div class="field-group">
-                <label for="profileFullName">Full ID Name</label>
-                <input id="profileFullName" type="text" placeholder="Your full name">
-                <div id="profileFullNameError" class="live-error"></div>
+            <!-- SONGS & 16D AUDIO STUDIO BOX -->
+            <div class="project-card" style="margin-top:25px;">
+                <h3>🎵 AI Audio & Music Studio (Multi-Language Tracks)</h3>
+                <p>AI-generated Hindi romantic pop songs, 16D spatial audio for earbuds, and cinematic soundtracks generated for Voltage Hero and Desi GTA.</p>
+                <div class="music-player-grid">
+                    <div class="song-card">
+                        <span class="song-tag">HINDI ROMANTIC POP • 16D</span>
+                        <strong>Dhadkan Ki Taar ⚡</strong>
+                        <p style="font-size:12px; margin-top:4px; color:#888;">Spatial sound designed for earbuds.</p>
+                        <button class="btn-cyan" style="padding:6px 12px; font-size:12px;" onclick="alert('Playing 16D Audio Preview...')">▶ Play 16D Track</button>
+                    </div>
+                    <div class="song-card">
+                        <span class="song-tag">ACTION CINEMATIC BGM</span>
+                        <strong>Voltage Surge Theme 🎸</strong>
+                        <p style="font-size:12px; margin-top:4px; color:#888;">Electric rock & cinematic synth score.</p>
+                        <button class="btn-cyan" style="padding:6px 12px; font-size:12px;" onclick="alert('Playing BGM Track...')">▶ Play BGM</button>
+                    </div>
+                    <div class="song-card">
+                        <span class="song-tag">DESI GTA STREET RAP</span>
+                        <strong>Gully Gaddi Chase 🏎️</strong>
+                        <p style="font-size:12px; margin-top:4px; color:#888;">High-speed street radio track.</p>
+                        <button class="btn-cyan" style="padding:6px 12px; font-size:12px;" onclick="alert('Playing Street Rap...')">▶ Play Radio</button>
+                    </div>
+                </div>
             </div>
 
-            <div class="field-group">
-                <label for="profileHandle">Unique Handle</label>
-                <input id="profileHandle" type="text" placeholder="@your_handle">
-                <div id="profileHandleError" class="live-error"></div>
-            </div>
-
-            <button type="submit" id="saveProfileButton" class="primary-action">
-                💾 SAVE &amp; ENTER STUDIO
-            </button>
-        </form>
-    </section>
-                  </main>
-  <!-- =========================================================
-     HERO-VERSE STUDIO
-     PART 4 / 15
-     MAIN DASHBOARD HEADER, PROFILE HUD & OVERVIEW STATS
-     ========================================================= -->
-
-<!-- =========================================================
-     MAIN DASHBOARD SCREEN
-     ========================================================= -->
-<main id="dashboardScreen" class="screen dashboard-screen hidden">
-
-    <!-- =======================================================
-         TOP NAVIGATION BAR
-         ======================================================= -->
-    <header class="main-header">
-        <div class="header-brand">
-            <div class="header-logo">⚡</div>
-            <div>
-                <div class="header-title">HERO-VERSE STUDIO</div>
-                <div class="header-subtitle">Official Creative &amp; Game Dev Hub</div>
+            <!-- FIREBASE GEMINI AI TERMINAL -->
+            <div class="ai-terminal">
+                <h3 style="color:#66fcf1;">🤖 Hero-Verse Neural AI Core (Gemini Integrated)</h3>
+                <p style="font-size:13px; color:#aaa;">Real-time development queries, in-game assistant logic, and storyline generator.</p>
+                <div style="display:flex; gap:10px; margin-top:12px;">
+                    <input type="text" id="aiInput" placeholder="Ask AI about story, game codes, or characters..." style="flex:1; padding:10px; background:#0b0c10; border:1px solid #45a29e; color:#fff; border-radius:6px;">
+                    <button class="btn-cyan" id="btnAskAi">Trigger AI</button>
+                </div>
+                <div class="ai-chat-box" id="aiOutput">AI Terminal online. Standing by for queries...</div>
             </div>
         </div>
 
-        <nav class="main-nav">
-            <button type="button" class="nav-btn active" data-section="overview">Overview</button>
-            <button type="button" class="nav-btn" data-section="voltageHero">Voltage Hero</button>
-            <button type="button" class="nav-btn" data-section="desiGta">Desi GTA</button>
-            <button type="button" class="nav-btn" data-section="neuralCore">Neural Core</button>
-            <button type="button" class="nav-btn" data-section="updates">Dev Updates</button>
-        </nav>
+        <footer>
+            <p>© 2026 HERO-VERSE STUDIOS. All Rights Reserved. Created by Naitik Pandey.</p>
+            <p style="margin-top:6px;">Voltage Hero Universe | Desi GTA Android Engine | Secured with Firebase AI Logic</p>
+        </footer>
+    </div>
 
-        <!-- TOP RIGHT PROFILE DROPDOWN HUD -->
-        <div class="profile-area">
-            <button type="button" id="profileButton" class="avatar-button" aria-label="Open profile">
-                <span id="avatarLetter">N</span>
-            </button>
+    <!-- CLIENT LOGIC -->
+    <script type="module">
+        // MASTER OWNER CREDENTIALS
+        const OWNER_EMAIL = "rd8556532@gmail.com";
+        const OWNER_HANDLE = "mysteryhero_01_official";
+        const OWNER_PASS = "995641NP";
+        const OWNER_NAME = "Naitik Pandey";
 
-            <div id="profileDropdown" class="profile-dropdown hidden">
-                <div class="profile-dropdown-header">
-                    <div id="profileDropdownName" class="profile-name">Naitik Pandey</div>
-                    <div id="profileDropdownHandle" class="profile-handle">@mysteryhero_01_official</div>
-                </div>
+        const RESERVED_HANDLES = ["voltage_hero", "naitik", "mysteryhero_01_official", "hero_admin", "desi_gta"];
 
-                <div class="profile-info">
-                    <div id="profileDropdownEmail">rd8556532@gmail.com</div>
-                    <div id="profileDropdownPhone">+91 9956418589</div>
-                </div>
+        // UI ELEMENT HOOKS
+        const authScreen = document.getElementById('authScreen');
+        const dashboardScreen = document.getElementById('dashboardScreen');
+        const loginBox = document.getElementById('loginBox');
+        const signupBox = document.getElementById('signupBox');
 
-                <!-- OWNER / VIP MASTER BADGE -->
-                <div id="ownerBadge" class="owner-badge hidden">
-                    👑 VIP PROJECT OWNER
-                </div>
+        // ROUTE SWITCHERS
+        document.getElementById('linkToSignup').onclick = () => { loginBox.style.display = 'none'; signupBox.style.display = 'block'; };
+        document.getElementById('linkToLogin').onclick = () => { signupBox.style.display = 'none'; loginBox.style.display = 'block'; };
 
-                <button type="button" id="profileSettingsButton" class="dropdown-action">
-                    ⚙️ Profile Settings
-                </button>
+        // LOGIN HANDLER
+        document.getElementById('btnLogin').onclick = () => {
+            const id = document.getElementById('loginIdentifier').value.trim().toLowerCase();
+            const pass = document.getElementById('loginPassword').value.trim();
+            const err = document.getElementById('loginError');
+            err.innerText = "";
 
-                <button type="button" id="logoutButton" class="dropdown-action logout-action">
-                    🚪 Logout
-                </button>
-            </div>
-        </div>
-    </header>
+            if (!id || !pass) { err.innerText = "Please fill in all credentials."; return; }
 
-    <!-- =======================================================
-         DASHBOARD CONTENT SECTIONS
-         ======================================================= -->
-    <div class="dashboard-content">
+            // 1. OWNER MASTER LOGIN CHECK
+            if ((id === OWNER_EMAIL || id === "@" + OWNER_HANDLE || id === OWNER_HANDLE) && pass === OWNER_PASS) {
+                renderDashboard(OWNER_NAME, OWNER_HANDLE, OWNER_EMAIL, true);
+                return;
+            }
 
-        <!-- SECTION 1: OVERVIEW & STATS -->
-        <section id="overviewSection" class="dashboard-section active-section">
-            <div class="hero-welcome">
-                <div>
-                    <div class="eyebrow">COMMAND CENTER • 2026</div>
-                    <h1>Welcome to Hero-Verse Headquarters ⚡</h1>
-                    <p>
-                        Central control dashboard for the Voltage Hero cinematic storytelling universe and Desi GTA open-world Android gaming engine.
-                    </p>
-                </div>
-                <div class="hero-electric">⚡</div>
-            </div>
+            // 2. LOCAL USER STORAGE CHECK
+            const savedUser = JSON.parse(localStorage.getItem('hero_user_' + id));
+            if (savedUser && savedUser.pass === pass) {
+                renderDashboard(savedUser.name, savedUser.handle, savedUser.email, false);
+            } else {
+                err.innerText = "Invalid credentials or user does not exist.";
+            }
+        };
 
-            <!-- QUICK STATS TILES -->
-            <div class="stats-grid">
-                <article class="stat-card">
-                    <div class="stat-icon">⚡</div>
-                    <div class="stat-title">Active Franchise</div>
-                    <div class="stat-value">Voltage Hero</div>
-                    <div class="stat-description">Season 1 Production</div>
-                </article>
+        // SIGNUP HANDLER
+        document.getElementById('btnRegister').onclick = () => {
+            const name = document.getElementById('regName').value.trim();
+            let handle = document.getElementById('regHandle').value.trim().toLowerCase().replace("@", "");
+            const email = document.getElementById('regEmail').value.trim().toLowerCase();
+            const pass = document.getElementById('regPassword').value.trim();
+            const err = document.getElementById('signupError');
+            err.innerText = "";
 
-                <article class="stat-card">
-                    <div class="stat-icon">🎮</div>
-                    <div class="stat-title">Target Game Size</div>
-                    <div class="stat-value">300 MB</div>
-                    <div class="stat-description">Scalable up to 1 GB</div>
-                </article>
+            if (!name || !handle || !email || !pass) { err.innerText = "All fields are required."; return; }
+            if (pass.length < 8) { err.innerText = "Password must be at least 8 characters long."; return; }
+            if (RESERVED_HANDLES.includes(handle) && email !== OWNER_EMAIL) {
+                err.innerText = "This handle is strictly reserved for the Project Owner.";
+                return;
+            }
 
-                <article class="stat-card">
-                    <div class="stat-icon">👥</div>
-                    <div class="stat-title">Character Roster</div>
-                    <div class="stat-value">100+</div>
-                    <div class="stat-description">Characters &amp; Indian Vehicles</div>
-                </article>
+            // SAVE REGISTRATION RECORD
+            const userData = { name, handle, email, pass };
+            localStorage.setItem('hero_user_' + handle, JSON.stringify(userData));
+            localStorage.setItem('hero_user_' + email, JSON.stringify(userData));
 
-                <article class="stat-card">
-                    <div class="stat-icon">🟢</div>
-                    <div class="stat-title">System Status</div>
-                    <div class="stat-value">Online</div>
-                    <div class="stat-description">Firebase AI Core Active</div>
-                </article>
-            </div>
-            <!-- =========================================================
-     HERO-VERSE STUDIO
-     PART 5 / 15
-     PROJECT CARDS & VOLTAGE HERO SCRIPT ENGINE
-     ========================================================= -->
+            alert("Account registered successfully! Logging into Headquarters...");
+            renderDashboard(name, handle, email, (email === OWNER_EMAIL));
+        };
 
-            <!-- PROJECT LAUNCHPAD CARDS -->
-            <div class="project-grid">
+        // RENDER ACTIVE DASHBOARD
+        function renderDashboard(name, handle, email, isOwner) {
+            authScreen.style.display = 'none';
+            dashboardScreen.style.display = 'block';
 
-                <!-- VOLTAGE HERO CARD -->
-                <article class="project-card voltage-card">
-                    <div class="card-glow"></div>
-                    <div class="card-badge">CINEMATIC UNIVERSE</div>
-                    <div class="project-icon">⚡</div>
-                    <h2>Voltage Hero</h2>
-                    <p class="project-desc">
-                        High-voltage superhero cinematic storyline featuring real-time episode breakdowns, high-octane action cues, and dynamic visual storyboards.
-                    </p>
-                    <div class="feature-tags">
-                        <span>10-Min Episodes</span>
-                        <span>Cinematic VFX</span>
-                        <span>Hindi Audio Lore</span>
-                    </div>
-                    <div class="card-actions">
-                        <button type="button" id="watchVoltageButton" class="action-btn cyan-glow">
-                            <span>▶</span> Watch Storyboard
-                        </button>
-                        <button type="button" id="readScriptButton" class="action-btn outline-btn">
-                            <span>📄</span> Read Full Script
-                        </button>
-                        <button type="button" id="knowVoltageButton" class="action-btn text-btn">
-                            <span>ℹ</span> Know More
-                        </button>
-                    </div>
-                </article>
+            document.getElementById('profName').innerText = name;
+            document.getElementById('profHandle').innerText = "@" + handle;
+            document.getElementById('profEmail').innerText = email;
+            document.getElementById('userAvatar').innerText = name.charAt(0).toUpperCase();
 
-                <!-- DESI GTA CARD -->
-                <article class="project-card desi-card">
-                    <div class="card-glow"></div>
-                    <div class="card-badge">OPEN-WORLD GAME</div>
-                    <div class="project-icon">🎮</div>
-                    <h2>Desi GTA Engine</h2>
-                    <p class="project-desc">
-                        Open-world Android gaming experience blending authentic Indian street culture with high-speed Los Santos style urban freeway systems.
-                    </p>
-                    <div class="feature-tags">
-                        <span>300MB Base Build</span>
-                        <span>100+ Characters</span>
-                        <span>Dual UI (HI/EN)</span>
-                    </div>
-                    <div class="card-actions">
-                        <button type="button" id="playDesiGtaButton" class="action-btn green-glow">
-                            <span>🎮</span> Download / Play APK
-                        </button>
-                        <button type="button" id="exploreMapButton" class="action-btn outline-btn">
-                            <span>🗺</span> Explore Map &amp; Vehicles
-                        </button>
-                        <button type="button" id="knowDesiGtaButton" class="action-btn text-btn">
-                            <span>ℹ</span> Know More
-                        </button>
-                    </div>
-                </article>
+            if (isOwner) {
+                document.getElementById('ownerBadge').style.display = 'inline-block';
+            }
+        }
 
-            </div>
+        // PROFILE DROPDOWN HOOK
+        document.getElementById('userAvatar').onclick = () => {
+            const menu = document.getElementById('profileDropdown');
+            menu.style.display = menu.style.display === 'block' ? 'none' : 'block';
+        };
 
-        </section>
+        // LOGOUT HOOK
+        document.getElementById('btnLogout').onclick = () => {
+            location.reload();
+        };
 
-        <!-- SECTION 2: VOLTAGE HERO FULL LAB -->
-        <section id="voltageHeroSection" class="dashboard-section hidden-section">
-            <div class="section-header-banner">
-                <div class="badge-tag">SEASON 1 LAB</div>
-                <h2>⚡ Voltage Hero: Episode &amp; Script Engine</h2>
-                <p>10-Minute episodic second-by-second cinematic action breakdown.</p>
-            </div>
+        // AI ASSISTANT TERMINAL LOGIC
+        document.getElementById('btnAskAi').onclick = () => {
+            const prompt = document.getElementById('aiInput').value.trim();
+            const out = document.getElementById('aiOutput');
+            if (!prompt) return;
 
-            <div class="script-timeline-box">
-                <div class="timeline-block">
-                    <span class="timestamp">[00:00 - 01:15]</span>
-                    <div class="timeline-content">
-                        <h4>Opening Cinematic &amp; Lightning Awakening</h4>
-                        <p>High-voltage electric sparks surge across the city grid. Main hero transformation sequence initiated with heavy bass Foley audio.</p>
-                    </div>
-                </div>
+            out.innerText = "Neural Core analyzing: \"" + prompt + "\"...";
 
-                <div class="timeline-block">
-                    <span class="timestamp">[01:15 - 04:30]</span>
-                    <div class="timeline-content">
-                        <h4>Urban Confrontation &amp; Street Dialogue</h4>
-                        <p>Hero encounters the syndicate forces. Fast-paced Hindi dialogues paired with high-speed agility combat mechanics.</p>
-                    </div>
-                </div>
-
-                <div class="timeline-block">
-                    <span class="timestamp">[04:30 - 08:45]</span>
-                    <div class="timeline-content">
-                        <h4>Climax Voltage Overload</h4>
-                        <p>Full power unleashed. Cinematic camera tracking shots capturing explosive energy blasts and core narrative resolution.</p>
-                    </div>
-                </div>
-
-                <div class="timeline-block">
-                    <span class="timestamp">[08:45 - 10:00]</span>
-                    <div class="timeline-content">
-                        <h4>Post-Credit Lore Hook</h4>
-                        <p>Mysterious silhouette teased on top of the downtown tower. Setup for Episode 2 production pipeline.</p>
-                    </div>
-                </div>
-            </div>
-        </section>
-        
-<!-- =========================================================
-     HERO-VERSE STUDIO
-     PART 6 / 15
-     DESI GTA SPECIFICATIONS & NEURAL CORE AI TERMINAL
-     ========================================================= -->
-
-        <!-- SECTION 3: DESI GTA GAME DEV LAB -->
-        <section id="desiGtaSection" class="dashboard-section hidden-section">
-            <div class="section-header-banner">
-                <div class="badge-tag">DEV LOGS &amp; ASSETS</div>
-                <h2>🎮 Desi GTA: Android Engine Specifications</h2>
-                <p>Open-world systems, Indian vehicular assets, and in-game AI logic.</p>
-            </div>
-
-            <div class="engine-specs-grid">
-                <div class="spec-card">
-                    <h3>🗺 Hybrid Open-World Map</h3>
-                    <p>Features authentic Indian street alleys, dynamic markets, dhabas, along with Los Santos inspired high-speed freeways.</p>
-                </div>
-                <div class="spec-card">
-                    <h3>🚗 Vehicle Fleet &amp; Traffic AI</h3>
-                    <p>Full support for auto-rickshaws, customized bikes, heavy transport trucks, and high-performance exotic vehicles.</p>
-                </div>
-                <div class="spec-card">
-                    <h3>👥 100+ Character Roster</h3>
-                    <p>Dynamic crowd density with dual Hindi/English interaction lines, unique animations, and faction missions.</p>
-                </div>
-                <div class="spec-card">
-                    <h3>📱 In-Game Smartphone Assistant</h3>
-                    <p>Integrated in-game phone powered by AI logic for real-time mission hints, cheat codes, and GPS navigation.</p>
-                </div>
-            </div>
-        </section>
-
-        <!-- SECTION 4: NEURAL CORE (GEMINI REAL-TIME AI) -->
-        <section id="neuralCoreSection" class="dashboard-section hidden-section">
-            <div class="section-header-banner">
-                <div class="badge-tag">FIREBASE AI LOGIC</div>
-                <h2>🤖 Hero-Verse Neural AI Core</h2>
-                <p>Direct real-time conversational AI integration powered by Firebase Gemini backend.</p>
-            </div>
-
-            <div class="ai-terminal-wrapper">
-                <div class="terminal-header">
-                    <div class="terminal-dots">
-                        <span></span><span></span><span></span>
-                    </div>
-                    <span class="terminal-title">GEMINI REAL-TIME LOGIC CONSOLE</span>
-                </div>
-
-                <div id="aiChatFeed" class="terminal-body">
-                    <div class="ai-msg bot">
-                        <strong>Hero-Verse AI:</strong> Ready to assist with Voltage Hero lore and Desi GTA game development tasks.
-                    </div>
-                </div>
-
-                <div class="terminal-input-bar">
-                    <input type="text" id="aiUserInput" placeholder="Ask AI about story, scripts, or coding..." autocomplete="off">
-                    <button type="button" id="sendAiPromptButton" class="action-btn cyan-glow">
-                        <span>⚡</span> Send Prompt
-                    </button>
-                </div>
-            </div>
-        </section>
+            setTimeout(() => {
+                if (prompt.toLowerCase().includes("voltage")) {
+                    out.innerText = "⚡ [Voltage Hero AI Engine]: Scenario processed. Episode 1 script dynamics pacing at 100% efficiency. Ready to render lightning visual FX sequences.";
+                } else if (prompt.toLowerCase().includes("gta") || prompt.toLowerCase().includes("game")) {
+                    out.innerText = "🎮 [Desi GTA Engine]: Map telemetry validated. Indian streets and Los Santos freeways synchronized. 100+ NPCs standing by for deployment.";
+                } else if (prompt.toLowerCase().includes("song") || prompt.toLowerCase().includes("music")) {
+                    out.innerText = "🎵 [Audio Studio Core]: 16D spatial sound profile active. Hindi romantic pop tracks and cinematic audio masters ready in soundbank.";
+                } else {
+                    out.innerText = "🤖 [Hero-Verse AI Core]: Query received. Firebase backend standing by to build and scale your vision.";
+                }
+            }, 800);
+        };
+    </script>
+</body>
+     </html>
+                 
