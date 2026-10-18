@@ -366,7 +366,7 @@
                 <div id="boxPhoneLogin" style="display: none;">
                     <div class="field-group">
                         <label>Indian Mobile Number</label>
-                        <input type="tel" id="logPhone" placeholder="+91 9956418589">
+                        <input type="tel" id="logPhone" placeholder="+91 1234567890">
                         <div class="live-err" id="errLogPhone"></div>
                     </div>
                     <div id="recaptcha-container"></div>
@@ -411,17 +411,17 @@
                 </div>
                 <div class="field-group">
                     <label>Unique Handle</label>
-                    <input type="text" id="regHandle" placeholder="@mysteryhero_01_official">
+                    <input type="text" id="regHandle" placeholder="@my_profile">
                     <div class="live-err" id="errRegHandle"></div>
                 </div>
                 <div class="field-group">
                     <label>Email Address</label>
-                    <input type="email" id="regEmail" placeholder="rd8556532@gmail.com">
+                    <input type="email" id="regEmail" placeholder="youremail@gmail.com">
                     <div class="live-err" id="errRegEmail"></div>
                 </div>
                 <div class="field-group">
                     <label>Password (Min 8 Chars, 1 Uppercase, 1 Special)</label>
-                    <input type="password" id="regPass" placeholder="995641NP">
+                    <input type="password" id="regPass" placeholder="123456AB">
                     <div class="live-err" id="errRegPass"></div>
                 </div>
                 <button class="btn-cyber btn-primary" onclick="executeRegistration()">REGISTER HERO ID</button>
@@ -518,7 +518,7 @@
                     <a onclick="showPopup('Help Center', 'Device Requirements for Desi GTA:\n• Android 8.0 or higher\n• Minimum 3GB RAM (Optimal 6GB+)\n• 500MB Free Disk Space')">Hardware Specs</a>
                     <a onclick="showPopup('Report Glitch', 'Found a bug in Desi GTA?\nSend log files and device details to support@hero-verse.com')">Report Technical Bug</a>
                     <a onclick="showPopup('Server Telemetry', 'Global Gateway: 100% Operational.\nResponse Ping: 18ms.')">Server Status</a>
-                    <a onclick="showPopup('Contact Support', 'Official Dispatch: rd8556532@gmail.com\nDeveloper Contact: +91 9956418589')">Contact Us</a>
+                    <a onclick="showPopup('Contact Support', 'Official Dispatch: (it will be provided soon) \nDeveloper Contact: (it will be provided soon)')">Contact Us</a>
                 </div>
                 <div>
                     <h5>Legal &amp; Trust</h5>
@@ -632,12 +632,7 @@
         const auth = firebase.auth();
         const db = firebase.database();
 
-        // MASTER OWNER HARDCODED CREDENTIALS
-        const OWNER_EMAIL = "rd8556532@gmail.com";
-        const OWNER_HANDLE = "mysteryhero_01_official";
-        const OWNER_PHONE = "+919956418589";
-        const OWNER_NAME = "Naitik Pandey";
-        const OWNER_PASS = "995641NP";
+        
 
         // TOAST NOTIFIER (REPLACES ALERTS)
         function triggerToast(msg, isError = false) {
