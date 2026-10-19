@@ -840,7 +840,7 @@ async function triggerAiCore() {
     feed.scrollTop = feed.scrollHeight;
 
     const GEMINI_KEY = "AIzaSyBSbwx9kKdEMYTpYuqPjXGE4DdLn0aI80w";
-    const endpoint = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${GEMINI_KEY}`;
+    const endpoint = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${GEMINI_KEY}`;
 
     try {
         const response = await fetch(endpoint, {
