@@ -555,7 +555,7 @@
             </div>
             <div style="display:flex; gap:10px;">
                 <input type="text" id="aiInputPrompt" placeholder="Ask AI about story, game codes, scripts..." style="flex:1; padding:12px; background:#111; border:1px solid var(--neon-cyan); color:#fff; border-radius:6px; outline:none;">
-                <button class="btn-cyber btn-cyan" style="width:auto; padding:10px 20px;" onclick="triggerAiCore()">SEND</button>
+                <button id="aiSendButton" class="btn-cyber btn-cyan" style="width:auto; padding:10px 20px;" onclick="triggerAiCore()">SEND</button>
             </div>
         </div>
     </div>
@@ -895,18 +895,22 @@
 
         // Direct Event Listener Attachment
         document.addEventListener('DOMContentLoaded', () => {
-            const sendBtn = document.querySelector('#aiModalWindow button.btn-cyan');
+            const sendBtn = document.getElementById('aiSendButton');
             const inputField = document.getElementById('aiInputPrompt');
 
             if (sendBtn) {
-                sendBtn.onclick = handleAiPrompt;
+                sendBtn.addEventListener('click', handleAiPrompt);
             }
             if (inputField) {
-                inputField.addEventListener('keypress', (e) => {
-                    if (e.key === 'Enter') handleAiPrompt();
+                inputField.addEventListener('keydown', (e) => {
+                    if (e.key === 'Enter') {
+                        e.preventDefault();
+                        handleAiPrompt();
+                    }
                 });
             }
         });
+
         window.triggerAiCore = handleAiPrompt;
     </script>
 </body>
