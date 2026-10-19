@@ -1,3 +1,4 @@
+</html>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -407,7 +408,7 @@
             <div id="signupView" style="display: none;">
                 <div class="field-group">
                     <label>Full Name</label>
-                    <input type="text" id="regName" placeholder="Naitik Pandey">
+                    <input type="text" id="regName" placeholder="Hero User">
                     <div class="live-err" id="errRegName"></div>
                 </div>
                 <div class="field-group">
@@ -444,8 +445,8 @@
                 <button class="btn-cyber btn-cyan" style="width:auto; padding:6px 15px; font-size:1.1rem;" onclick="openMusicStudio()">🎵 AI AUDIO LAB</button>
                 
                 <div class="profile-bubble" onclick="openProfileModal()">
-                    <div class="avatar-tag" id="hudAvatarLetter">N</div>
-                    <span id="hudUserName" style="font-weight:bold; font-size:0.95rem;">Naitik Pandey</span>
+                    <div class="avatar-tag" id="hudAvatarLetter">H</div>
+                    <span id="hudUserName" style="font-weight:bold; font-size:0.95rem;">Hero User</span>
                     <span id="hudOwnerBadge" class="owner-badge" style="display:none;">👑 OWNER</span>
                 </div>
             </div>
@@ -469,11 +470,11 @@
                         <div style="font-size: 0.8rem; color: var(--neon-cyan); font-weight: bold;">CINEMATIC SERIES • S1</div>
                         <h3 class="box-title" style="color: var(--neon-red);">VOLTAGE HERO</h3>
                         <p style="color:#aaa; font-size: 1.05rem; line-height: 1.5;">
-                            Original high-voltage superhero story universe created by Naitik Pandey. Crafted with 10-minute second-by-second action breakdowns, electric lightning VFX, and cinematic sound engineering.
+                            Original high-voltage superhero story universe. Crafted with 10-minute second-by-second action breakdowns, electric lightning VFX, and cinematic sound engineering.
                         </p>
                     </div>
                     <div class="btn-row">
-                        <button class="btn-cyber btn-primary" onclick="showPopup('⚡ VOLTAGE HERO: COMING SOON! ⚡', 'SYSTEM NOTICE:\nEpisode 1 [Awakening Surge] is currently in cinematic sound mixing & storyboard finalization.\n\nCreator Naitik Pandey is actively compiling the high-voltage render pipeline. Stay tuned!')">WATCH EPISODE</button>
+                        <button class="btn-cyber btn-primary" onclick="showPopup('⚡ VOLTAGE HERO: COMING SOON! ⚡', 'SYSTEM NOTICE:\nEpisode 1 [Awakening Surge] is currently in cinematic sound mixing & storyboard finalization.\n\nStay tuned!')">WATCH EPISODE</button>
                         <button class="btn-cyber btn-cyan" onclick="openVoltageDetails()">KNOW MORE</button>
                     </div>
                 </div>
@@ -502,8 +503,8 @@
             <div class="footer-cols">
                 <div>
                     <h5>Company</h5>
-                    <a onclick="showPopup('About Hero-Verse', 'Hero-Verse Studios is an independent Indian technology and entertainment enterprise pushing mobile AAA gaming boundaries.')">About Studio</a>
-                    <a onclick="showPopup('Founder & Lead', 'Lead Architect & Storyteller: Naitik Pandey. Directing Desi GTA engine and Voltage Hero cinematic franchise.')">Leadership Profile</a>
+                    <a onclick="showPopup('About Hero-Verse', 'Hero-Verse Studios is an independent technology and entertainment enterprise pushing mobile AAA gaming boundaries.')">About Studio</a>
+                    <a onclick="showPopup('Founder & Lead', 'Lead Architect & Storyteller directing Desi GTA engine and Voltage Hero cinematic franchise.')">Leadership Profile</a>
                     <a onclick="showPopup('Careers', 'No open corporate vacancies currently. Research and development teams are actively filled.')">Careers</a>
                     <a onclick="showPopup('Press & Media', 'For brand kit, assets, and interview requests regarding Indian GTA, contact developer desk.')">Press Media Kit</a>
                 </div>
@@ -517,20 +518,20 @@
                 <div>
                     <h5>Support Desk</h5>
                     <a onclick="showPopup('Help Center', 'Device Requirements for Desi GTA:\n• Android 8.0 or higher\n• Minimum 3GB RAM (Optimal 6GB+)\n• 500MB Free Disk Space')">Hardware Specs</a>
-                    <a onclick="showPopup('Report Glitch', 'Found a bug in Desi GTA?\nSend log files and device details to support@hero-verse.com')">Report Technical Bug</a>
+                    <a onclick="showPopup('Report Glitch', 'Found a bug in Desi GTA?\nSend log files and device details to support desk.')">Report Technical Bug</a>
                     <a onclick="showPopup('Server Telemetry', 'Global Gateway: 100% Operational.\nResponse Ping: 18ms.')">Server Status</a>
                     <a onclick="showPopup('Contact Support', 'Official Dispatch: (it will be provided soon) \nDeveloper Contact: (it will be provided soon)')">Contact Us</a>
                 </div>
                 <div>
                     <h5>Legal &amp; Trust</h5>
                     <a onclick="showPopup('Privacy Policy', 'DOCUMENT REF: HV-PRIV-2026\nHero-Verse Studios strictly enforces zero identity harvesting. Local telemetry remains encrypted on client device.')">Privacy Policy</a>
-                    <a onclick="showPopup('Terms of Service', 'DOCUMENT REF: HV-TOS-2026\nAll intellectual property, script breakdowns, and source code belong exclusively to Naitik Pandey.')">Terms of Service</a>
+                    <a onclick="showPopup('Terms of Service', 'DOCUMENT REF: HV-TOS-2026\nAll intellectual property, script breakdowns, and source code belong exclusively to Hero-Verse Studios.')">Terms of Service</a>
                     <a onclick="showPopup('EULA Agreement', 'End User License Agreement: Downloading Indian GTA grants a personal, non-exclusive license. Modding requires developer authorization.')">EULA License</a>
                     <a onclick="showPopup('Cookie Policy', 'This website uses strictly necessary functional tokens for persistent authentication. No tracker ads.')">Cookie Settings</a>
                 </div>
             </div>
             <div style="border-top: 1px solid #111; padding-top: 20px; text-align: center; color: #555; font-size: 0.85rem;">
-                © 2026 HERO-VERSE STUDIOS. ALL RIGHTS RESERVED. ARCHITECTED BY NAITIK PANDEY.
+                © 2026 HERO-VERSE STUDIOS. ALL RIGHTS RESERVED.
             </div>
         </footer>
 
@@ -633,8 +634,6 @@
         const auth = firebase.auth();
         const db = firebase.database();
 
-        
-
         // TOAST NOTIFIER (REPLACES ALERTS)
         function triggerToast(msg, isError = false) {
             const toast = document.getElementById('heroToast');
@@ -675,15 +674,33 @@
             if (!id) { document.getElementById('errLogId').innerText = "Enter Email or Handle."; return; }
             if (!pass) { document.getElementById('errLogPass').innerText = "Enter Password."; return; }
 
-            // 👑 OWNER VIP BYPASS CHECK
-            if ((id === OWNER_EMAIL || id === "@" + OWNER_HANDLE || id === OWNER_HANDLE) && pass === OWNER_PASS) {
-                triggerToast("Welcome back, Master Owner Naitik Pandey! 👑");
-                renderDashboard(OWNER_NAME, OWNER_HANDLE, OWNER_EMAIL, true);
-                return;
+            // Handle based login lookup
+            if (!id.includes('@')) {
+                const cleanHandle = id.replace('@', '');
+                db.ref('handles/' + cleanHandle).once('value').then(snap => {
+                    if (snap.exists()) {
+                        const uid = snap.val().uid;
+                        db.ref('users/' + uid).once('value').then(uSnap => {
+                            const uData = uSnap.val();
+                            if (uData && uData.email) {
+                                performSignIn(uData.email, pass);
+                            } else {
+                                document.getElementById('errLogId').innerText = "Account email not found.";
+                            }
+                        });
+                    } else {
+                        document.getElementById('errLogId').innerText = "Handle not found.";
+                    }
+                }).catch(err => {
+                    document.getElementById('errLogId').innerText = err.message;
+                });
+            } else {
+                performSignIn(id, pass);
             }
+        }
 
-            // Normal User Authentication
-            auth.signInWithEmailAndPassword(id, pass)
+        function performSignIn(email, pass) {
+            auth.signInWithEmailAndPassword(email, pass)
                 .then(res => {
                     triggerToast("Authentication Successful!");
                     loadUserData(res.user.uid);
@@ -694,14 +711,22 @@
                 });
         }
 
+        function loadUserData(uid) {
+            db.ref('users/' + uid).once('value').then(snap => {
+                const data = snap.val() || {};
+                renderDashboard(data.name || "Agent", data.handle || "hero", data.email || auth.currentUser.email, data.role === 'owner');
+            }).catch(() => {
+                renderDashboard("Agent", "hero", auth.currentUser.email, false);
+            });
+        }
+
         // GOOGLE SIGN IN
         function loginWithGoogle() {
             const provider = new firebase.auth.GoogleAuthProvider();
             auth.signInWithPopup(provider)
                 .then(res => {
-                    const isOwner = (res.user.email === OWNER_EMAIL);
                     triggerToast("Google Auth Verified! Welcome " + res.user.displayName);
-                    renderDashboard(res.user.displayName, (isOwner ? OWNER_HANDLE : "agent_" + res.user.uid.slice(0,5)), res.user.email, isOwner);
+                    loadUserData(res.user.uid);
                 })
                 .catch(err => triggerToast("Google Login Failed: " + err.message, true));
         }
@@ -712,7 +737,7 @@
             auth.signInWithPopup(provider)
                 .then(res => {
                     triggerToast("Apple ID Verified!");
-                    renderDashboard("Apple User", "apple_agent", res.user.email, false);
+                    loadUserData(res.user.uid);
                 })
                 .catch(err => triggerToast("Apple Login Failed: " + err.message, true));
         }
@@ -741,9 +766,8 @@
 
             window.confirmationResult.confirm(otp)
                 .then(res => {
-                    const isOwner = (res.user.phoneNumber === OWNER_PHONE);
                     triggerToast("Phone Verified Successfully!");
-                    renderDashboard((isOwner ? OWNER_NAME : "Mobile Agent"), (isOwner ? OWNER_HANDLE : "phone_user"), res.user.phoneNumber, isOwner);
+                    loadUserData(res.user.uid);
                 })
                 .catch(() => {
                     document.getElementById('errLogOtp').innerText = "Invalid OTP code!";
@@ -768,18 +792,13 @@
             if (!email) { document.getElementById('errRegEmail').innerText = "Email required."; return; }
             if (pass.length < 8) { document.getElementById('errRegPass').innerText = "Password must be min 8 chars with 1 uppercase & 1 special."; return; }
 
-            // Reserved Check
-            const reserved = ["voltage_hero", "naitik", "mysteryhero_01_official", "admin", "desi_gta"];
-            if (reserved.includes(handle) && email !== OWNER_EMAIL) {
-                document.getElementById('errRegHandle').innerText = "This handle is STRICTLY RESERVED for Project Owner.";
-                return;
-            }
-
             auth.createUserWithEmailAndPassword(email, pass)
                 .then(res => {
-                    db.ref('users/' + res.user.uid).set({ name, handle, email });
+                    const uid = res.user.uid;
+                    db.ref('handles/' + handle).set({ uid: uid, taken: true });
+                    db.ref('users/' + uid).set({ name, handle, email, role: 'user' });
                     triggerToast("Hero ID Registered! Entering studio...");
-                    renderDashboard(name, handle, email, (email === OWNER_EMAIL));
+                    renderDashboard(name, handle, email, false);
                 })
                 .catch(err => {
                     document.getElementById('errRegEmail').innerText = err.message;
@@ -804,7 +823,7 @@
         function openVoltageDetails() {
             showPopup(
                 "⚡ VOLTAGE HERO: MASTER SPECIFICATIONS",
-                "ORIGINAL SUPERHERO UNIVERSE BY NAITIK PANDEY\n\n• Episode Architecture: 10-Minute High-Voltage Episodes\n• Pacing: Second-by-Second Cinematic Action Storyboarding\n• Audio Foley: Electric distortion, lightning discharges, cinematic bass\n• Character Lore: Origin of the Voltage core, city syndicate confrontation, and multiverse hero crossover."
+                "ORIGINAL SUPERHERO UNIVERSE\n\n• Episode Architecture: 10-Minute High-Voltage Episodes\n• Pacing: Second-by-Second Cinematic Action Storyboarding\n• Audio Foley: Electric distortion, lightning discharges, cinematic bass\n• Character Lore: Origin of the Voltage core, city syndicate confrontation, and multiverse hero crossover."
             );
         }
 
@@ -822,70 +841,58 @@
         function openAiTerminal() { document.getElementById('aiModalWindow').classList.add('active'); }
         function closeAiTerminal() { document.getElementById('aiModalWindow').classList.remove('active'); }
 
-        // REAL GEMINI REST API ENGINE (Live Brain Connection)
-async function triggerAiCore() {
-    const promptInput = document.getElementById('aiInputPrompt');
-    const prompt = promptInput.value.trim();
-    const feed = document.getElementById('aiChatFeed');
-
-    if (!prompt) return;
-
-    // User message chat me show karega
-    feed.innerHTML += `<div style="color:#fff; margin-top:10px;"><strong>Agent:</strong> ${prompt}</div>`;
-    promptInput.value = '';
-    feed.scrollTop = feed.scrollHeight;
-
-    // AI thinking state
-    const loadingId = "load_" + Date.now();
-    feed.innerHTML += `<div id="${loadingId}" style="color:var(--neon-cyan); margin-top:8px;"><strong>Neural AI:</strong> Thinking... ⚡</div>`;
-    feed.scrollTop = feed.scrollHeight;
-
-    // Updated Active Model Endpoint
-    const endpoint = "https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent";
-
-    try {
-        const response = await fetch(endpoint, {
-            method: "POST",
-            referrerPolicy: "no-referrer-when-downgrade",
-            headers: {
-                "Content-Type": "application/json"
-            },
-            body: JSON.stringify({
-                contents: [{
-                    parts: [{ text: prompt }]
-                }],
-                systemInstruction: {
-                    parts: [{ text: "You are Hero-Verse Neural AI for Naitik Pandey's studio. You are an expert in Voltage Hero story scripts, Desi GTA 300MB game mechanics, and futuristic technologies. Answer accurately and with energy." }]
-                }
-            })
-        });
-
-        const data = await response.json();
-
-        if (data.error) {
-            document.getElementById(loadingId).innerHTML = `<strong style="color:var(--neon-red);">API Notice:</strong> ${data.error.message}`;
-            feed.scrollTop = feed.scrollHeight;
-            return;
-        }
-
-        const replyText = data.candidates[0].content.parts[0].text;
-        document.getElementById(loadingId).innerHTML = `<strong>Neural AI:</strong> ${replyText}`;
-        feed.scrollTop = feed.scrollHeight;
-
-    } catch (err) {
-        document.getElementById(loadingId).innerHTML = `<strong style="color:var(--neon-red);">Client Error:</strong> ${err.message}`;
-        feed.scrollTop = feed.scrollHeight;
-    }
-}
-
-                    
-
         function openProfileModal() {
             showPopup(
                 "AGENT PROFILE HUD",
-                `NAME: ${document.getElementById('hudUserName').innerText}\nROLE: Master Developer & Project Owner\nSTATUS: Authenticated Secure Session\nSECURITY CLEARANCE: Level 10 (Full Access)`
+                `NAME: ${document.getElementById('hudUserName').innerText}\nSTATUS: Authenticated Secure Session\nSECURITY CLEARANCE: Level 10 (Full Access)`
             );
         }
+    </script>
+
+    <!-- FIREBASE AI LOGIC PIPELINE (No Secret Keys Exposed) -->
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+        import { getAI, getGenerativeModel, GoogleAIBackend } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-ai.js";
+
+        const aiAppConfig = {
+            apiKey: "AIzaSyBdcEn5eIA4-98ydaZ9LLM10sBDsGR4Mkw",
+            authDomain: "hero-verse-f53ee.firebaseapp.com",
+            projectId: "hero-verse-f53ee",
+            storageBucket: "hero-verse-f53ee.firebasestorage.app",
+            messagingSenderId: "385086115984",
+            appId: "1:385086115984:web:f9fed6cbd06fecd8d04815"
+        };
+
+        const aiApp = initializeApp(aiAppConfig, "heroVerseAI");
+        const ai = getAI(aiApp, { backend: new GoogleAIBackend() });
+        const aiModel = getGenerativeModel(ai, { modelName: "gemini-1.5-flash" });
+
+        // Bind directly to global trigger function
+        window.triggerAiCore = async function() {
+            const promptInput = document.getElementById('aiInputPrompt');
+            const prompt = promptInput.value.trim();
+            const feed = document.getElementById('aiChatFeed');
+
+            if (!prompt) return;
+
+            feed.innerHTML += `<div style="color:#fff; margin-top:10px;"><strong>Agent:</strong> ${prompt}</div>`;
+            promptInput.value = '';
+            feed.scrollTop = feed.scrollHeight;
+
+            const loadingId = "load_" + Date.now();
+            feed.innerHTML += `<div id="${loadingId}" style="color:var(--neon-cyan); margin-top:8px;"><strong>Neural AI:</strong> Thinking... ⚡</div>`;
+            feed.scrollTop = feed.scrollHeight;
+
+            try {
+                const result = await aiModel.generateContent(prompt);
+                const responseText = result.response.text();
+                document.getElementById(loadingId).innerHTML = `<strong>Neural AI:</strong> ${responseText}`;
+                feed.scrollTop = feed.scrollHeight;
+            } catch (err) {
+                document.getElementById(loadingId).innerHTML = `<strong style="color:var(--neon-red);">AI Notice:</strong> ${err.message}`;
+                feed.scrollTop = feed.scrollHeight;
+            }
+        };
     </script>
 </body>
 </html>
