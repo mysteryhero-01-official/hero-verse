@@ -823,55 +823,61 @@
         function closeAiTerminal() { document.getElementById('aiModalWindow').classList.remove('active'); }
 
         // REAL GEMINI REST API ENGINE (Live Brain Connection)
-        async function triggerAiCore() {
-            const promptInput = document.getElementById('aiInputPrompt');
-            const prompt = promptInput.value.trim();
-            const feed = document.getElementById('aiChatFeed');
+async function triggerAiCore() {
+    const promptInput = document.getElementById('aiInputPrompt');
+    const prompt = promptInput.value.trim();
+    const feed = document.getElementById('aiChatFeed');
 
-            if (!prompt) return;
+    if (!prompt) return;
 
-            feed.innerHTML += `<div style="color:#fff; margin-top:10px;"><strong>Agent:</strong> ${prompt}</div>`;
-            promptInput.value = '';
-            feed.scrollTop = feed.scrollHeight;
+    // User message chat me show karega
+    feed.innerHTML += `<div style="color:#fff; margin-top:10px;"><strong>Agent:</strong> ${prompt}</div>`;
+    promptInput.value = '';
+    feed.scrollTop = feed.scrollHeight;
 
-            const loadingId = "load_" + Date.now();
-            feed.innerHTML += `<div id="${loadingId}" style="color:var(--neon-cyan); margin-top:8px;"><strong>Neural AI:</strong> Thinking... ⚡</div>`;
-            feed.scrollTop = feed.scrollHeight;
+    // AI thinking state
+    const loadingId = "load_" + Date.now();
+    feed.innerHTML += `<div id="${loadingId}" style="color:var(--neon-cyan); margin-top:8px;"><strong>Neural AI:</strong> Thinking... ⚡</div>`;
+    feed.scrollTop = feed.scrollHeight;
 
-            const GEMINI_KEY = "";
-            const endpoint = `https://generativelanguage.googleapis.com/v1beta/models/gemini-3.8-flash:generateContent?key=${GEMINI_KEY}`;
+    // Updated Active Model Endpoint
+    const endpoint = "https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent";
 
-            try {
-                const response = await fetch(endpoint, {
-                    method: "POST",
-                    referrerPolicy: "no-referrer-when-downgrade",
-                    headers: {
-                        "Content-Type": "application/json"
-                    },
-                    body: JSON.stringify({
-                        contents: [{
-                            parts: [{ text: prompt }]
-                        }]
-                    })
-                });
-
-                const data = await response.json();
-
-                if (data.error) {
-                    document.getElementById(loadingId).innerHTML = `<strong style="color:var(--neon-red);">API Notice:</strong> ${data.error.message}`;
-                    feed.scrollTop = feed.scrollHeight;
-                    return;
+    try {
+        const response = await fetch(endpoint, {
+            method: "POST",
+            referrerPolicy: "no-referrer-when-downgrade",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+                contents: [{
+                    parts: [{ text: prompt }]
+                }],
+                systemInstruction: {
+                    parts: [{ text: "You are Hero-Verse Neural AI for Naitik Pandey's studio. You are an expert in Voltage Hero story scripts, Desi GTA 300MB game mechanics, and futuristic technologies. Answer accurately and with energy." }]
                 }
+            })
+        });
 
-                const replyText = data.candidates[0].content.parts[0].text;
-                document.getElementById(loadingId).innerHTML = `<strong>Neural AI:</strong> ${replyText}`;
-                feed.scrollTop = feed.scrollHeight;
+        const data = await response.json();
 
-            } catch (err) {
-                document.getElementById(loadingId).innerHTML = `<strong style="color:var(--neon-red);">Client Error:</strong> ${err.message}`;
-                feed.scrollTop = feed.scrollHeight;
-            }
-            }
+        if (data.error) {
+            document.getElementById(loadingId).innerHTML = `<strong style="color:var(--neon-red);">API Notice:</strong> ${data.error.message}`;
+            feed.scrollTop = feed.scrollHeight;
+            return;
+        }
+
+        const replyText = data.candidates[0].content.parts[0].text;
+        document.getElementById(loadingId).innerHTML = `<strong>Neural AI:</strong> ${replyText}`;
+        feed.scrollTop = feed.scrollHeight;
+
+    } catch (err) {
+        document.getElementById(loadingId).innerHTML = `<strong style="color:var(--neon-red);">Client Error:</strong> ${err.message}`;
+        feed.scrollTop = feed.scrollHeight;
+    }
+}
+
                     
 
         function openProfileModal() {
